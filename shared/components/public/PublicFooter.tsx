@@ -5,20 +5,21 @@ import { BrandLogo } from '@/shared/components/dashboard/BrandLogo';
 
 const LINK_COLUMNS = [
   {
-    heading: 'Explore',
+    heading: 'Company',
     links: [
-      { label: 'All courses', href: '/courses' },
-      { label: 'Free courses', href: '/courses?price=free' },
+      { label: 'Courses', href: '/#courses' },
       { label: 'How it works', href: '/#how-it-works' },
-      { label: 'FAQ', href: '/#faq' },
+      { label: 'Contact us', href: '/contact' },
     ],
   },
   {
-    heading: 'Account',
+    heading: 'Account & Legal',
     links: [
       { label: 'Sign in', href: '/login' },
       { label: 'Create account', href: '/register' },
-      { label: 'Reset password', href: '/forgot-password' },
+      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Terms of Service', href: '/terms' },
+      { label: 'Refund Policy', href: '/refund' },
     ],
   },
 ];
@@ -33,7 +34,7 @@ const SOCIALS = [
 export function PublicFooter() {
   return (
     <footer className="bg-slate-950 text-slate-300">
-      <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.6fr_1fr_1fr_1fr] lg:px-8">
+      <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[2fr_1fr_1fr] lg:px-8">
         <div className="max-w-xs">
           <BrandLogo className="h-8 brightness-0 invert" />
           <p className="mt-4 text-sm text-slate-400">
@@ -82,10 +83,10 @@ export function PublicFooter() {
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-6 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <span>© {new Date().getFullYear()} Digo Academy. All rights reserved.</span>
           <div className="flex items-center gap-5">
-            <Link href="/#faq" className="transition-colors hover:text-white">
+            <Link href="/privacy" className="transition-colors hover:text-white">
               Privacy
             </Link>
-            <Link href="/#faq" className="transition-colors hover:text-white">
+            <Link href="/terms" className="transition-colors hover:text-white">
               Terms
             </Link>
             <span>Built for modern learning.</span>

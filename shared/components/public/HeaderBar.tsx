@@ -11,9 +11,9 @@ import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/utils/cn';
 
 const NAV_LINKS = [
-  { href: '/', label: 'Home' },
-  { href: '/courses', label: 'Courses' },
   { href: '/#how-it-works', label: 'How it works' },
+  { href: '/#courses', label: 'Courses' },
+  { href: '/contact', label: 'Contact' },
 ] as const;
 
 const EASE = [0.16, 1, 0.3, 1] as const;

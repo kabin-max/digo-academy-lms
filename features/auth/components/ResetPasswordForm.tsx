@@ -9,7 +9,7 @@ import { resetPasswordSchema, type ResetPasswordInput } from '@/features/auth/sc
 import { authClient } from '@/lib/auth/client';
 import { Button } from '@/shared/components/ui/button';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/shared/components/ui/field';
-import { Input } from '@/shared/components/ui/input';
+import { PasswordInput } from '@/shared/components/ui/password-input';
 
 export function ResetPasswordForm({ token }: { token: string }) {
   const router = useRouter();
@@ -34,14 +34,13 @@ export function ResetPasswordForm({ token }: { token: string }) {
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="password">New password</FieldLabel>
-          <Input id="password" type="password" autoComplete="new-password" {...register('password')} />
+          <PasswordInput id="password" autoComplete="new-password" {...register('password')} />
           <FieldError errors={[errors.password]} />
         </Field>
         <Field>
           <FieldLabel htmlFor="confirmPassword">Confirm new password</FieldLabel>
-          <Input
+          <PasswordInput
             id="confirmPassword"
-            type="password"
             autoComplete="new-password"
             {...register('confirmPassword')}
           />

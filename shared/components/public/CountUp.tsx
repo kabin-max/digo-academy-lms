@@ -16,18 +16,22 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  */
 export function CountUp({
   value,
+  end,
   suffix = '',
   compact = false,
   className,
   duration = 1.4,
 }: {
-  value: number;
+  value?: number;
+  /** Alias for `value` to support standard count-up conventions */
+  end?: number;
   suffix?: string;
   /** Format large numbers as "1.2K" instead of "1200". */
   compact?: boolean;
   className?: string;
   duration?: number;
 }) {
+  const targetValue = value ?? end ?? 0;
   const format = (n: number) =>
     `${
       compact
@@ -37,19 +41,19 @@ export function CountUp({
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: '0px 0px -10% 0px' });
   const reduceMotion = useReducedMotion();
-  const [display, setDisplay] = useState(reduceMotion ? value : 0);
+  const [display, setDisplay] = useState(reduceMotion ? targetValue : 0);
 
   useEffect(() => {
     // Reduced-motion renders the final value straight away via useState's
     // initializer above — nothing to animate here.
     if (!inView || reduceMotion) return;
-    const controls = animate(0, value, {
+    const controls = animate(0, targetValue, {
       duration,
       ease: EASE,
       onUpdate: (latest) => setDisplay(latest),
     });
     return () => controls.stop();
-  }, [inView, value, duration, reduceMotion]);
+  }, [inView, targetValue, duration, reduceMotion]);
 
   return (
     <span ref={ref} className={className}>

@@ -14,8 +14,6 @@ import {
   MonitorPlay,
   Music2,
   PenTool,
-  Plus,
-  Quote,
   Radio,
   Rocket,
   Search,
@@ -38,6 +36,10 @@ import { CountUp } from '@/shared/components/public/CountUp';
 import { HeroHeadline, HeroItem, HeroPreview, HeroStage, Magnetic } from '@/shared/components/public/HeroMotion';
 import { Reveal } from '@/shared/components/public/Reveal';
 import { StaggerGroup, StaggerItem } from '@/shared/components/public/Stagger';
+import { CourseFinder } from '@/shared/components/public/CourseFinder';
+import { ComparisonSection } from '@/shared/components/public/ComparisonSection';
+import { WorldMapSection } from '@/shared/components/public/WorldMapSection';
+import { ReviewsAndFaqSection } from '@/shared/components/public/ReviewsAndFaqSection';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/utils/cn';
 
@@ -130,49 +132,6 @@ const FEATURES = [
   },
 ];
 
-const TESTIMONIALS = [
-  {
-    quote:
-      'The live cohort kept me accountable. Having a mentor answer questions in real time made all the difference.',
-    name: 'Aarav Sharma',
-    role: 'Frontend Developer',
-    rating: 5,
-  },
-  {
-    quote:
-      'I switched careers thanks to the self-paced data track. The curriculum was practical and easy to follow.',
-    name: 'Maria Gomez',
-    role: 'Data Analyst',
-    rating: 5,
-  },
-  {
-    quote:
-      'Enrollment was effortless — I submitted an inquiry and the team had me set up in a cohort the next day.',
-    name: 'David Chen',
-    role: 'Cloud Engineer',
-    rating: 5,
-  },
-];
-
-const FAQS = [
-  {
-    q: 'How do I enroll in a course?',
-    a: 'Browse the catalog, open a course, and submit an enrollment request. Our team reviews it and reaches out to confirm your spot in a live cohort or self-paced track.',
-  },
-  {
-    q: 'Do I need to pay online?',
-    a: 'No. There is no online payment gateway — you request enrollment for free, and our team arranges payment and access manually.',
-  },
-  {
-    q: 'What is the difference between live cohorts and self-paced courses?',
-    a: 'Live cohorts run on a schedule with real-time sessions over Google Meet and a group of peers. Self-paced courses are recorded lessons and notes you complete on your own time.',
-  },
-  {
-    q: 'Will I get a certificate?',
-    a: 'Yes. Eligible courses award a shareable certificate of completion once you finish the required lessons.',
-  },
-];
-
 function initials(name: string): string {
   return name
     .trim()
@@ -213,12 +172,6 @@ export default async function HomePage() {
         <div className="animate-blob pointer-events-none absolute -left-32 -top-32 size-80 rounded-full bg-brand-blue/10 blur-3xl" />
         <div className="animate-blob anim-delay-2 pointer-events-none absolute -right-24 top-10 size-72 rounded-full bg-violet-500/10 blur-3xl" />
         <HeroStage className="relative mx-auto w-full max-w-6xl px-4 pt-16 text-center sm:px-6 lg:pt-24">
-          <HeroItem>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-blue/20 bg-brand-blue/10 px-3 py-1 text-xs font-medium text-brand-blue">
-              <Sparkles className="size-3.5" />
-              Live mentorship meets self-paced freedom
-            </span>
-          </HeroItem>
           <HeroHeadline
             className="mx-auto mt-6 max-w-3xl font-heading text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl"
             segments={[
@@ -245,8 +198,8 @@ export default async function HomePage() {
                 className="rounded-full px-7 shadow-sm"
                 nativeButton={false}
                 render={
-                  <Link href="/courses">
-                    Browse courses
+                  <Link href="/register">
+                    Get started
                     <ArrowRight className="size-4" />
                   </Link>
                 }
@@ -257,7 +210,7 @@ export default async function HomePage() {
               variant="outline"
               className="rounded-full px-7"
               nativeButton={false}
-              render={<Link href="/register">Create free account</Link>}
+              render={<Link href="/#how-it-works">How it works</Link>}
             />
           </HeroItem>
 
@@ -422,10 +375,7 @@ export default async function HomePage() {
               const Icon = style.icon;
               return (
                 <StaggerItem key={category.id}>
-                  <Link
-                    href={`/courses?category=${category.id}`}
-                    className="group relative flex h-full items-center gap-3 overflow-hidden rounded-2xl bg-card p-4 shadow-sm ring-1 ring-border/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:ring-brand-blue/30"
-                  >
+                  <div className="group relative flex h-full items-center gap-3 overflow-hidden rounded-2xl bg-card p-4 shadow-sm ring-1 ring-border/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:ring-brand-blue/30">
                     <span
                       className={cn(
                         'flex size-12 shrink-0 items-center justify-center rounded-xl transition-colors duration-300 group-hover:text-white [&_svg]:size-6',
@@ -442,8 +392,7 @@ export default async function HomePage() {
                         {category._count.courses === 1 ? 'course' : 'courses'}
                       </span>
                     </span>
-                    <ArrowRight className="ml-auto size-4 shrink-0 text-muted-foreground opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100" />
-                  </Link>
+                  </div>
                 </StaggerItem>
               );
             })}
@@ -492,7 +441,7 @@ export default async function HomePage() {
       {/* Top courses                                                        */}
       {/* ------------------------------------------------------------------ */}
       {featured.length > 0 && (
-        <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+        <section id="courses" className="scroll-mt-24 mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
           <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
@@ -507,31 +456,34 @@ export default async function HomePage() {
             </div>
             <div className="flex items-center gap-1 rounded-full border border-border/70 bg-card p-1 shadow-sm">
               <span className="rounded-full bg-brand-blue px-3.5 py-1.5 text-sm font-medium text-white">
-                All
+                Featured
               </span>
-              <Link
-                href="/courses"
-                className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
+              <span className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground">
                 Live cohort
-              </Link>
-              <Link
-                href="/courses?price=free"
-                className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
+              </span>
+              <span className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground">
                 Self-paced
-              </Link>
+              </span>
             </div>
           </Reveal>
           <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {featured.map((course) => (
               <StaggerItem key={course.id}>
-                <CourseCard course={course} hrefBase="/courses" showWishlist={false} />
+                <CourseCard course={course} hrefBase="/student/courses" showWishlist={false} />
               </StaggerItem>
             ))}
           </StaggerGroup>
         </section>
       )}
+
+      {/* ------------------------------------------------------------------ */}
+      {/* Course Finder                                                      */}
+      {/* ------------------------------------------------------------------ */}
+      <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+        <Reveal>
+          <CourseFinder />
+        </Reveal>
+      </section>
 
       {/* ------------------------------------------------------------------ */}
       {/* Why choose us                                                      */}
@@ -572,6 +524,11 @@ export default async function HomePage() {
       </section>
 
       {/* ------------------------------------------------------------------ */}
+      {/* Comparison: Us vs Others                                           */}
+      {/* ------------------------------------------------------------------ */}
+      <ComparisonSection />
+
+      {/* ------------------------------------------------------------------ */}
       {/* Best instructors                                                   */}
       {/* ------------------------------------------------------------------ */}
       {instructors.length > 0 && (
@@ -581,7 +538,7 @@ export default async function HomePage() {
               Mentors
             </span>
             <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              Our best instructors
+              Our Best instructors
             </h2>
             <p className="mt-2 text-muted-foreground">Learn from experienced practitioners.</p>
           </Reveal>
@@ -611,49 +568,9 @@ export default async function HomePage() {
       )}
 
       {/* ------------------------------------------------------------------ */}
-      {/* Testimonials                                                       */}
+      {/* World Map: Remote, Silicon Valley, Global. Where Will You Build?   */}
       {/* ------------------------------------------------------------------ */}
-      <section className="bg-muted/30">
-        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-          <Reveal className="mb-10 text-center">
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              Community
-            </span>
-            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              Community in action
-            </h2>
-            <p className="mt-2 text-muted-foreground">
-              Get your questions answered and stay motivated by mentors and fellow students.
-            </p>
-          </Reveal>
-          <StaggerGroup className="grid gap-5 md:grid-cols-3">
-            {TESTIMONIALS.map((testimonial) => (
-              <StaggerItem key={testimonial.name}>
-                <figure className="flex h-full flex-col rounded-2xl bg-card p-6 shadow-sm ring-1 ring-border/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  <Quote className="size-8 text-brand-blue/25" />
-                  <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-foreground">
-                    “{testimonial.quote}”
-                  </blockquote>
-                  <div className="mt-5 flex items-center gap-3">
-                    <span className="flex size-10 items-center justify-center rounded-full bg-linear-to-br from-brand-blue to-violet-500 text-sm font-semibold text-white">
-                      {initials(testimonial.name)}
-                    </span>
-                    <figcaption>
-                      <p className="text-sm font-semibold">{testimonial.name}</p>
-                      <p className="text-xs text-muted-foreground">{testimonial.role}</p>
-                    </figcaption>
-                    <span className="ml-auto flex items-center gap-0.5">
-                      {Array.from({ length: testimonial.rating }).map((_, i) => (
-                        <Star key={i} className="size-3.5 fill-amber-400 text-amber-400" />
-                      ))}
-                    </span>
-                  </div>
-                </figure>
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-        </div>
-      </section>
+      <WorldMapSection />
 
       {/* ------------------------------------------------------------------ */}
       {/* Stats band                                                         */}
@@ -680,42 +597,9 @@ export default async function HomePage() {
       </section>
 
       {/* ------------------------------------------------------------------ */}
-      {/* FAQ                                                                */}
+      {/* Real Stories & Got A Question For Digo Academy?                    */}
       {/* ------------------------------------------------------------------ */}
-      <section id="faq" className="scroll-mt-24">
-        <div className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-          <Reveal className="mb-10 text-center">
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              FAQ
-            </span>
-            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              Frequently asked questions
-            </h2>
-            <p className="mt-2 text-muted-foreground">
-              Everything you need to know before you get started.
-            </p>
-          </Reveal>
-          <StaggerGroup className="space-y-3">
-            {FAQS.map((faq) => (
-              <StaggerItem key={faq.q}>
-                <details className="group rounded-2xl border border-border/60 bg-card px-5 shadow-sm transition-colors open:ring-1 open:ring-brand-blue/20">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-medium [&::-webkit-details-marker]:hidden">
-                    {faq.q}
-                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand-blue/10 text-brand-blue transition-transform group-open:rotate-45">
-                      <Plus className="size-4" />
-                    </span>
-                  </summary>
-                  <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out group-open:grid-rows-[1fr] motion-reduce:transition-none">
-                    <div className="overflow-hidden">
-                      <p className="pb-5 text-sm leading-relaxed text-muted-foreground">{faq.a}</p>
-                    </div>
-                  </div>
-                </details>
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-        </div>
-      </section>
+      <ReviewsAndFaqSection />
 
       {/* ------------------------------------------------------------------ */}
       {/* Final CTA                                                          */}
@@ -741,14 +625,14 @@ export default async function HomePage() {
                 size="lg"
                 className="rounded-full bg-white px-7 text-brand-blue shadow-lg transition-transform hover:scale-105 hover:bg-white/90"
                 nativeButton={false}
-                render={<Link href="/courses">Browse courses</Link>}
+                render={<Link href="/register">Get started now</Link>}
               />
               <Button
                 size="lg"
                 variant="outline"
                 className="rounded-full border-white/40 bg-white/5 text-white hover:bg-white/15 hover:text-white"
                 nativeButton={false}
-                render={<Link href="/register">Create an account</Link>}
+                render={<Link href="/login">Sign in</Link>}
               />
             </div>
           </div>
