@@ -12,8 +12,10 @@ import { cn } from '@/shared/utils/cn';
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
+  { href: '/about', label: 'About Us' },
   { href: '/courses', label: 'Courses' },
-  { href: '/#how-it-works', label: 'How it works' },
+  { href: '/blogs', label: 'Blogs' },
+  { href: '/contact', label: 'Contact' },
 ] as const;
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -56,10 +58,23 @@ export function HeaderBar({ home }: { home: string | null }) {
   return (
     <header
       className={cn(
-        'sticky top-0 z-40 border-b bg-background/80 backdrop-blur transition-shadow duration-300',
+        'sticky top-0 z-40 border-b bg-background/80 backdrop-blur transition-shadow duration-300 flex flex-col',
         scrolled ? 'border-border/80 shadow-sm' : 'border-transparent'
       )}
     >
+      <div className="group flex h-10 w-full items-center overflow-hidden bg-brand-blue text-xs sm:text-sm text-white">
+        <div className="flex w-max animate-marquee whitespace-nowrap group-hover:[animation-play-state:paused]">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="flex items-center">
+              <span className="mx-6 font-medium">Inquiry :</span>
+              <span className="mr-6">Phone number : +977 9801820900</span>
+              <span className="mr-6">
+                Email : <a href="mailto:info@digoacademy.com" className="hover:underline">info@digoacademy.com</a>
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-6 px-4 sm:px-6 lg:px-8">
         <Link href="/" aria-label="Digo Academy home" className="shrink-0">
           <BrandLogo className="h-8" />
@@ -117,6 +132,7 @@ export function HeaderBar({ home }: { home: string | null }) {
                   key={link.href}
                   href={link.href}
                   className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                  onClick={() => setOpen(false)}
                 >
                   {link.label}
                 </Link>
@@ -150,9 +166,9 @@ function HeaderActions({ home, stacked = false }: { home: string | null; stacked
         variant="ghost"
         className={cn('rounded-full', stacked && 'w-full')}
         nativeButton={false}
-        render={<Link href="/login">Sign in</Link>}
+        render={<Link href="/login">Login</Link>}
       />
-      <Button className={ctaClass} nativeButton={false} render={<Link href="/register">Get started</Link>} />
+      <Button className={ctaClass} nativeButton={false} render={<Link href="/register">Signup</Link>} />
     </>
   );
 }

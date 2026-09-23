@@ -14,8 +14,6 @@ import {
   MonitorPlay,
   Music2,
   PenTool,
-  Plus,
-  Quote,
   Radio,
   Rocket,
   Search,
@@ -38,6 +36,10 @@ import { CountUp } from '@/shared/components/public/CountUp';
 import { HeroHeadline, HeroItem, HeroPreview, HeroStage, Magnetic } from '@/shared/components/public/HeroMotion';
 import { Reveal } from '@/shared/components/public/Reveal';
 import { StaggerGroup, StaggerItem } from '@/shared/components/public/Stagger';
+import { CourseFinder } from '@/shared/components/public/CourseFinder';
+import { ComparisonSection } from '@/shared/components/public/ComparisonSection';
+import { WorldMapSection } from '@/shared/components/public/WorldMapSection';
+import { ReviewsAndFaqSection } from '@/shared/components/public/ReviewsAndFaqSection';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/utils/cn';
 
@@ -130,49 +132,6 @@ const FEATURES = [
   },
 ];
 
-const TESTIMONIALS = [
-  {
-    quote:
-      'The live cohort kept me accountable. Having a mentor answer questions in real time made all the difference.',
-    name: 'Aarav Sharma',
-    role: 'Frontend Developer',
-    rating: 5,
-  },
-  {
-    quote:
-      'I switched careers thanks to the self-paced data track. The curriculum was practical and easy to follow.',
-    name: 'Maria Gomez',
-    role: 'Data Analyst',
-    rating: 5,
-  },
-  {
-    quote:
-      'Enrollment was effortless — I submitted an inquiry and the team had me set up in a cohort the next day.',
-    name: 'David Chen',
-    role: 'Cloud Engineer',
-    rating: 5,
-  },
-];
-
-const FAQS = [
-  {
-    q: 'How do I enroll in a course?',
-    a: 'Browse the catalog, open a course, and submit an enrollment request. Our team reviews it and reaches out to confirm your spot in a live cohort or self-paced track.',
-  },
-  {
-    q: 'Do I need to pay online?',
-    a: 'No. There is no online payment gateway — you request enrollment for free, and our team arranges payment and access manually.',
-  },
-  {
-    q: 'What is the difference between live cohorts and self-paced courses?',
-    a: 'Live cohorts run on a schedule with real-time sessions over Google Meet and a group of peers. Self-paced courses are recorded lessons and notes you complete on your own time.',
-  },
-  {
-    q: 'Will I get a certificate?',
-    a: 'Yes. Eligible courses award a shareable certificate of completion once you finish the required lessons.',
-  },
-];
-
 function initials(name: string): string {
   return name
     .trim()
@@ -210,157 +169,87 @@ export default async function HomePage() {
       {/* Hero                                                               */}
       {/* ------------------------------------------------------------------ */}
       <section className="relative overflow-hidden bg-linear-to-b from-brand-blue/5 via-background to-background">
-        <div className="animate-blob pointer-events-none absolute -left-32 -top-32 size-80 rounded-full bg-brand-blue/10 blur-3xl" />
-        <div className="animate-blob anim-delay-2 pointer-events-none absolute -right-24 top-10 size-72 rounded-full bg-violet-500/10 blur-3xl" />
-        <HeroStage className="relative mx-auto w-full max-w-6xl px-4 pt-16 text-center sm:px-6 lg:pt-24">
-          <HeroItem>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-blue/20 bg-brand-blue/10 px-3 py-1 text-xs font-medium text-brand-blue">
-              <Sparkles className="size-3.5" />
-              Live mentorship meets self-paced freedom
-            </span>
-          </HeroItem>
-          <HeroHeadline
-            className="mx-auto mt-6 max-w-3xl font-heading text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl"
-            segments={[
-              { text: 'Master' },
-              { text: 'skills' },
-              { text: 'with' },
-              { text: 'live', accent: true },
-              { text: 'mentorship', accent: true },
-              { text: '&' },
-              { text: 'self-paced' },
-              { text: 'freedom' },
-            ]}
-          />
-          <HeroItem>
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
-              Join {compactNumber(stats.students)}+ learners accelerating their careers with real-time
-              feedback and high-quality on-demand curriculum.
-            </p>
-          </HeroItem>
-          <HeroItem className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Magnetic>
-              <Button
-                size="lg"
-                className="rounded-full px-7 shadow-sm"
-                nativeButton={false}
-                render={
-                  <Link href="/courses">
-                    Browse courses
-                    <ArrowRight className="size-4" />
-                  </Link>
-                }
-              />
-            </Magnetic>
-            <Button
-              size="lg"
-              variant="outline"
-              className="rounded-full px-7"
-              nativeButton={false}
-              render={<Link href="/register">Create free account</Link>}
+        <div className="animate-blob pointer-events-none absolute -left-32 -top-32 z-0 size-80 rounded-full bg-brand-blue/20 blur-3xl" />
+        <div className="animate-blob anim-delay-2 pointer-events-none absolute -right-24 top-10 z-0 size-72 rounded-full bg-violet-500/20 blur-3xl" />
+        <HeroStage className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pt-4 pb-10 lg:pt-8 lg:pb-16 flex flex-col-reverse lg:flex-row items-center justify-between gap-8 lg:gap-10">
+          <div className="text-left lg:max-w-lg">
+            <HeroHeadline
+              className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:text-4xl lg:text-5xl text-brand-blue"
+              segments={[
+                { text: 'Learn' },
+                { text: 'Globally' },
+                { text: 'Graze' },
+                { text: 'Locally' },
+              ]}
             />
-          </HeroItem>
-
-          {/* Framed product preview */}
-          <HeroPreview className="relative mx-auto mt-14 max-w-4xl pb-16" aria-hidden>
-            <div className="overflow-hidden rounded-2xl border border-border/70 bg-card text-left shadow-2xl">
-              <div className="flex items-center gap-1.5 border-b border-border/60 bg-muted/40 px-4 py-3">
-                <span className="size-2.5 rounded-full bg-brand-coral/70" />
-                <span className="size-2.5 rounded-full bg-amber-400/80" />
-                <span className="size-2.5 rounded-full bg-emerald-400/80" />
-                <span className="ml-3 h-5 w-full max-w-xs rounded-full bg-background" />
-              </div>
-              <div className="grid gap-4 p-4 sm:grid-cols-[10rem_1fr] sm:p-6">
-                <div className="hidden flex-col gap-2 sm:flex">
-                  <div className="flex items-center gap-2 rounded-lg bg-brand-blue px-3 py-2 text-xs font-semibold text-white">
-                    <BookOpen className="size-3.5" /> Dashboard
-                  </div>
-                  {['Courses', 'Live Classes', 'Community', 'Certificates'].map((item) => (
-                    <div
-                      key={item}
-                      className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-muted-foreground"
-                    >
-                      <span className="size-3.5 rounded bg-muted" />
-                      {item}
-                    </div>
-                  ))}
-                </div>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-3 gap-3">
-                    {[
-                      { icon: BookOpen, accent: 'bg-brand-blue/10 text-brand-blue' },
-                      { icon: Users, accent: 'bg-violet-500/10 text-violet-600' },
-                      { icon: GraduationCap, accent: 'bg-emerald-500/10 text-emerald-600' },
-                    ].map((c, i) => (
-                      <div key={i} className="rounded-xl border border-border/60 p-3">
-                        <span
-                          className={cn(
-                            'flex size-8 items-center justify-center rounded-lg [&_svg]:size-4',
-                            c.accent
-                          )}
-                        >
-                          <c.icon />
-                        </span>
-                        <div className="mt-2 h-4 w-2/3 rounded bg-foreground/10" />
-                        <div className="mt-1.5 h-2 w-1/2 rounded bg-muted" />
-                      </div>
-                    ))}
-                  </div>
-                  <div className="rounded-xl border border-border/60 p-4">
-                    <div className="h-3 w-24 rounded bg-muted" />
-                    <div className="mt-4 flex items-end gap-2">
-                      {[40, 65, 50, 80, 60, 90, 72].map((h, i) => (
-                        <div
-                          key={i}
-                          className="flex-1 rounded-t bg-linear-to-t from-brand-blue/40 to-brand-blue"
-                          style={{ height: `${h}px` }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </HeroPreview>
+            <HeroItem>
+              <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
+                Success isn&apos;t something that happens by chance. It&apos;s a combination of hard
+                effort, perseverance, learning, studying, sacrifice, and, most importantly, a
+                passion for what you&apos;re doing or learning.
+              </p>
+            </HeroItem>
+            <HeroItem className="mt-6 flex flex-wrap items-center justify-start gap-3">
+              <Magnetic>
+                <Button
+                  size="default"
+                  className="rounded-full px-7 py-2.5 shadow-sm bg-linear-to-r from-brand-blue to-[#00b4d8] text-white hover:opacity-95 uppercase tracking-wider text-xs font-bold"
+                  nativeButton={false}
+                  render={
+                    <Link href="/courses">
+                      Explore Courses
+                    </Link>
+                  }
+                />
+              </Magnetic>
+            </HeroItem>
+          </div>
+          <div className="flex-1 w-full max-w-xl lg:max-w-none flex justify-end">
+            <img 
+              src="/hero-learning.png" 
+              alt="Learning Illustration" 
+              className="w-full max-w-[480px] h-auto"
+            />
+          </div>
         </HeroStage>
       </section>
 
       {/* ------------------------------------------------------------------ */}
       {/* Power of dual-learning                                             */}
       {/* ------------------------------------------------------------------ */}
-      <section className="bg-slate-950 text-white">
+      <section className="bg-background">
         <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-20">
           <Reveal>
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue-light">
+            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
               Dual-learning
             </span>
-            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
+            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl text-foreground">
               The power of dual-learning
             </h2>
-            <p className="mt-3 max-w-md text-white/70">
+            <p className="mt-3 max-w-md text-muted-foreground">
               Why choose between a rigid schedule and learning alone? Digo Academy combines the best
               of both worlds.
             </p>
             <div className="mt-8 space-y-4">
-              <div className="flex gap-4 rounded-2xl bg-white/5 p-5 ring-1 ring-white/10">
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-blue/20 text-brand-blue-light [&_svg]:size-5">
+              <div className="flex gap-4 rounded-2xl bg-card p-5 ring-1 ring-border/60 shadow-sm">
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue [&_svg]:size-5">
                   <Radio />
                 </span>
                 <div>
-                  <h3 className="font-heading font-semibold">Live cohorts</h3>
-                  <p className="mt-1 text-sm text-white/70">
+                  <h3 className="font-heading font-semibold text-foreground">Live cohorts</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
                     Real-time interaction with industry experts, weekly milestones, and peer
                     accountability.
                   </p>
                 </div>
               </div>
-              <div className="flex gap-4 rounded-2xl bg-white/5 p-5 ring-1 ring-white/10">
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-violet-500/20 text-violet-300 [&_svg]:size-5">
+              <div className="flex gap-4 rounded-2xl bg-card p-5 ring-1 ring-border/60 shadow-sm">
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600 [&_svg]:size-5">
                   <MonitorPlay />
                 </span>
                 <div>
-                  <h3 className="font-heading font-semibold">Self-paced mastery</h3>
-                  <p className="mt-1 text-sm text-white/70">
+                  <h3 className="font-heading font-semibold text-foreground">Self-paced mastery</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
                     Binge-worthy video content, interactive labs, and lifetime access to
                     on-demand notifications.
                   </p>
@@ -370,7 +259,7 @@ export default async function HomePage() {
           </Reveal>
 
           <Reveal delay={150} className="relative">
-            <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-brand-blue via-indigo-600 to-violet-600 p-8 shadow-2xl">
+            <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-brand-blue via-indigo-600 to-violet-600 p-8 shadow-2xl text-white">
               <div className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-white/10 blur-3xl" />
               <p className="font-heading text-3xl font-semibold tracking-tight">
                 Anywhere. Anytime.
@@ -401,55 +290,6 @@ export default async function HomePage() {
           </Reveal>
         </div>
       </section>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* Categories                                                         */}
-      {/* ------------------------------------------------------------------ */}
-      {categories.length > 0 && (
-        <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-          <Reveal className="mb-8 text-center">
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              Categories
-            </span>
-            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              Explore top categories
-            </h2>
-            <p className="mt-2 text-muted-foreground">Find the right path for your goals.</p>
-          </Reveal>
-          <StaggerGroup className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {categories.map((category, index) => {
-              const style = CATEGORY_STYLES[index % CATEGORY_STYLES.length];
-              const Icon = style.icon;
-              return (
-                <StaggerItem key={category.id}>
-                  <Link
-                    href={`/courses?category=${category.id}`}
-                    className="group relative flex h-full items-center gap-3 overflow-hidden rounded-2xl bg-card p-4 shadow-sm ring-1 ring-border/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:ring-brand-blue/30"
-                  >
-                    <span
-                      className={cn(
-                        'flex size-12 shrink-0 items-center justify-center rounded-xl transition-colors duration-300 group-hover:text-white [&_svg]:size-6',
-                        style.className,
-                        style.glow
-                      )}
-                    >
-                      <Icon />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block truncate font-medium">{category.name}</span>
-                      <span className="text-xs text-muted-foreground">
-                        {category._count.courses}{' '}
-                        {category._count.courses === 1 ? 'course' : 'courses'}
-                      </span>
-                    </span>
-                    <ArrowRight className="ml-auto size-4 shrink-0 text-muted-foreground opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100" />
-                  </Link>
-                </StaggerItem>
-              );
-            })}
-          </StaggerGroup>
-        </section>
-      )}
 
       {/* ------------------------------------------------------------------ */}
       {/* How it works                                                       */}
@@ -492,7 +332,7 @@ export default async function HomePage() {
       {/* Top courses                                                        */}
       {/* ------------------------------------------------------------------ */}
       {featured.length > 0 && (
-        <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+        <section id="courses" className="scroll-mt-24 mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
           <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
@@ -507,31 +347,34 @@ export default async function HomePage() {
             </div>
             <div className="flex items-center gap-1 rounded-full border border-border/70 bg-card p-1 shadow-sm">
               <span className="rounded-full bg-brand-blue px-3.5 py-1.5 text-sm font-medium text-white">
-                All
+                Featured
               </span>
-              <Link
-                href="/courses"
-                className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
+              <span className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground">
                 Live cohort
-              </Link>
-              <Link
-                href="/courses?price=free"
-                className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
+              </span>
+              <span className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground">
                 Self-paced
-              </Link>
+              </span>
             </div>
           </Reveal>
           <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {featured.map((course) => (
               <StaggerItem key={course.id}>
-                <CourseCard course={course} hrefBase="/courses" showWishlist={false} />
+                <CourseCard course={course} hrefBase="/student/courses" showWishlist={false} />
               </StaggerItem>
             ))}
           </StaggerGroup>
         </section>
       )}
+
+      {/* ------------------------------------------------------------------ */}
+      {/* Course Finder                                                      */}
+      {/* ------------------------------------------------------------------ */}
+      <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+        <Reveal>
+          <CourseFinder />
+        </Reveal>
+      </section>
 
       {/* ------------------------------------------------------------------ */}
       {/* Why choose us                                                      */}
@@ -572,6 +415,11 @@ export default async function HomePage() {
       </section>
 
       {/* ------------------------------------------------------------------ */}
+      {/* Comparison: Us vs Others                                           */}
+      {/* ------------------------------------------------------------------ */}
+      <ComparisonSection />
+
+      {/* ------------------------------------------------------------------ */}
       {/* Best instructors                                                   */}
       {/* ------------------------------------------------------------------ */}
       {instructors.length > 0 && (
@@ -581,7 +429,7 @@ export default async function HomePage() {
               Mentors
             </span>
             <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              Our best instructors
+              Our Best instructors
             </h2>
             <p className="mt-2 text-muted-foreground">Learn from experienced practitioners.</p>
           </Reveal>
@@ -611,49 +459,9 @@ export default async function HomePage() {
       )}
 
       {/* ------------------------------------------------------------------ */}
-      {/* Testimonials                                                       */}
+      {/* World Map: Remote, Silicon Valley, Global. Where Will You Build?   */}
       {/* ------------------------------------------------------------------ */}
-      <section className="bg-muted/30">
-        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-          <Reveal className="mb-10 text-center">
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              Community
-            </span>
-            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              Community in action
-            </h2>
-            <p className="mt-2 text-muted-foreground">
-              Get your questions answered and stay motivated by mentors and fellow students.
-            </p>
-          </Reveal>
-          <StaggerGroup className="grid gap-5 md:grid-cols-3">
-            {TESTIMONIALS.map((testimonial) => (
-              <StaggerItem key={testimonial.name}>
-                <figure className="flex h-full flex-col rounded-2xl bg-card p-6 shadow-sm ring-1 ring-border/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  <Quote className="size-8 text-brand-blue/25" />
-                  <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-foreground">
-                    “{testimonial.quote}”
-                  </blockquote>
-                  <div className="mt-5 flex items-center gap-3">
-                    <span className="flex size-10 items-center justify-center rounded-full bg-linear-to-br from-brand-blue to-violet-500 text-sm font-semibold text-white">
-                      {initials(testimonial.name)}
-                    </span>
-                    <figcaption>
-                      <p className="text-sm font-semibold">{testimonial.name}</p>
-                      <p className="text-xs text-muted-foreground">{testimonial.role}</p>
-                    </figcaption>
-                    <span className="ml-auto flex items-center gap-0.5">
-                      {Array.from({ length: testimonial.rating }).map((_, i) => (
-                        <Star key={i} className="size-3.5 fill-amber-400 text-amber-400" />
-                      ))}
-                    </span>
-                  </div>
-                </figure>
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-        </div>
-      </section>
+      <WorldMapSection />
 
       {/* ------------------------------------------------------------------ */}
       {/* Stats band                                                         */}
@@ -680,80 +488,10 @@ export default async function HomePage() {
       </section>
 
       {/* ------------------------------------------------------------------ */}
-      {/* FAQ                                                                */}
+      {/* Real Stories & Got A Question For Digo Academy?                    */}
       {/* ------------------------------------------------------------------ */}
-      <section id="faq" className="scroll-mt-24">
-        <div className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-          <Reveal className="mb-10 text-center">
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              FAQ
-            </span>
-            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              Frequently asked questions
-            </h2>
-            <p className="mt-2 text-muted-foreground">
-              Everything you need to know before you get started.
-            </p>
-          </Reveal>
-          <StaggerGroup className="space-y-3">
-            {FAQS.map((faq) => (
-              <StaggerItem key={faq.q}>
-                <details className="group rounded-2xl border border-border/60 bg-card px-5 shadow-sm transition-colors open:ring-1 open:ring-brand-blue/20">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-medium [&::-webkit-details-marker]:hidden">
-                    {faq.q}
-                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand-blue/10 text-brand-blue transition-transform group-open:rotate-45">
-                      <Plus className="size-4" />
-                    </span>
-                  </summary>
-                  <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out group-open:grid-rows-[1fr] motion-reduce:transition-none">
-                    <div className="overflow-hidden">
-                      <p className="pb-5 text-sm leading-relaxed text-muted-foreground">{faq.a}</p>
-                    </div>
-                  </div>
-                </details>
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-        </div>
-      </section>
+      <ReviewsAndFaqSection />
 
-      {/* ------------------------------------------------------------------ */}
-      {/* Final CTA                                                          */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="mx-auto w-full max-w-6xl px-4 pb-20 sm:px-6 lg:px-8">
-        <Reveal>
-          <div className="relative flex flex-col items-center gap-4 overflow-hidden rounded-3xl bg-linear-to-br from-slate-900 via-brand-blue to-indigo-800 px-6 py-14 text-center text-white">
-            <div className="pointer-events-none absolute -left-16 -top-16 size-64 animate-blob rounded-full bg-violet-500/30 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-20 right-0 size-64 animate-blob anim-delay-1 rounded-full bg-brand-coral/20 blur-3xl" />
-            <span className="relative inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-medium ring-1 ring-white/20">
-              <Sparkles className="size-3.5" />
-              Start today — it&apos;s free to enquire
-            </span>
-            <h2 className="relative font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              Ready to start learning?
-            </h2>
-            <p className="relative max-w-xl text-white/80">
-              Find a course that fits your goals and request enrollment today — no payment required
-              upfront.
-            </p>
-            <div className="relative mt-2 flex flex-wrap justify-center gap-3">
-              <Button
-                size="lg"
-                className="rounded-full bg-white px-7 text-brand-blue shadow-lg transition-transform hover:scale-105 hover:bg-white/90"
-                nativeButton={false}
-                render={<Link href="/courses">Browse courses</Link>}
-              />
-              <Button
-                size="lg"
-                variant="outline"
-                className="rounded-full border-white/40 bg-white/5 text-white hover:bg-white/15 hover:text-white"
-                nativeButton={false}
-                render={<Link href="/register">Create an account</Link>}
-              />
-            </div>
-          </div>
-        </Reveal>
-      </section>
     </div>
   );
 }

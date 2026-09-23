@@ -11,6 +11,7 @@ import { authClient } from '@/lib/auth/client';
 import { Button } from '@/shared/components/ui/button';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/shared/components/ui/field';
 import { Input } from '@/shared/components/ui/input';
+import { PasswordInput } from '@/shared/components/ui/password-input';
 
 export function RegisterForm() {
   const router = useRouter();
@@ -53,14 +54,13 @@ export function RegisterForm() {
         </Field>
         <Field>
           <FieldLabel htmlFor="password">Password</FieldLabel>
-          <Input id="password" type="password" autoComplete="new-password" {...register('password')} />
+          <PasswordInput id="password" autoComplete="new-password" {...register('password')} />
           <FieldError errors={[errors.password]} />
         </Field>
         <Field>
           <FieldLabel htmlFor="confirmPassword">Confirm password</FieldLabel>
-          <Input
+          <PasswordInput
             id="confirmPassword"
-            type="password"
             autoComplete="new-password"
             {...register('confirmPassword')}
           />

@@ -11,6 +11,7 @@ import { authClient } from '@/lib/auth/client';
 import { Button } from '@/shared/components/ui/button';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/shared/components/ui/field';
 import { Input } from '@/shared/components/ui/input';
+import { PasswordInput } from '@/shared/components/ui/password-input';
 import { Separator } from '@/shared/components/ui/separator';
 
 export function LoginForm({
@@ -67,7 +68,7 @@ export function LoginForm({
                 Forgot password?
               </Link>
             </div>
-            <Input id="password" type="password" autoComplete="current-password" {...register('password')} />
+            <PasswordInput id="password" autoComplete="current-password" {...register('password')} />
             <FieldError errors={[errors.password]} />
           </Field>
           <Button type="submit" size="lg" className="mt-1 w-full" disabled={isSubmitting}>
