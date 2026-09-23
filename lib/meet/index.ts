@@ -21,7 +21,11 @@ export { isMeetConfigured };
  * encryption layer, consistent with the rest of this codebase.
  */
 
-const SCOPES = ['https://www.googleapis.com/auth/calendar.events'];
+const SCOPES = [
+  'https://www.googleapis.com/auth/calendar.events',
+  'https://www.googleapis.com/auth/userinfo.email',
+  'openid',
+];
 const CONNECTION_ID = 'singleton';
 
 function redirectUri(): string {
@@ -53,6 +57,7 @@ export function getMeetAuthUrl(state: string): string {
 
 /** Exchange the OAuth callback `code` for tokens and persist the connection. */
 export async function exchangeMeetCode(code: string): Promise<{ accountEmail: string }> {
+  const { clientId } = requireConfig();
   const client = newOAuthClient();
   const { tokens } = await client.getToken(code);
   if (!tokens.access_token || !tokens.refresh_token) {
@@ -62,28 +67,46 @@ export async function exchangeMeetCode(code: string): Promise<{ accountEmail: st
   }
   client.setCredentials(tokens);
 
-  const oauth2 = google.oauth2({ auth: client, version: 'v2' });
-  const { data } = await oauth2.userinfo.get();
-  if (!data.email) throw new Error('Could not read the connected Google account email.');
+  let accountEmail: string | undefined;
+
+  if (tokens.id_token) {
+    try {
+      const ticket = await client.verifyIdToken({
+        idToken: tokens.id_token,
+        audience: clientId,
+      });
+      accountEmail = ticket.getPayload()?.email;
+    } catch {
+      // Fall through to userinfo.get()
+    }
+  }
+
+  if (!accountEmail) {
+    const oauth2 = google.oauth2({ auth: client, version: 'v2' });
+    const { data } = await oauth2.userinfo.get();
+    accountEmail = data.email ?? undefined;
+  }
+
+  if (!accountEmail) throw new Error('Could not read the connected Google account email.');
 
   await db.googleMeetConnection.upsert({
     where: { id: CONNECTION_ID },
     create: {
       id: CONNECTION_ID,
-      accountEmail: data.email,
+      accountEmail,
       accessToken: tokens.access_token,
       refreshToken: tokens.refresh_token,
       expiresAt: new Date(tokens.expiry_date ?? Date.now() + 60 * 60 * 1000),
     },
     update: {
-      accountEmail: data.email,
+      accountEmail,
       accessToken: tokens.access_token,
       refreshToken: tokens.refresh_token,
       expiresAt: new Date(tokens.expiry_date ?? Date.now() + 60 * 60 * 1000),
     },
   });
 
-  return { accountEmail: data.email };
+  return { accountEmail };
 }
 
 /** Current connection status for the admin settings page. */

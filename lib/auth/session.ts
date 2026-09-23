@@ -2,6 +2,7 @@ import 'server-only';
 
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { cache } from 'react';
 
 import { auth } from '@/lib/auth';
 import { isMfaEnforced } from '@/lib/env';
@@ -10,10 +11,10 @@ import { MFA_REQUIRED_ROLES, ROLE_HOME, type Role } from '@/shared/constants/rol
 /** Path where a user sets up their second factor. */
 export const MFA_SETUP_PATH = '/settings/security?setup=required';
 
-/** Read the current session (or null) from request headers. */
-export async function getSession() {
+/** Read the current session (or null) from request headers. Memoized per request. */
+export const getSession = cache(async () => {
   return auth.api.getSession({ headers: await headers() });
-}
+});
 
 /**
  * Require an authenticated, non-suspended user. Redirects to /login when there is

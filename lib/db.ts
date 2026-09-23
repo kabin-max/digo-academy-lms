@@ -1,10 +1,13 @@
 import 'server-only';
 
+import dns from 'node:dns';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 
 import { PrismaClient } from '@/lib/generated/prisma/client';
 import { env } from '@/lib/env';
+
+dns.setDefaultResultOrder('ipv4first');
 
 /**
  * Single PrismaClient instance, reused across HMR (dev) and warm serverless
@@ -24,11 +27,11 @@ function createPrismaClient() {
     globalForPrisma.pgPool ??
     new Pool({
       connectionString: env.DATABASE_URL,
-      // Serverless / Next workers: one client per isolate is enough and stays
-      // under Supabase's session/transaction pool limits.
-      max: 1,
-      idleTimeoutMillis: 20_000,
-      connectionTimeoutMillis: 10_000,
+      // In development, Next.js renders layouts and pages concurrently.
+      // max: 1 causes pool starvation/deadlock when layout and page both call getSession().
+      max: process.env.NODE_ENV === 'production' ? 5 : 10,
+      idleTimeoutMillis: 30_000,
+      connectionTimeoutMillis: 15_000,
     });
   globalForPrisma.pgPool = pool;
 

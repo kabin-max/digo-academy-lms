@@ -48,14 +48,17 @@ export function FileUpload({
         body: file,
       });
       if (!res.ok) {
-        toast.error('Upload failed.');
+        const errorText = await res.text().catch(() => '');
+        console.error('Upload PUT failed:', res.status, res.statusText, errorText);
+        toast.error(`Upload failed (${res.status}: ${res.statusText || 'check Supabase bucket/CORS'})`);
         return;
       }
 
       onUploaded(presign.key);
-      toast.success('File uploaded.');
-    } catch {
-      toast.error('Upload failed.');
+      toast.success('File uploaded! Remember to click "Save details" below.');
+    } catch (err) {
+      console.error('Upload network error:', err);
+      toast.error('Upload failed. Check browser console for CORS/network errors.');
     } finally {
       setBusy(false);
       if (inputRef.current) inputRef.current.value = '';
