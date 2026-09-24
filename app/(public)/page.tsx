@@ -2,13 +2,11 @@ import {
   ArrowRight,
   Award,
   BadgeCheck,
-  BarChart3,
   BookOpen,
   Camera,
   ClipboardList,
   Code2,
   Globe2,
-  GraduationCap,
   LineChart,
   Megaphone,
   MonitorPlay,
@@ -28,17 +26,14 @@ import { CourseCard } from '@/features/marketplace/components/CourseCard';
 import {
   getBrowseCategories,
   getFeaturedInstructors,
-  getPlatformStats,
   getPublishedCourses,
 } from '@/features/marketplace/server/data';
 import type { CourseFilters } from '@/features/marketplace/schemas';
-import { CountUp } from '@/shared/components/public/CountUp';
 import { HeroHeadline, HeroItem, HeroPreview, HeroStage, Magnetic } from '@/shared/components/public/HeroMotion';
 import { Reveal } from '@/shared/components/public/Reveal';
 import { StaggerGroup, StaggerItem } from '@/shared/components/public/Stagger';
 import { CourseFinder } from '@/shared/components/public/CourseFinder';
 import { ComparisonSection } from '@/shared/components/public/ComparisonSection';
-import { WorldMapSection } from '@/shared/components/public/WorldMapSection';
 import { ReviewsAndFaqSection } from '@/shared/components/public/ReviewsAndFaqSection';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/utils/cn';
@@ -148,34 +143,25 @@ function compactNumber(value: number): string {
 }
 
 export default async function HomePage() {
-  const [courses, categories, instructors, stats] = await Promise.all([
+  const [courses, categories, instructors] = await Promise.all([
     getPublishedCourses(DEFAULT_FILTERS),
     getBrowseCategories(8),
     getFeaturedInstructors(8),
-    getPlatformStats(),
   ]);
-  const featured = courses.slice(0, 8);
-
-  const statBand = [
-    { label: 'Courses', raw: stats.courses, icon: BookOpen },
-    { label: 'Students', raw: stats.students, icon: Users },
-    { label: 'Instructors', raw: stats.instructors, icon: GraduationCap },
-    { label: 'Categories', raw: stats.categories, icon: BarChart3 },
-  ];
+  const featured = courses.slice(0, Math.min(courses.length, 8));
 
   return (
     <div className="flex flex-col">
       {/* ------------------------------------------------------------------ */}
       {/* Hero                                                               */}
       {/* ------------------------------------------------------------------ */}
-      <section className="relative overflow-hidden bg-linear-to-b from-brand-blue/5 via-background to-background">
+       <section className="relative overflow-hidden bg-linear-to-b from-brand-blue/5 via-background to-background">
         <div className="animate-blob pointer-events-none absolute -left-32 -top-32 z-0 size-80 rounded-full bg-brand-blue/20 blur-3xl" />
         <div className="animate-blob anim-delay-2 pointer-events-none absolute -right-24 top-10 z-0 size-72 rounded-full bg-violet-500/20 blur-3xl" />
         <HeroStage className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pt-4 pb-6 lg:pt-8 lg:pb-12 flex flex-col-reverse lg:flex-row items-center justify-between gap-8 lg:gap-10">
           <div className="text-left lg:max-w-lg -translate-y-5">
             <HeroHeadline
-              className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:text-4xl lg:text-5xl text-brand-blue"
-              segments={[
+className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:text-4xl lg:text-5xl text-foreground"              segments={[
                 { text: 'Learn' },
                 { text: 'Globally' },
                 { text: 'Graze' },
@@ -217,74 +203,162 @@ export default async function HomePage() {
       {/* ------------------------------------------------------------------ */}
       {/* Power of dual-learning                                             */}
       {/* ------------------------------------------------------------------ */}
-      <section className="bg-background">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-16">
+      <section className="relative overflow-hidden bg-background">
+        <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 size-96 rounded-full bg-brand-blue/5 blur-3xl" />
+        <div className="pointer-events-none absolute right-0 bottom-0 size-80 rounded-full bg-violet-500/5 blur-3xl" />
+        
+        <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 lg:px-8 lg:py-20">
+          {/* Section Title - Centered Container, Left-Aligned Text */}
+          <div className="lg:col-span-2 mb-8 flex justify-center">
+            <div className="text-left">
+              <Reveal>
+                <h2 className="font-heading text-4xl font-bold tracking-tight sm:text-5xl text-foreground">
+                  The power of dual-learning
+                </h2>
+                <p className="mt-2 text-base text-muted-foreground leading-relaxed max-w-2xl">
+                  Digo Academy combines the best of both worlds—structured guidance with the flexibility you need.
+                </p>
+              </Reveal>
+            </div>
+          </div>
+          {/* Left Column - Features */}
+          <div>
           <Reveal>
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              Dual-learning
-            </span>
-            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl text-foreground">
-              The power of dual-learning
-            </h2>
-            <p className="mt-3 max-w-md text-muted-foreground">
-              Why choose between a rigid schedule and learning alone? Digo Academy combines the best
-              of both worlds.
-            </p>
-            <div className="mt-8 space-y-4">
-              <div className="flex gap-4 rounded-2xl bg-card p-5 ring-1 ring-border/60 shadow-sm">
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue [&_svg]:size-5">
+            <div className="space-y-6">
+              <div className="group relative flex gap-6 rounded-3xl bg-gradient-to-br from-brand-blue/8 via-brand-blue/4 to-transparent p-8 ring-1 ring-brand-blue/20 shadow-lg transition-all duration-500 hover:shadow-2xl hover:shadow-brand-blue/10 hover:ring-brand-blue/30 hover:-translate-y-2">
+                {/* Background glow effect */}
+                <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-r from-brand-blue/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                
+                <span className="relative flex size-16 shrink-0 items-center justify-center rounded-3xl bg-gradient-to-br from-brand-blue/20 to-brand-blue/10 text-brand-blue ring-2 ring-brand-blue/25 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-xl [&_svg]:size-7">
                   <Radio />
+                  {/* Icon glow */}
+                  <div className="absolute inset-0 rounded-3xl bg-brand-blue/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-60" />
                 </span>
-                <div>
-                  <h3 className="font-heading font-semibold text-foreground">Live cohorts</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">
+                
+                <div className="relative flex-1">
+                  <h3 className="font-heading text-xl font-bold text-foreground group-hover:text-brand-blue transition-colors duration-300">
+                    Live Cohorts
+                  </h3>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
                     Real-time interaction with industry experts, weekly milestones, and peer
-                    accountability.
+                    accountability to keep you on track with personalized mentorship.
                   </p>
+                  
+                  {/* Progress indicator */}
+                  <div className="mt-4 flex items-center gap-2">
+                    <div className="flex gap-1">
+                      {[1,2,3,4,5].map(i => (
+                        <div key={i} className="h-1 w-3 rounded-full bg-brand-blue/20 group-hover:bg-brand-blue transition-all duration-300" style={{transitionDelay: `${i * 50}ms`}} />
+                      ))}
+                    </div>
+                    <span className="text-xs font-medium text-brand-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200">
+                      Interactive Learning
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className="flex gap-4 rounded-2xl bg-card p-5 ring-1 ring-border/60 shadow-sm">
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600 [&_svg]:size-5">
+              
+              <div className="group relative flex gap-6 rounded-3xl bg-gradient-to-br from-violet-500/8 via-violet-500/4 to-transparent p-8 ring-1 ring-violet-500/20 shadow-lg transition-all duration-500 hover:shadow-2xl hover:shadow-violet-500/10 hover:ring-violet-500/30 hover:-translate-y-2">
+                {/* Background glow effect */}
+                <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-r from-violet-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                
+                <span className="relative flex size-16 shrink-0 items-center justify-center rounded-3xl bg-gradient-to-br from-violet-500/20 to-violet-500/10 text-violet-600 ring-2 ring-violet-500/25 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:-rotate-3 group-hover:shadow-xl [&_svg]:size-7">
                   <MonitorPlay />
+                  {/* Icon glow */}
+                  <div className="absolute inset-0 rounded-3xl bg-violet-500/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-60" />
                 </span>
-                <div>
-                  <h3 className="font-heading font-semibold text-foreground">Self-paced mastery</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">
+                
+                <div className="relative flex-1">
+                  <h3 className="font-heading text-xl font-bold text-foreground group-hover:text-violet-600 transition-colors duration-300">
+                    Self-Paced Mastery
+                  </h3>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
                     Binge-worthy video content, interactive labs, and lifetime access to
-                    on-demand notifications.
+                    resources so you can learn at your own pace with complete flexibility.
                   </p>
+                  
+                  {/* Progress indicator */}
+                  <div className="mt-4 flex items-center gap-2">
+                    <div className="flex gap-1">
+                      {[1,2,3,4,5].map(i => (
+                        <div key={i} className="h-1 w-3 rounded-full bg-violet-500/20 group-hover:bg-violet-500 transition-all duration-300" style={{transitionDelay: `${i * 50}ms`}} />
+                      ))}
+                    </div>
+                    <span className="text-xs font-medium text-violet-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200">
+                      Flexible Learning
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </Reveal>
+          </div>
 
+          {/* Right Column - World Map */}
           <Reveal delay={150} className="relative">
-            <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-brand-blue via-indigo-600 to-violet-600 p-8 shadow-2xl text-white">
-              <div className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-white/10 blur-3xl" />
-              <p className="font-heading text-3xl font-semibold tracking-tight">
-                Anywhere. Anytime.
-              </p>
-              <p className="mt-2 text-white/80">Live classes &amp; self-paced learning</p>
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                {[Radio, MonitorPlay, Users, Award].map((Icon, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-2 rounded-xl bg-white/10 px-3 py-2.5 text-sm ring-1 ring-white/15 backdrop-blur"
-                  >
-                    <Icon className="size-4" />
-                    <span className="h-2 w-full rounded-full bg-white/25" />
-                  </div>
-                ))}
-              </div>
-            </div>
-            {/* floating chip */}
-            <div className="animate-floaty absolute -bottom-5 left-6 flex items-center gap-2.5 rounded-2xl bg-card p-3 pr-4 text-foreground shadow-xl ring-1 ring-border/60">
-              <span className="flex size-9 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-600">
-                <Radio className="size-5" />
-              </span>
-              <div>
-                <p className="text-sm font-semibold leading-none">Next cohort starting</p>
-                <p className="mt-1 text-xs text-muted-foreground">Enrolling now</p>
+            <div className="relative">
+              <div className="relative">
+               
+                <div className="relative mt-6 aspect-2/1 w-full">
+                  <img
+                    src="/world-map-dots.svg"
+                    alt="Learners across the globe"
+                    className="size-full select-none object-contain opacity-90 [mask-image:radial-gradient(ellipse_at_center,black_70%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_at_center,black_70%,transparent_100%)]"
+                    draggable={false}
+                  />
+                  {/* Learner location markers — spread across continents to convey a global community. */}
+                  {[
+                    { top: '29%', left: '16%', city: 'New York' },   // North America
+                    { top: '40%', left: '28%', city: 'São Paulo' },   // South America
+                    { top: '21%', left: '50%', city: 'London' },   // Europe
+                    { top: '51%', left: '60%', city: 'Lagos' },   // Africa
+                    { top: '30%', left: '68%', city: 'Dubai' },   // Middle East / South Asia
+                    { top: '35%', left: '74%', city: 'Mumbai' },   // South Asia
+                    { top: '30%', left: '89%', city: 'Tokyo' },   // East Asia
+                    { top: '69%', left: '92%', city: 'Sydney' },   // Australia
+                  ].map((pos, i) => (
+                    <span
+                      key={i}
+                      style={{ top: pos.top, left: pos.left, animationDelay: `${(i % 4) * 0.4}s` }}
+                      className="absolute -translate-x-1/2 -translate-y-1/2 animate-pulse group cursor-pointer"
+                      title={`Anywhere. Anytime. - ${pos.city}`}
+                    >
+                      <span className="relative flex size-2.5">
+                        <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-blue/60" />
+                        <span className="relative inline-flex size-2.5 rounded-full bg-brand-blue ring-2 ring-background" />
+                      </span>
+                      
+                      {/* Hover Tooltip */}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                        <div className="relative bg-gray-900 text-white text-xs font-medium px-3 py-2 rounded-lg shadow-lg whitespace-nowrap">
+                          <div className="text-center">
+                            <div className="font-semibold">Anywhere. Anytime.</div>
+                            <div className="text-gray-300">{pos.city}</div>
+                          </div>
+                          {/* Tooltip Arrow */}
+                          <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                        </div>
+                      </div>
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-8 grid grid-cols-2 gap-4">
+                  {[
+                    { icon: Radio, label: 'Live Sessions' },
+                    { icon: MonitorPlay, label: 'On-Demand' },
+                    { icon: Users, label: 'Community' },
+                    { icon: Award, label: 'Certified' }
+                  ].map((item, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 rounded-xl bg-card px-4 py-3 text-sm font-medium text-foreground ring-1 ring-border transition-all hover:ring-brand-blue/30"
+                    >
+                      <item.icon className="size-5 shrink-0 text-brand-blue" />
+                      <span className="truncate">{item.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </Reveal>
@@ -297,7 +371,7 @@ export default async function HomePage() {
       <section id="how-it-works" className="scroll-mt-24 bg-muted/30">
         <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
           <Reveal className="mb-12 text-center">
-            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
+            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight text-4xl text-foreground">
               How to enroll
             </h2>
             <p className="mt-2 text-muted-foreground">
@@ -324,33 +398,45 @@ export default async function HomePage() {
       {/* ------------------------------------------------------------------ */}
       {featured.length > 0 && (
         <section id="courses" className="scroll-mt-24 mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-          <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <Reveal className="mb-8 text-center">
             <div>
-              <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
+              <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl text-foreground">
                 Trending courses
               </h2>
               <p className="mt-2 text-muted-foreground">
                 Industry-relevant skills taught by mentors from top companies.
               </p>
             </div>
-            <div className="flex items-center gap-1 rounded-full border border-border/70 bg-card p-1 shadow-sm">
-              <span className="rounded-full bg-brand-blue px-3.5 py-1.5 text-sm font-medium text-white">
-                Featured
-              </span>
-              <span className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground">
-                Live cohort
-              </span>
-              <span className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground">
-                Self-paced
-              </span>
-            </div>
+           
           </Reveal>
           <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {featured.map((course) => (
+            {featured.slice(0, 7).map((course) => (
               <StaggerItem key={course.id}>
                 <CourseCard course={course} hrefBase="/courses" showWishlist={false} />
               </StaggerItem>
             ))}
+            {featured.length > 0 && (
+              <StaggerItem>
+                <div className="group relative h-full min-h-[280px] flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-brand-blue/30 bg-gradient-to-br from-brand-blue/5 via-transparent to-brand-blue/10 p-6 text-center transition-all duration-300 hover:border-brand-blue/50 hover:bg-gradient-to-br hover:from-brand-blue/10 hover:to-brand-blue/20 hover:shadow-lg hover:-translate-y-1">
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="rounded-full bg-brand-blue/10 p-4 transition-colors duration-300 group-hover:bg-brand-blue/20">
+                      <ArrowRight className="size-8 text-brand-blue transition-transform duration-300 group-hover:translate-x-1" />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="font-heading text-lg font-semibold text-foreground group-hover:text-brand-blue transition-colors duration-300">
+                        Explore More
+                      </h3>
+                      <p className="text-sm text-muted-foreground group-hover:text-foreground/80 transition-colors duration-300">
+                        Discover all our courses and find the perfect fit for your learning journey
+                      </p>
+                    </div>
+                  </div>
+                  <Link href="/courses" className="absolute inset-0 rounded-2xl">
+                    <span className="sr-only">View all courses</span>
+                  </Link>
+                </div>
+              </StaggerItem>
+            )}
           </StaggerGroup>
         </section>
       )}
@@ -359,48 +445,20 @@ export default async function HomePage() {
       {/* Course Finder                                                      */}
       {/* ------------------------------------------------------------------ */}
       <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <Reveal>
+        <Reveal className="mb-8 text-center">
+          <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl text-foreground">
+            Not Sure Which AWS Course Is Right for You?
+          </h2>
+          <p className="mt-2 text-muted-foreground">
+            Take our quick assessment to get personalized course recommendations
+          </p>
+        </Reveal>
+        <Reveal delay={150}>
           <CourseFinder />
         </Reveal>
       </section>
 
-      {/* ------------------------------------------------------------------ */}
-      {/* Why choose us                                                      */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="bg-muted/30">
-        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-          <Reveal className="mb-10 max-w-2xl">
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              Why Digo
-            </span>
-            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              Everything you need to learn with confidence
-            </h2>
-            <p className="mt-2 text-muted-foreground">
-              A learning experience built for outcomes — flexible formats, real mentorship, and
-              recognized results.
-            </p>
-          </Reveal>
-          <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {FEATURES.map((feature) => (
-              <StaggerItem key={feature.title}>
-                <div className="group h-full rounded-2xl bg-card p-6 shadow-sm ring-1 ring-border/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  <span
-                    className={cn(
-                      'flex size-12 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 [&_svg]:size-6',
-                      feature.className
-                    )}
-                  >
-                    <feature.icon />
-                  </span>
-                  <h3 className="mt-4 font-heading text-base font-semibold">{feature.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{feature.body}</p>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-        </div>
-      </section>
+
 
       {/* ------------------------------------------------------------------ */}
       {/* Comparison: Us vs Others                                           */}
@@ -413,8 +471,8 @@ export default async function HomePage() {
       {instructors.length > 0 && (
         <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
           <Reveal className="mb-8 text-center">
-            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              Our Best instructors
+            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl text-foreground">
+              Our Instructors
             </h2>
           </Reveal>
           <StaggerGroup className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
@@ -441,35 +499,6 @@ export default async function HomePage() {
           </StaggerGroup>
         </section>
       )}
-
-      {/* ------------------------------------------------------------------ */}
-      {/* World Map: Remote, Silicon Valley, Global. Where Will You Build?   */}
-      {/* ------------------------------------------------------------------ */}
-      <WorldMapSection />
-
-      {/* ------------------------------------------------------------------ */}
-      {/* Stats band                                                         */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="bg-brand-blue/5">
-        <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
-          <StaggerGroup className="grid grid-cols-2 gap-6 lg:grid-cols-4">
-            {statBand.map((stat) => (
-              <StaggerItem key={stat.label} className="text-center">
-                <span className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-linear-to-br from-brand-blue to-violet-500 text-white shadow-md [&_svg]:size-6">
-                  <stat.icon />
-                </span>
-                <CountUp
-                  value={stat.raw}
-                  suffix="+"
-                  compact
-                  className="mt-3 block font-heading text-3xl font-semibold tracking-tight tabular-nums sm:text-4xl"
-                />
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-        </div>
-      </section>
 
       {/* ------------------------------------------------------------------ */}
       {/* Real Stories & Got A Question For Digo Academy?                    */}

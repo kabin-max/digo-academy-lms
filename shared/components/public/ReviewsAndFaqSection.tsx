@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, ArrowRight, Quote, Star } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -71,6 +71,23 @@ export interface ReviewsAndFaqSectionProps {
 export function ReviewsAndFaqSection({ showFaq = true }: ReviewsAndFaqSectionProps = {}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [email, setEmail] = useState('');
+  const [isHovered, setIsHovered] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (!isHovered) {
+      intervalRef.current = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % REVIEWS.length);
+      }, 4000); // Auto-advance every 4 seconds
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [isHovered]);
 
   const nextReview = () => {
     setCurrentIndex((prev) => (prev + 1) % REVIEWS.length);
@@ -98,9 +115,9 @@ export function ReviewsAndFaqSection({ showFaq = true }: ReviewsAndFaqSectionPro
     <section className="relative bg-background py-20 sm:py-28">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Testimonials Header with Prev/Next Controls */}
-        <div className="flex flex-wrap items-end justify-between gap-4 pb-14">
+        <div className="flex flex-wrap items-end justify-center gap-4 pb-14">
           <Reveal>
-            <div className="relative">
+            <div className="relative text-center">
               {/* Blue playful doodle marks */}
               <div className="absolute -top-6 -left-3 text-brand-blue/50 select-none pointer-events-none">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -112,31 +129,19 @@ export function ReviewsAndFaqSection({ showFaq = true }: ReviewsAndFaqSectionPro
               </h2>
             </div>
           </Reveal>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={prevReview}
-              className="flex size-11 items-center justify-center rounded-full border border-border/70 bg-card text-foreground shadow-xs transition-all hover:bg-muted hover:border-border hover:shadow-md active:scale-95"
-              aria-label="Previous review"
-            >
-              <ArrowLeft className="size-4.5" />
-            </button>
-            <button
-              onClick={nextReview}
-              className="flex size-11 items-center justify-center rounded-full border border-border/70 bg-card text-foreground shadow-xs transition-all hover:bg-muted hover:border-border hover:shadow-md active:scale-95"
-              aria-label="Next review"
-            >
-              <ArrowRight className="size-4.5" />
-            </button>
-          </div>
         </div>
 
+       
         {/* Testimonial Cards Grid */}
-        <div className="grid gap-5 md:grid-cols-3">
+        <div 
+          className="grid gap-5 md:grid-cols-3"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           {visibleReviews.map((rev, i) => (
             <div
-              key={i}
-              className="flex flex-col justify-between rounded-3xl border border-border/60 bg-card p-7 shadow-sm transition-all duration-200 hover:shadow-lg hover:-translate-y-1.5 hover:border-border/80"
+              key={`${currentIndex}-${i}`}
+              className="flex flex-col justify-between rounded-3xl border border-border/60 bg-card p-7 shadow-sm transition-all duration-500 hover:shadow-lg hover:-translate-y-1.5 hover:border-border/80 animate-fade-in"
             >
               <div>
                 <Quote className="size-8 text-brand-blue/25 fill-brand-blue/8" />
