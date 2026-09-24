@@ -27,17 +27,16 @@ const CATEGORIES: {
   slug: string;
   children?: { name: string; slug: string }[];
 }[] = [
-  { name: 'Web Development', slug: 'web-development' },
-  { name: 'Data Science', slug: 'data-science' },
-  { name: 'Design', slug: 'design' },
-  { name: 'Business', slug: 'business' },
-  { name: 'Marketing', slug: 'marketing' },
   {
     name: 'AWS',
     slug: 'aws',
     children: [
       { name: 'AWS Cloud Practitioner', slug: 'aws-cloud-practitioner' },
+      { name: 'AWS AI Practitioner', slug: 'aws-ai-practitioner' },
+      { name: 'AWS Developer Associate', slug: 'aws-developer' },
       { name: 'AWS Solutions Architect', slug: 'aws-solutions-architect' },
+      { name: 'AWS CloudOps Architect', slug: 'aws-cloudops-architect' },
+      { name: 'AWS DevOps Engineer Professional', slug: 'aws-devops-engineer' },
     ],
   },
 ];
@@ -88,102 +87,8 @@ const COURSES: {
   sections: { title: string; lessons: { title: string; type: 'VIDEO' | 'NOTE'; durationSec?: number }[] }[];
 }[] = [
   {
-    id: 'seed-course-react',
-    title: 'Modern React from Scratch',
-    subtitle: 'Build fast, component-driven UIs with React 19 and hooks.',
-    description: '<p>Learn React the modern way — components, hooks, state, and data fetching — by building real projects step by step.</p>',
-    categorySlug: 'web-development',
-    instructorEmail: 'aisha.rahman@demo.digo.academy',
-    difficulty: 'BEGINNER',
-    priceCents: 4900,
-    language: 'en',
-    ratingAvg: 4.9,
-    sections: [
-      { title: 'Getting started', lessons: [ { title: 'Why React', type: 'VIDEO', durationSec: 480 }, { title: 'Components & JSX', type: 'VIDEO', durationSec: 720 }, { title: 'Course notes', type: 'NOTE' } ] },
-      { title: 'State & effects', lessons: [ { title: 'useState in depth', type: 'VIDEO', durationSec: 900 }, { title: 'useEffect patterns', type: 'VIDEO', durationSec: 840 } ] },
-    ],
-  },
-  {
-    id: 'seed-course-nextjs',
-    title: 'Full-Stack Next.js',
-    subtitle: 'Ship production apps with the App Router, Server Actions, and Prisma.',
-    description: '<p>Go full-stack with Next.js — routing, server components, mutations, auth, and deployment.</p>',
-    categorySlug: 'web-development',
-    instructorEmail: 'aisha.rahman@demo.digo.academy',
-    difficulty: 'INTERMEDIATE',
-    priceCents: 7900,
-    language: 'en',
-    ratingAvg: 4.8,
-    sections: [
-      { title: 'App Router foundations', lessons: [ { title: 'Routing & layouts', type: 'VIDEO', durationSec: 780 }, { title: 'Server vs client components', type: 'VIDEO', durationSec: 960 } ] },
-      { title: 'Data & mutations', lessons: [ { title: 'Server Actions', type: 'VIDEO', durationSec: 1020 }, { title: 'Prisma basics', type: 'NOTE' } ] },
-    ],
-  },
-  {
-    id: 'seed-course-python',
-    title: 'Python for Data Analysis',
-    subtitle: 'Wrangle, analyze, and visualize data with pandas and NumPy.',
-    description: '<p>Turn raw data into insight using Python, pandas, and clear visualizations.</p>',
-    categorySlug: 'data-science',
-    instructorEmail: 'daniel.osei@demo.digo.academy',
-    difficulty: 'BEGINNER',
-    priceCents: 5900,
-    language: 'en',
-    ratingAvg: 4.7,
-    sections: [
-      { title: 'Python essentials', lessons: [ { title: 'Data types & control flow', type: 'VIDEO', durationSec: 660 }, { title: 'Working with files', type: 'VIDEO', durationSec: 540 } ] },
-      { title: 'pandas', lessons: [ { title: 'Series & DataFrames', type: 'VIDEO', durationSec: 900 }, { title: 'Cleaning data', type: 'VIDEO', durationSec: 780 } ] },
-    ],
-  },
-  {
-    id: 'seed-course-ml',
-    title: 'Machine Learning Foundations',
-    subtitle: 'Understand the core algorithms behind modern ML.',
-    description: '<p>Build intuition and hands-on skills for regression, classification, and model evaluation.</p>',
-    categorySlug: 'data-science',
-    instructorEmail: 'daniel.osei@demo.digo.academy',
-    difficulty: 'ADVANCED',
-    priceCents: 9900,
-    language: 'en',
-    ratingAvg: 4.8,
-    sections: [
-      { title: 'Supervised learning', lessons: [ { title: 'Linear & logistic regression', type: 'VIDEO', durationSec: 1080 }, { title: 'Evaluation metrics', type: 'NOTE' } ] },
-      { title: 'Model tuning', lessons: [ { title: 'Overfitting & regularization', type: 'VIDEO', durationSec: 960 } ] },
-    ],
-  },
-  {
-    id: 'seed-course-uiux',
-    title: 'UI/UX Design Essentials',
-    subtitle: 'Design usable, beautiful interfaces from first principles.',
-    description: '<p>Learn the fundamentals of user-centered design, layout, color, and typography.</p>',
-    categorySlug: 'design',
-    instructorEmail: 'maria.souza@demo.digo.academy',
-    difficulty: 'BEGINNER',
-    priceCents: 0,
-    language: 'en',
-    ratingAvg: 4.6,
-    sections: [
-      { title: 'Design foundations', lessons: [ { title: 'Layout & hierarchy', type: 'VIDEO', durationSec: 600 }, { title: 'Color & type', type: 'VIDEO', durationSec: 540 } ] },
-    ],
-  },
-  {
-    id: 'seed-course-figma',
-    title: 'Figma for Product Teams',
-    subtitle: 'Collaborate and prototype at speed in Figma.',
-    description: '<p>Master components, auto-layout, and prototyping to design real products.</p>',
-    categorySlug: 'design',
-    instructorEmail: 'maria.souza@demo.digo.academy',
-    difficulty: 'INTERMEDIATE',
-    priceCents: 3900,
-    language: 'en',
-    ratingAvg: 4.7,
-    sections: [
-      { title: 'Figma core', lessons: [ { title: 'Components & variants', type: 'VIDEO', durationSec: 720 }, { title: 'Auto-layout', type: 'VIDEO', durationSec: 660 } ] },
-    ],
-  },
-  {
-    id: 'seed-course-aws',
-    title: 'AWS Cloud Practitioner Bootcamp',
+    id: 'seed-course-aws-cp',
+    title: 'AWS Cloud Practitioner',
     subtitle: 'Pass the CLF-C02 exam and understand the AWS core.',
     description: '<p>Everything you need to confidently pass the AWS Cloud Practitioner exam.</p>',
     categorySlug: 'aws-cloud-practitioner',
@@ -198,19 +103,78 @@ const COURSES: {
     ],
   },
   {
-    id: 'seed-course-marketing',
-    title: 'Digital Marketing Masterclass',
-    subtitle: 'Grow an audience with SEO, content, and paid channels.',
-    description: '<p>A practical playbook for acquiring and retaining customers across channels.</p>',
-    categorySlug: 'marketing',
-    instructorEmail: 'liam.chen@demo.digo.academy',
-    difficulty: 'INTERMEDIATE',
-    priceCents: 4500,
+    id: 'seed-course-aws-ai',
+    title: 'AWS AI Practitioner',
+    subtitle: 'Master AI on AWS and generative AI foundations.',
+    description: '<p>Learn to build and deploy AI solutions on AWS effectively.</p>',
+    categorySlug: 'aws-ai-practitioner',
+    instructorEmail: 'james.park@demo.digo.academy',
+    difficulty: 'BEGINNER',
+    priceCents: 6900,
     language: 'en',
-    ratingAvg: 4.5,
+    ratingAvg: 4.8,
     sections: [
-      { title: 'Foundations', lessons: [ { title: 'The marketing funnel', type: 'VIDEO', durationSec: 540 }, { title: 'Positioning', type: 'NOTE' } ] },
-      { title: 'Channels', lessons: [ { title: 'SEO basics', type: 'VIDEO', durationSec: 780 }, { title: 'Paid ads intro', type: 'VIDEO', durationSec: 720 } ] },
+      { title: 'AI Foundations', lessons: [ { title: 'Intro to GenAI', type: 'VIDEO', durationSec: 480 } ] },
+    ],
+  },
+  {
+    id: 'seed-course-aws-dev',
+    title: 'AWS Developer – Associate',
+    subtitle: 'Develop robust, scalable cloud applications on AWS.',
+    description: '<p>Comprehensive training for the DVA-C02 exam.</p>',
+    categorySlug: 'aws-developer',
+    instructorEmail: 'james.park@demo.digo.academy',
+    difficulty: 'INTERMEDIATE',
+    priceCents: 7900,
+    language: 'en',
+    ratingAvg: 4.8,
+    sections: [
+      { title: 'Serverless Compute', lessons: [ { title: 'AWS Lambda', type: 'VIDEO', durationSec: 480 } ] },
+    ],
+  },
+  {
+    id: 'seed-course-aws-saa',
+    title: 'AWS Solutions Architect – Associate',
+    subtitle: 'Design high-performing, secure AWS architectures.',
+    description: '<p>Pass the SAA-C03 exam with hands-on architecture labs.</p>',
+    categorySlug: 'aws-solutions-architect',
+    instructorEmail: 'james.park@demo.digo.academy',
+    difficulty: 'INTERMEDIATE',
+    priceCents: 7900,
+    language: 'en',
+    ratingAvg: 4.9,
+    sections: [
+      { title: 'VPC & Networking', lessons: [ { title: 'VPC Basics', type: 'VIDEO', durationSec: 480 } ] },
+    ],
+  },
+  {
+    id: 'seed-course-aws-cloudops',
+    title: 'AWS CloudOps Architect - Associate',
+    subtitle: 'Operate and maintain scalable AWS environments.',
+    description: '<p>Learn monitoring, automation, and operational excellence on AWS.</p>',
+    categorySlug: 'aws-cloudops-architect',
+    instructorEmail: 'james.park@demo.digo.academy',
+    difficulty: 'INTERMEDIATE',
+    priceCents: 7900,
+    language: 'en',
+    ratingAvg: 4.8,
+    sections: [
+      { title: 'Monitoring', lessons: [ { title: 'CloudWatch', type: 'VIDEO', durationSec: 480 } ] },
+    ],
+  },
+  {
+    id: 'seed-course-aws-devops',
+    title: 'AWS DevOps Engineer – Professional',
+    subtitle: 'Master CI/CD, automation, and DevOps on AWS.',
+    description: '<p>Advanced training for the DOP-C02 exam.</p>',
+    categorySlug: 'aws-devops-engineer',
+    instructorEmail: 'james.park@demo.digo.academy',
+    difficulty: 'ADVANCED',
+    priceCents: 12900,
+    language: 'en',
+    ratingAvg: 4.9,
+    sections: [
+      { title: 'CI/CD Pipelines', lessons: [ { title: 'CodePipeline', type: 'VIDEO', durationSec: 480 } ] },
     ],
   },
 ];
@@ -224,6 +188,17 @@ async function main() {
     });
 
     for (const child of category.children ?? []) {
+      // If there's an existing category with the same name under this parent
+      // but a DIFFERENT slug, it will cause a unique constraint violation when
+      // we try to update the current slug to this new name. We remove it first.
+      const existingByName = await db.category.findFirst({
+        where: { parentId: parent.id, name: child.name }
+      });
+
+      if (existingByName && existingByName.slug !== child.slug) {
+        await db.category.delete({ where: { id: existingByName.id } });
+      }
+
       await db.category.upsert({
         where: { slug: child.slug },
         update: { name: child.name, parentId: parent.id },
@@ -274,6 +249,17 @@ async function main() {
   // Category id lookup by slug (leaf slugs included).
   const categories = await db.category.findMany({ select: { id: true, slug: true } });
   const categoryIdBySlug = new Map(categories.map((c) => [c.slug, c.id]));
+
+  // Clean up any old seed courses that are no longer in our list
+  const currentSeedCourseIds = COURSES.map(c => c.id);
+  await db.course.deleteMany({
+    where: {
+      id: {
+        startsWith: 'seed-course-',
+        notIn: currentSeedCourseIds
+      }
+    }
+  });
 
   // Showcase courses with curriculum. Sections are rebuilt each run for idempotency.
   for (const course of COURSES) {

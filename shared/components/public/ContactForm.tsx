@@ -142,7 +142,7 @@ export function ContactForm() {
           <FieldError errors={[errors.message]} />
         </Field>
 
-        <Button type="submit" size="lg" disabled={isSubmitting} className="w-full gap-2 font-semibold">
+        <Button type="submit" size="lg" disabled={isSubmitting} className="w-full gap-2 rounded-full px-7 py-2.5 shadow-sm bg-linear-to-r from-brand-blue to-[#00b4d8] text-white hover:opacity-95 uppercase tracking-wider text-xs font-bold">
           {isSubmitting ? (
             <>
               <Loader2 className="size-4 animate-spin" />

@@ -1,7 +1,7 @@
 'use client';
 
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -67,9 +67,9 @@ export function HeaderBar({ home }: { home: string | null }) {
           {[...Array(6)].map((_, i) => (
             <div key={i} className="flex items-center">
               <span className="mx-6 font-medium">Inquiry :</span>
-              <span className="mr-6">Phone number : +977 9801820900</span>
-              <span className="mr-6">
-                Email : <a href="mailto:info@digoacademy.com" className="hover:underline">info@digoacademy.com</a>
+              <span className="mr-6 flex items-center gap-1.5"><Phone className="size-3.5" /> +977 9801820900</span>
+              <span className="mr-6 flex items-center gap-1.5">
+                <Mail className="size-3.5" /> <a href="mailto:info@digoacademy.com" className="hover:underline">info@digoacademy.com</a>
               </span>
             </div>
           ))}
@@ -77,7 +77,7 @@ export function HeaderBar({ home }: { home: string | null }) {
       </div>
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-6 px-4 sm:px-6 lg:px-8">
         <Link href="/" aria-label="Digo Academy home" className="shrink-0">
-          <BrandLogo className="h-8" />
+          <BrandLogo className="h-[34px]" />
         </Link>
         <nav className="hidden items-center gap-1 sm:flex">
           {NAV_LINKS.map((link) => (
@@ -150,7 +150,6 @@ export function HeaderBar({ home }: { home: string | null }) {
 
 function HeaderActions({ home, stacked = false }: { home: string | null; stacked?: boolean }) {
   const ctaClass = cn(
-    'rounded-full bg-linear-to-r from-brand-blue to-violet-600 text-white shadow-sm transition-transform hover:scale-105 hover:opacity-95',
     stacked && 'w-full'
   );
 

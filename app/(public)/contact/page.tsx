@@ -1,6 +1,7 @@
 import { Clock, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 
 import { ContactForm } from '@/shared/components/public/ContactForm';
+import { HeroHeadline, HeroStage } from '@/shared/components/public/HeroMotion';
 import { Reveal } from '@/shared/components/public/Reveal';
 
 export const metadata = {
@@ -35,17 +36,38 @@ const CHANNELS = [
 
 export default function ContactPage() {
   return (
-    <div className="flex flex-col py-12 lg:py-16">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <Reveal className="mb-12 text-center">
-          <h1 className="font-heading text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
-            Let&apos;s talk about your future
-          </h1>
-          <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-            Have questions about prerequisites, cohort timelines, or career transitions? Reach out and we&apos;ll guide you to the right path.
-          </p>
-        </Reveal>
+    <div className="flex flex-col">
+      {/* ------------------------------------------------------------------ */}
+      {/* Header                                                             */}
+      {/* ------------------------------------------------------------------ */}
+      <section className="relative overflow-hidden bg-linear-to-b from-brand-blue/5 via-background to-background pt-12 pb-12">
+        <div className="animate-blob pointer-events-none absolute -left-32 -top-32 z-0 size-80 rounded-full bg-brand-blue/20 blur-3xl" />
+        
+        <HeroStage className="relative z-10 mx-auto w-full max-w-6xl px-4 text-center sm:px-6">
+          <Reveal>
+            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
+              Contact Us
+            </span>
+          </Reveal>
+          
+          <HeroHeadline
+            className="mx-auto mt-6 max-w-3xl font-heading text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl"
+            segments={[
+              { text: "Let's talk about" },
+              { text: 'your', accent: true },
+              { text: 'future' },
+            ]}
+          />
+          
+          <Reveal delay={200}>
+            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
+              Have questions about prerequisites, cohort timelines, or career transitions? Reach out and we&apos;ll guide you to the right path.
+            </p>
+          </Reveal>
+        </HeroStage>
+      </section>
+
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
 
         {/* Quick Action Channels */}
         <div className="mb-12 grid gap-4 sm:grid-cols-3">

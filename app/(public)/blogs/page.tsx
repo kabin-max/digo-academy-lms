@@ -13,12 +13,10 @@ export const metadata = {
 export default function BlogsPage() {
   return (
     <div className="flex flex-col">
-      <section className="relative overflow-hidden bg-linear-to-b from-brand-blue/5 via-background to-background">
-
+      <section className="relative overflow-hidden bg-linear-to-b from-brand-blue/5 via-background to-background pt-12 pb-12">
         <div className="animate-blob pointer-events-none absolute -left-32 -top-32 z-0 size-80 rounded-full bg-brand-blue/20 blur-3xl" />
-        <div className="animate-blob anim-delay-2 pointer-events-none absolute -right-24 top-10 z-0 size-72 rounded-full bg-violet-500/20 blur-3xl" />
         
-        <HeroStage className="relative z-10 mx-auto w-full max-w-6xl px-4 pt-16 text-center sm:px-6 lg:pt-24 pb-16">
+        <HeroStage className="relative z-10 mx-auto w-full max-w-6xl px-4 text-center sm:px-6">
           <Reveal>
             <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
               Blogs
@@ -26,43 +24,25 @@ export default function BlogsPage() {
           </Reveal>
           
           <HeroHeadline
-            className="mx-auto mt-6 max-w-3xl font-heading text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl"
+            className="mx-auto mt-6 max-w-3xl font-heading text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl"
             segments={[
-              { text: 'Transforming' },
-              { text: 'Nepal', accent: true },
-              { text: 'through' },
-              { text: 'Technology' },
+              { text: 'Learn.' },
+              { text: 'Explore.', accent: true },
+              { text: 'Stay' },
+              { text: 'Ahead.' },
             ]}
           />
           
-          <HeroItem>
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
-              Read our latest articles, student success stories, and insights on the evolving tech landscape in Nepal.
+          <Reveal delay={200}>
+            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
+              Practical insights, AWS guides, cloud tutorials, certification tips, and technology stories from the Digo Academy community.
             </p>
-          </HeroItem>
-          
-          <HeroItem className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Magnetic>
-              <Button
-                size="lg"
-                className="rounded-full px-7 shadow-sm bg-linear-to-r from-brand-blue to-violet-600 text-white hover:opacity-95"
-                nativeButton={false}
-                render={
-                  <Link href="/contact">
-                    Contact Us
-                    <ArrowRight className="size-4" />
-                  </Link>
-                }
-              />
-            </Magnetic>
-          </HeroItem>
-
-
+          </Reveal>
         </HeroStage>
       </section>
 
       {/* Blogs Grid */}
-      <section className="mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+      <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Latest Articles</h2>
           <p className="mt-4 text-lg text-muted-foreground">Insights and news from our community.</p>

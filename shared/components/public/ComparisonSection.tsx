@@ -28,10 +28,6 @@ export function ComparisonSection() {
 
       <div className="relative mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <Reveal className="text-center">
-          <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-blue">
-            Comparison
-          </span>
-
           <h2 className="mt-3 font-heading text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
             What Sets Digo Academy Apart<br /> From Others
           </h2>

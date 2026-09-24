@@ -22,72 +22,33 @@ interface Question {
 const QUESTIONS: Question[] = [
   {
     id: 'goal',
-    title: 'What is your primary learning goal?',
-    subtitle: 'Choose what you want to achieve in the next 3-6 months.',
+    title: 'What best describes your goal?',
+    subtitle: 'Select your primary objective to find the right AWS course.',
     options: [
       {
-        label: 'Become a Full-Stack Developer',
-        description: 'Master React, Next.js, Node.js, and build production SaaS apps.',
-        value: 'fullstack',
-      },
-      {
-        label: 'Master AI & Modern Generative Apps',
-        description: 'Learn LLMs, LangChain, vector databases, and AI agent architectures.',
-        value: 'ai',
-      },
-      {
-        label: 'Crack Tech Interviews & DSA',
-        description: 'Solve algorithms, data structures, and systemic problem solving.',
-        value: 'dsa',
-      },
-      {
-        label: 'Design Modern UI/UX Products',
-        description: 'Figma to code, design systems, micro-interactions, and spatial layouts.',
-        value: 'design',
-      },
-    ],
-  },
-  {
-    id: 'experience',
-    title: 'What is your current coding background?',
-    subtitle: 'We personalize paths for beginners as well as seasoned developers.',
-    options: [
-      {
-        label: 'Absolute Beginner',
-        description: 'No prior programming experience, ready to learn from scratch.',
+        label: "I'm completely new to AWS",
+        description: 'Start with AWS Cloud Practitioner and build your cloud foundation.',
         value: 'beginner',
       },
       {
-        label: 'Know the Basics',
-        description: 'Familiar with HTML/CSS or basic JavaScript/Python syntax.',
-        value: 'intermediate',
+        label: 'I want to understand AI on AWS',
+        description: 'Explore AWS AI and generative AI concepts with AI Practitioner.',
+        value: 'ai',
       },
       {
-        label: 'Experienced Developer',
-        description: 'Already working in tech and wanting to upskill in AI or architecture.',
-        value: 'advanced',
-      },
-    ],
-  },
-  {
-    id: 'time',
-    title: 'How much time can you commit weekly?',
-    subtitle: 'Select your realistic learning pace.',
-    options: [
-      {
-        label: '5–10 hours / week',
-        description: 'Flexible self-paced schedule with weekend office hours.',
-        value: 'part-time',
+        label: 'I want to build applications on AWS',
+        description: 'Develop cloud applications and prepare for Developer – Associate.',
+        value: 'developer',
       },
       {
-        label: '15–25 hours / week',
-        description: 'Intensive hybrid pace with live code reviews and sprints.',
-        value: 'full-time',
+        label: 'I want to design AWS infrastructure',
+        description: 'Learn architecture and prepare for Solutions Architect – Associate.',
+        value: 'architect',
       },
-      {
-        label: '30+ hours / week',
-        description: 'Full immersive bootcamp mode with daily mentorship.',
-        value: 'bootcamp',
+      { 
+        label: 'I want to become a DevOps professional',
+        description: 'Build advanced AWS automation, CI/CD, and deployment skills.',
+        value: 'devops',
       },
     ],
   },
@@ -101,37 +62,45 @@ const RECOMMENDATIONS: Record<string, {
   href: string;
   reason: string;
 }> = {
-  fullstack: {
-    title: 'Full Stack Web & Next.js Pro Bootcamp',
-    category: 'Web Development',
-    duration: '16 Weeks',
-    mode: 'Live Mentorship + Projects',
-    href: '/register',
-    reason: 'Matches your goal of mastering real-world full-stack development with hands-on capstones.',
+  beginner: {
+    title: 'AWS Cloud Practitioner',
+    category: 'AWS',
+    duration: 'Self-Paced or Live',
+    mode: 'Foundational',
+    href: '/courses/seed-course-aws-cp',
+    reason: 'Matches your goal of building a cloud foundation from scratch.',
   },
   ai: {
-    title: 'Generative AI & Agent Architecture Masterclass',
-    category: 'Artificial Intelligence',
-    duration: '12 Weeks',
-    mode: 'Live Sessions + Labs',
-    href: '/register',
-    reason: 'Perfect for learning cutting-edge AI orchestration, MCP servers, and LLM application design.',
+    title: 'AWS AI Practitioner',
+    category: 'AWS',
+    duration: 'Self-Paced or Live',
+    mode: 'Foundational',
+    href: '/courses/seed-course-aws-ai',
+    reason: 'Perfect for learning AI and Generative AI concepts on AWS.',
   },
-  dsa: {
-    title: 'Data Structures, Algorithms & Competitive Coding',
-    category: 'Computer Science',
-    duration: '10 Weeks',
-    mode: 'Problem Solving + Mocks',
-    href: '/register',
-    reason: 'Designed to build intuitive algorithmic thinking and ace top-tier technical interviews.',
+  developer: {
+    title: 'AWS Developer – Associate',
+    category: 'AWS',
+    duration: 'Self-Paced or Live',
+    mode: 'Associate',
+    href: '/courses/seed-course-aws-dev',
+    reason: 'Aligned with your goal of developing cloud applications.',
   },
-  design: {
-    title: 'Product Design, UI Engineering & Design Systems',
-    category: 'Design & Frontend',
-    duration: '8 Weeks',
-    mode: 'Portfolio Driven',
-    href: '/register',
-    reason: 'Focused on high-converting product interfaces, design systems, and frontend craftsmanship.',
+  architect: {
+    title: 'AWS Solutions Architect – Associate',
+    category: 'AWS',
+    duration: 'Self-Paced or Live',
+    mode: 'Associate',
+    href: '/courses/seed-course-aws-saa',
+    reason: 'Designed to teach you how to architect robust AWS infrastructure.',
+  },
+  devops: {
+    title: 'AWS DevOps Engineer – Professional',
+    category: 'AWS',
+    duration: 'Self-Paced or Live',
+    mode: 'Professional',
+    href: '/courses/seed-course-aws-devops',
+    reason: 'Advanced curriculum to master CI/CD and DevOps automation.',
   },
 };
 
@@ -153,18 +122,14 @@ export function CourseFinder() {
     setAnswers({});
   };
 
-  const recommendation = RECOMMENDATIONS[answers.goal] ?? RECOMMENDATIONS.fullstack;
+  const recommendation = RECOMMENDATIONS[answers.goal] ?? RECOMMENDATIONS.beginner;
 
   return (
     <div className="mx-auto w-full max-w-4xl overflow-hidden rounded-3xl border border-primary/15 bg-gradient-to-b from-primary/5 via-surface to-background p-6 shadow-xl sm:p-10">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-border/60 pb-5">
         <div>
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-brand-blue/20 bg-brand-blue/10 px-3 py-1 text-xs font-semibold text-brand-blue">
-            <Sparkles className="size-3.5" />
-            30-Second Course Finder
-          </div>
           <h2 className="mt-2 font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-            Not sure which path to take?
+            Not Sure Which AWS Course Is Right for You?
           </h2>
         </div>
 

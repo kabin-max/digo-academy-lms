@@ -171,8 +171,8 @@ export default async function HomePage() {
       <section className="relative overflow-hidden bg-linear-to-b from-brand-blue/5 via-background to-background">
         <div className="animate-blob pointer-events-none absolute -left-32 -top-32 z-0 size-80 rounded-full bg-brand-blue/20 blur-3xl" />
         <div className="animate-blob anim-delay-2 pointer-events-none absolute -right-24 top-10 z-0 size-72 rounded-full bg-violet-500/20 blur-3xl" />
-        <HeroStage className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pt-4 pb-10 lg:pt-8 lg:pb-16 flex flex-col-reverse lg:flex-row items-center justify-between gap-8 lg:gap-10">
-          <div className="text-left lg:max-w-lg">
+        <HeroStage className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pt-4 pb-6 lg:pt-8 lg:pb-12 flex flex-col-reverse lg:flex-row items-center justify-between gap-8 lg:gap-10">
+          <div className="text-left lg:max-w-lg -translate-y-5">
             <HeroHeadline
               className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:text-4xl lg:text-5xl text-brand-blue"
               segments={[
@@ -193,7 +193,7 @@ export default async function HomePage() {
               <Magnetic>
                 <Button
                   size="default"
-                  className="rounded-full px-7 py-2.5 shadow-sm bg-linear-to-r from-brand-blue to-[#00b4d8] text-white hover:opacity-95 uppercase tracking-wider text-xs font-bold"
+                  className="px-7 py-2.5"
                   nativeButton={false}
                   render={
                     <Link href="/courses">
@@ -208,7 +208,7 @@ export default async function HomePage() {
             <img 
               src="/hero-learning.png" 
               alt="Learning Illustration" 
-              className="w-full max-w-[480px] h-auto"
+              className="w-full max-w-[480px] h-auto [mask-image:radial-gradient(circle,black_60%,transparent_100%)]"
             />
           </div>
         </HeroStage>
@@ -218,7 +218,7 @@ export default async function HomePage() {
       {/* Power of dual-learning                                             */}
       {/* ------------------------------------------------------------------ */}
       <section className="bg-background">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-20">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-16">
           <Reveal>
             <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
               Dual-learning
@@ -297,34 +297,25 @@ export default async function HomePage() {
       <section id="how-it-works" className="scroll-mt-24 bg-muted/30">
         <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
           <Reveal className="mb-12 text-center">
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              Simple by design
-            </span>
             <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              How it works
+              How to enroll
             </h2>
             <p className="mt-2 text-muted-foreground">
               From browsing to your first lesson in three easy steps.
             </p>
           </Reveal>
-          <StaggerGroup className="relative grid gap-6 md:grid-cols-3" staggerChildren={0.15}>
-            {/* connector line */}
-            <div className="pointer-events-none absolute left-0 right-0 top-11 hidden border-t-2 border-dashed border-brand-blue/20 md:block" />
-            {STEPS.map((step, index) => (
-              <StaggerItem key={step.title}>
-                <div className="relative h-full rounded-2xl bg-card p-6 shadow-sm ring-1 ring-border/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  <span className="absolute right-5 top-5 font-heading text-5xl font-bold text-brand-blue/10">
-                    {index + 1}
-                  </span>
-                  <span className="relative flex size-14 items-center justify-center rounded-2xl bg-linear-to-br from-brand-blue to-violet-500 text-white shadow-md [&_svg]:size-6">
-                    <step.icon />
-                  </span>
-                  <h3 className="mt-5 font-heading text-lg font-semibold">{step.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{step.body}</p>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
+          <Reveal delay={150}>
+            <div className="mx-auto max-w-4xl overflow-hidden rounded-2xl border border-border/60 bg-card shadow-lg flex items-center justify-center relative aspect-video">
+              <iframe 
+                src="https://www.youtube.com/embed/KzHkWkmWiXk?si=Eopi8ab0J3mewCZG" 
+                title="How students enroll in our platform" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerPolicy="strict-origin-when-cross-origin" 
+                allowFullScreen
+                className="absolute top-0 left-0 w-full h-full border-0"
+              />
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -335,9 +326,6 @@ export default async function HomePage() {
         <section id="courses" className="scroll-mt-24 mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
           <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-                Popular
-              </span>
               <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
                 Trending courses
               </h2>
@@ -360,7 +348,7 @@ export default async function HomePage() {
           <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {featured.map((course) => (
               <StaggerItem key={course.id}>
-                <CourseCard course={course} hrefBase="/student/courses" showWishlist={false} />
+                <CourseCard course={course} hrefBase="/courses" showWishlist={false} />
               </StaggerItem>
             ))}
           </StaggerGroup>
@@ -425,13 +413,9 @@ export default async function HomePage() {
       {instructors.length > 0 && (
         <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
           <Reveal className="mb-8 text-center">
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              Mentors
-            </span>
             <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
               Our Best instructors
             </h2>
-            <p className="mt-2 text-muted-foreground">Learn from experienced practitioners.</p>
           </Reveal>
           <StaggerGroup className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
             {instructors.map((instructor) => (
