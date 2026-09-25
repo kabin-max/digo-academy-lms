@@ -126,15 +126,13 @@ export function CourseFinder() {
 
   return (
     <div className="mx-auto w-full max-w-4xl overflow-hidden rounded-3xl border border-primary/15 bg-gradient-to-b from-primary/5 via-surface to-background p-6 shadow-xl sm:p-10">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-border/60 pb-5">
-        <div>
-          <h2 className="mt-2 font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-            Not Sure Which AWS Course Is Right for You?
-          </h2>
-        </div>
+      <div className="mb-6 flex flex-col items-center text-center border-b border-border/60 pb-5">
+        <h2 className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+          Find Your AWS Learning Path
+        </h2>
 
         {!isComplete ? (
-          <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
+          <div className="mt-2.5 flex items-center justify-center gap-2 text-xs font-semibold text-muted-foreground">
             <span>Step {step + 1} of {QUESTIONS.length}</span>
             <div className="flex gap-1">
               {QUESTIONS.map((_, idx) => (
@@ -148,7 +146,7 @@ export function CourseFinder() {
             </div>
           </div>
         ) : (
-          <Button variant="ghost" size="sm" onClick={handleReset} className="gap-1.5 text-xs text-muted-foreground">
+          <Button variant="ghost" size="sm" onClick={handleReset} className="mt-2.5 gap-1.5 text-xs text-muted-foreground">
             <RotateCcw className="size-3.5" />
             Start over
           </Button>
@@ -163,11 +161,11 @@ export function CourseFinder() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.2 }}
-            className="space-y-4"
+            className="space-y-6"
           >
-            <div>
+            <div className="text-center">
               <h3 className="text-lg font-semibold text-foreground sm:text-xl">{currentQ.title}</h3>
-              <p className="text-sm text-muted-foreground">{currentQ.subtitle}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{currentQ.subtitle}</p>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">

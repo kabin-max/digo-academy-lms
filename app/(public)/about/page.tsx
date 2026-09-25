@@ -1,4 +1,4 @@
-import { ArrowRight, Cloud, Server, Database, Code, Cpu, Link as LinkIcon, BadgeCheck, BookOpen, Target, Rocket } from 'lucide-react';
+import { ArrowRight, Cloud, Server, Database, Code, Cpu, Link as LinkIcon, BadgeCheck, BookOpen, Target, Rocket, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -143,15 +143,15 @@ export default function AboutPage() {
                   <span className="text-[10px] font-bold text-muted-foreground tracking-widest mt-2 uppercase">Cloud / Consulting / Training</span>
                 </div>
                 <div className="flex flex-col sm:flex-row items-center gap-6 mt-auto">
-                  <div className="flex-1 w-full flex justify-center">
-                    <Image src="/Cloud.png" alt="Cloud Infrastructure" width={160} height={160} className="object-contain" />
+                  <div className="flex-1 w-full flex justify-center items-center h-40">
+                    <Image src="/Cloud.png" alt="Cloud Infrastructure" width={160} height={160} className="object-contain max-h-40 w-auto" />
                   </div>
-                  <div className="flex-1 w-full flex sm:justify-end">
+                  <div className="flex-1 w-full flex sm:justify-start">
                     <ul className="space-y-4 text-sm font-medium text-slate-700">
-                      <li className="flex items-center gap-3"><Server className="size-5 text-blue-500" /> Cloud Consulting</li>
-                      <li className="flex items-center gap-3"><Database className="size-5 text-blue-500" /> Cloud Migration</li>
-                      <li className="flex items-center gap-3"><Cpu className="size-5 text-blue-500" /> DevOps</li>
-                      <li className="flex items-center gap-3"><Code className="size-5 text-blue-500" /> Cloud-Native Apps</li>
+                      <li className="flex items-center gap-3"><Server className="size-5 text-blue-500 shrink-0" /> Cloud Consulting</li>
+                      <li className="flex items-center gap-3"><Database className="size-5 text-blue-500 shrink-0" /> Cloud Migration</li>
+                      <li className="flex items-center gap-3"><Cpu className="size-5 text-blue-500 shrink-0" /> DevOps</li>
+                      <li className="flex items-center gap-3"><Code className="size-5 text-blue-500 shrink-0" /> Cloud-Native Apps</li>
                     </ul>
                   </div>
                 </div>
@@ -170,16 +170,17 @@ export default function AboutPage() {
                   <Image src="/brand-logo.png" alt="Digo Academy" width={180} height={50} className="object-contain h-10 w-auto self-start" />
                   <span className="text-[10px] font-bold text-muted-foreground tracking-widest mt-2 uppercase">Cloud / DevOps / AI</span>
                 </div>
-                <div className="flex flex-col-reverse sm:flex-row items-center gap-6 relative z-10 mt-auto">
-                  <div className="flex-1 w-full">
-                    <ul className="space-y-4 text-sm font-medium text-slate-700 ml-2">
-                      <li className="flex items-center gap-3"><BookOpen className="size-5 text-blue-500" /> Learn</li>
-                      <li className="flex items-center gap-3"><Target className="size-5 text-blue-500" /> Practice</li>
-                      <li className="flex items-center gap-3"><Rocket className="size-5 text-blue-500" /> Build</li>
-                    </ul>
+                <div className="flex flex-col sm:flex-row items-center gap-6 mt-auto">
+                  <div className="flex-1 w-full flex justify-center items-center h-40">
+                    <Image src="/Learning.png" alt="Learning" width={160} height={160} className="object-contain max-h-40 w-auto" />
                   </div>
-                  <div className="flex-1 w-full flex justify-center">
-                    <Image src="/Learning.png" alt="Learning" width={160} height={160} className="object-contain" />
+                  <div className="flex-1 w-full flex sm:justify-start">
+                    <ul className="space-y-4 text-sm font-medium text-slate-700">
+                      <li className="flex items-center gap-3"><BookOpen className="size-5 text-blue-500 shrink-0" /> Learn</li>
+                      <li className="flex items-center gap-3"><Target className="size-5 text-blue-500 shrink-0" /> Practice</li>
+                      <li className="flex items-center gap-3"><Rocket className="size-5 text-blue-500 shrink-0" /> Build</li>
+                      <li className="flex items-center gap-3"><TrendingUp className="size-5 text-blue-500 shrink-0" /> Grow</li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -205,9 +206,6 @@ export default function AboutPage() {
       {/* 4. Learn from Cloud Professionals */}
       <section className="mx-auto w-full max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
         <Reveal className="mb-12 text-center max-w-3xl mx-auto">
-          <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-            Our Team
-          </span>
           <h2 className="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Learn from Certified Cloud Professionals
           </h2>
@@ -223,11 +221,11 @@ export default function AboutPage() {
                 <Image 
                   src={cert.image} 
                   alt={cert.name} 
-                  width={124} 
-                  height={124} 
-                  className="object-contain w-[99px] h-[99px] sm:w-[124px] sm:h-[124px] drop-shadow-sm" 
+                  width={137} 
+                  height={137} 
+                  className="object-contain w-[110px] h-[110px] sm:w-[137px] sm:h-[137px] drop-shadow-sm" 
                 />
-                <span className="font-medium text-xs text-foreground text-center max-w-[140px] hidden sm:block">{cert.name}</span>
+                <span className="font-medium text-xs text-foreground text-center max-w-[150px] hidden sm:block">{cert.name}</span>
               </div>
             </StaggerItem>
           ))}

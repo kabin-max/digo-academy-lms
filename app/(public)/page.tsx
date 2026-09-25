@@ -4,6 +4,7 @@ import {
   BadgeCheck,
   BarChart3,
   BookOpen,
+  Briefcase,
   Camera,
   ClipboardList,
   Code2,
@@ -20,6 +21,7 @@ import {
   ShieldCheck,
   Sparkles,
   Star,
+  Terminal,
   Users,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -107,28 +109,28 @@ const STEPS = [
 
 const FEATURES = [
   {
-    icon: Radio,
-    title: 'Live cohorts',
-    body: 'Real-time classes over Google Meet — learn alongside a group with a mentor guiding every session.',
+    icon: Briefcase,
+    title: 'Real-World Projects',
+    body: 'Build cloud environments and applications based on practical scenarios.',
     className: 'bg-brand-blue/10 text-brand-blue',
   },
   {
-    icon: MonitorPlay,
-    title: 'Self-paced tracks',
-    body: 'Recorded lessons, notes, and resources you can revisit anytime, on any device.',
+    icon: Terminal,
+    title: 'Hands-On Cloud Labs',
+    body: 'Work directly with AWS services instead of learning only through theory.',
+    className: 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400',
+  },
+  {
+    icon: Users,
+    title: 'Industry Mentors',
+    body: 'Learn from practitioners working with cloud, DevOps, and modern infrastructure.',
     className: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
   },
   {
-    icon: BadgeCheck,
-    title: 'Expert instructors',
-    body: 'Learn from vetted practitioners who apply these skills in the field every day.',
+    icon: Award,
+    title: 'Certification + Skills',
+    body: 'Prepare for certification while developing skills you can actually use.',
     className: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Certificates',
-    body: 'Earn a shareable certificate of completion to showcase your new skills.',
-    className: 'bg-amber-500/10 text-amber-600 dark:text-amber-500',
   },
 ];
 
@@ -327,10 +329,10 @@ export default async function HomePage() {
           <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-                Trending courses
+                Explore Our Courses
               </h2>
               <p className="mt-2 text-muted-foreground">
-                Industry-relevant skills taught by mentors from top companies.
+                Build practical skills through certification-focused and career-oriented learning paths.
               </p>
             </div>
             <div className="flex items-center gap-1 rounded-full border border-border/70 bg-card p-1 shadow-sm">
@@ -369,16 +371,12 @@ export default async function HomePage() {
       {/* ------------------------------------------------------------------ */}
       <section className="bg-muted/30">
         <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-          <Reveal className="mb-10 max-w-2xl">
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              Why Digo
-            </span>
+          <Reveal className="mb-10 max-w-2xl mx-auto text-center">
             <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              Everything you need to learn with confidence
+              Learn From People Who Build With Cloud
             </h2>
             <p className="mt-2 text-muted-foreground">
-              A learning experience built for outcomes — flexible formats, real mentorship, and
-              recognized results.
+              What makes Digo Academy different: practical real-world scenarios, hands-on AWS labs, direct industry mentorship, and career-ready certification skills.
             </p>
           </Reveal>
           <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
