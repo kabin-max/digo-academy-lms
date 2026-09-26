@@ -96,13 +96,13 @@ export function ContactForm() {
         <div className="grid gap-4 sm:grid-cols-2">
           <Field>
             <FieldLabel htmlFor="contact-name">Full Name</FieldLabel>
-            <Input id="contact-name" placeholder="John Doe" {...register('name')} />
+            <Input id="contact-name" placeholder="Kaka" {...register('name')} />
             <FieldError errors={[errors.name]} />
           </Field>
 
           <Field>
             <FieldLabel htmlFor="contact-email">Email Address</FieldLabel>
-            <Input id="contact-email" type="email" placeholder="john@example.com" {...register('email')} />
+            <Input id="contact-email" type="email" placeholder="kaka@example.com" {...register('email')} />
             <FieldError errors={[errors.email]} />
           </Field>
         </div>

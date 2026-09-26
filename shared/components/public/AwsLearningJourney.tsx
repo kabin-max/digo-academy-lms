@@ -390,7 +390,7 @@ export function AwsLearningJourney() {
                     </div>
                     <div>
                       <h4 className="font-heading text-lg font-bold text-foreground sm:text-xl">
-                        AWS Developer – Associate
+                        AWS Developer - Associate
                       </h4>
                       <p className="mt-1 text-xs text-muted-foreground">
                         Code, deploy & debug cloud-native serverless applications.
@@ -473,7 +473,7 @@ export function AwsLearningJourney() {
                     </div>
                     <div>
                       <h4 className="font-heading text-lg font-bold text-foreground sm:text-xl">
-                        AWS Solutions Architect – Associate
+                        AWS Solutions Architect - Associate
                       </h4>
                       <p className="mt-1 text-xs text-muted-foreground">
                         Design resilient, highly available & cost-optimized systems.
@@ -565,7 +565,7 @@ export function AwsLearningJourney() {
                         </h3>
                       </div>
                       <p className="mt-1 font-semibold text-sm text-violet-600 dark:text-violet-400">
-                        AWS Certified DevOps Engineer – Professional (DOP-C02)
+                        AWS Certified DevOps Engineer - Professional (DOP-C02)
                       </p>
                       <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-xl">
                         Unite developer agility and architectural robustness. Master Infrastructure as Code, continuous delivery, automated guardrails, and enterprise multi-account governance.

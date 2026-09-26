@@ -54,13 +54,13 @@ export function LoginForm({
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <FieldGroup>
           <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
-            <Input id="email" type="email" autoComplete="email" {...register('email')} />
+            <FieldLabel htmlFor="email">Email <span className="text-destructive">*</span></FieldLabel>
+            <Input id="email" type="email" autoComplete="email" placeholder="kaka@example.com" {...register('email')} />
             <FieldError errors={[errors.email]} />
           </Field>
           <Field>
             <div className="flex items-center justify-between">
-              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <FieldLabel htmlFor="password">Password <span className="text-destructive">*</span></FieldLabel>
               <Link
                 href="/forgot-password"
                 className="text-sm text-muted-foreground underline-offset-4 hover:underline"
@@ -68,7 +68,7 @@ export function LoginForm({
                 Forgot password?
               </Link>
             </div>
-            <PasswordInput id="password" autoComplete="current-password" {...register('password')} />
+            <PasswordInput id="password" autoComplete="current-password" placeholder="Enter your password" {...register('password')} />
             <FieldError errors={[errors.password]} />
           </Field>
           <Button type="submit" size="lg" className="mt-1 w-full" disabled={isSubmitting}>

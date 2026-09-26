@@ -84,11 +84,6 @@ export default function InstructorsPage() {
     <div className="flex flex-col min-h-screen bg-[#F8F9FC]">
       <section className="relative overflow-hidden pt-12 pb-8">
         <HeroStage className="relative z-10 mx-auto w-full max-w-4xl px-4 text-center sm:px-6">
-          <Reveal>
-            <span className="text-sm font-semibold uppercase tracking-wide text-[#1A4199]">
-              Instructors
-            </span>
-          </Reveal>
           <HeroHeadline
             className="mx-auto mt-6 max-w-3xl font-heading text-4xl font-semibold leading-[1.1] tracking-tight text-[#0F172A] sm:text-5xl"
             segments={[

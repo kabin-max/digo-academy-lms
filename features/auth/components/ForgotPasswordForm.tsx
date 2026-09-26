@@ -44,8 +44,8 @@ export function ForgotPasswordForm() {
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <FieldGroup>
         <Field>
-          <FieldLabel htmlFor="email">Email</FieldLabel>
-          <Input id="email" type="email" autoComplete="email" {...register('email')} />
+          <FieldLabel htmlFor="email">Email <span className="text-destructive">*</span></FieldLabel>
+          <Input id="email" type="email" autoComplete="email" placeholder="kaka@example.com" {...register('email')} />
           <FieldError errors={[errors.email]} />
         </Field>
         <Button type="submit" disabled={isSubmitting}>

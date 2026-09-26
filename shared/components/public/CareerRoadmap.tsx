@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Cloud, 
-  Code, 
-  Settings, 
-  GitBranch, 
-  Database, 
-  BrainCircuit, 
-  CheckCircle2, 
+import {
+  Cloud,
+  Code,
+  Settings,
+  GitBranch,
+  Database,
+  BrainCircuit,
+  CheckCircle2,
   ArrowRight,
   ChevronRight,
   Shield,
@@ -28,12 +28,12 @@ import aiPractitionerImg from './Cert/AI_practitioner.png';
 
 const certImages: Record<string, any> = {
   'AWS Certified Cloud Practitioner': cloudPractitionerImg,
-  'AWS Certified Solutions Architect – Associate': solutionArchitectAssociateImg,
-  'AWS Certified Solutions Architect – Professional': solutionArchitectProfessionalImg,
-  'AWS Certified Developer – Associate': developerAssociateImg,
-  'AWS Certified DevOps Engineer – Professional': devopsEngineerProfessionalImg,
+  'AWS Certified Solutions Architect - Associate': solutionArchitectAssociateImg,
+  'AWS Certified Solutions Architect - Professional': solutionArchitectProfessionalImg,
+  'AWS Certified Developer - Associate': developerAssociateImg,
+  'AWS Certified DevOps Engineer - Professional': devopsEngineerProfessionalImg,
   'AWS Certified AI Practitioner': aiPractitionerImg,
-  'AWS Certified Developer – Associate or CloudOps Engineer – Associate': developerAssociateImg,
+  'AWS Certified Developer - Associate or CloudOps Engineer - Associate': developerAssociateImg,
 };
 
 import { cn } from '@/shared/utils/cn';
@@ -62,11 +62,11 @@ const CAREER_PATHS: CareerPath[] = [
     icon: Cloud,
     certifications: [
       'AWS Certified Cloud Practitioner',
-      'AWS Certified Solutions Architect – Associate',
-      'AWS Certified Solutions Architect – Professional'
+      'AWS Certified Solutions Architect - Associate',
+      'AWS Certified Solutions Architect - Professional'
     ],
     skills: ['Cloud Architecture', 'Networking', 'Security', 'High Availability', 'Cost Optimization', 'Infrastructure Design'],
-    courses: ['AWS Cloud Practitioner', 'AWS Solutions Architect – Associate', 'AWS Solutions Architect – Professional'],
+    courses: ['AWS Cloud Practitioner', 'AWS Solutions Architect - Associate', 'AWS Solutions Architect - Professional'],
     color: 'bg-blue-500 text-white shadow-blue-500/20'
   },
   {
@@ -77,11 +77,11 @@ const CAREER_PATHS: CareerPath[] = [
     icon: Code,
     certifications: [
       'AWS Certified Cloud Practitioner',
-      'AWS Certified Developer – Associate',
-      'AWS Certified DevOps Engineer – Professional'
+      'AWS Certified Developer - Associate',
+      'AWS Certified DevOps Engineer - Professional'
     ],
     skills: ['Programming', 'APIs', 'AWS Services', 'Application Development', 'CI/CD', 'Containers'],
-    courses: ['AWS Cloud Practitioner', 'AWS Developer – Associate', 'AWS DevOps Engineer – Professional'],
+    courses: ['AWS Cloud Practitioner', 'AWS Developer - Associate', 'AWS DevOps Engineer - Professional'],
     color: 'bg-indigo-500 text-white shadow-indigo-500/20'
   },
   {
@@ -92,10 +92,10 @@ const CAREER_PATHS: CareerPath[] = [
     icon: Settings,
     certifications: [
       'AWS Certified Cloud Practitioner',
-      'AWS Certified CloudOps Engineer – Associate'
+      'AWS Certified CloudOps Engineer - Associate'
     ],
     skills: ['AWS Operations', 'Monitoring', 'Networking', 'Security', 'Reliability', 'Automation'],
-    courses: ['AWS Cloud Practitioner', 'AWS CloudOps Engineer – Associate'],
+    courses: ['AWS Cloud Practitioner', 'AWS CloudOps Engineer - Associate'],
     color: 'bg-cyan-500 text-white shadow-cyan-500/20'
   },
   {
@@ -105,11 +105,11 @@ const CAREER_PATHS: CareerPath[] = [
     description: 'Progress from cloud development and operations into advanced DevOps practices.',
     icon: GitBranch,
     certifications: [
-      'AWS Certified Developer – Associate or CloudOps Engineer – Associate',
-      'AWS Certified DevOps Engineer – Professional'
+      'AWS Certified Developer - Associate or CloudOps Engineer - Associate',
+      'AWS Certified DevOps Engineer - Professional'
     ],
     skills: ['Linux', 'Git', 'CI/CD', 'Docker', 'Infrastructure as Code', 'Automation', 'AWS', 'Monitoring', 'Containers'],
-    courses: ['AWS Developer / CloudOps', 'AWS DevOps Engineer – Professional'],
+    courses: ['AWS Developer / CloudOps', 'AWS DevOps Engineer - Professional'],
     color: 'bg-violet-500 text-white shadow-violet-500/20'
   },
   {
@@ -120,10 +120,10 @@ const CAREER_PATHS: CareerPath[] = [
     icon: Database,
     certifications: [
       'AWS Certified Cloud Practitioner',
-      'AWS Certified Data Engineer – Associate'
+      'AWS Certified Data Engineer - Associate'
     ],
     skills: ['Data Pipelines', 'Databases', 'ETL', 'Data Lakes', 'Analytics', 'Data Processing'],
-    courses: ['AWS Cloud Practitioner', 'AWS Data Engineer – Associate'],
+    courses: ['AWS Cloud Practitioner', 'AWS Data Engineer - Associate'],
     color: 'bg-sky-500 text-white shadow-sky-500/20'
   },
   {
@@ -134,10 +134,10 @@ const CAREER_PATHS: CareerPath[] = [
     icon: BrainCircuit,
     certifications: [
       'AWS Certified AI Practitioner',
-      'AWS Certified Machine Learning Engineer – Associate'
+      'AWS Certified Machine Learning Engineer - Associate'
     ],
     skills: ['AI Fundamentals', 'Machine Learning', 'Data', 'Model Deployment', 'AWS AI Services', 'MLOps Fundamentals'],
-    courses: ['AWS AI Practitioner', 'AWS Machine Learning Engineer – Associate'],
+    courses: ['AWS AI Practitioner', 'AWS Machine Learning Engineer - Associate'],
     color: 'bg-blue-600 text-white shadow-blue-600/20'
   }
 ];
@@ -150,9 +150,6 @@ export function CareerRoadmap() {
   return (
     <section className="w-full max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto font-sans">
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <p className="text-sm font-semibold tracking-wider text-brand-blue uppercase mb-3">
-          CAREER + CERTIFICATION ROADMAP
-        </p>
         <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight mb-6">
           Where Can Your Cloud Skills Take You?
         </h2>
@@ -163,15 +160,15 @@ export function CareerRoadmap() {
 
       <div className="relative mb-24">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
-          
+
           {/* Roadmap Selector */}
           <div className="w-full lg:w-1/3 flex flex-col items-center lg:items-end relative z-10">
             {/* Foundation Node */}
             <div className="w-full max-w-sm mb-8 lg:mb-12 group cursor-pointer" onClick={() => setActivePath(null)}>
               <div className={cn(
                 "relative p-6 rounded-2xl border-2 transition-all duration-300",
-                activePath === null 
-                  ? "border-brand-blue bg-white shadow-xl shadow-brand-blue/10 scale-105 z-10" 
+                activePath === null
+                  ? "border-brand-blue bg-white shadow-xl shadow-brand-blue/10 scale-105 z-10"
                   : "border-slate-200 bg-slate-50/80 hover:border-brand-blue/50 hover:bg-white"
               )}>
                 <div className="flex items-center gap-4 mb-3">
@@ -193,17 +190,17 @@ export function CareerRoadmap() {
             <div className="w-full max-w-sm flex flex-col gap-4 relative">
               {/* Connector Line (Desktop) */}
               <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-px bg-slate-200 translate-x-8 -translate-y-12"></div>
-              
+
               {CAREER_PATHS.map((path, index) => {
                 const isActive = activePath === path.id;
                 const Icon = path.icon;
-                
+
                 return (
                   <div key={path.id} className="relative w-full">
                     {/* Horizontal connector to line */}
                     <div className="hidden lg:block absolute right-0 top-1/2 w-8 h-px bg-slate-200 translate-x-8"></div>
                     {isActive && (
-                      <motion.div 
+                      <motion.div
                         layoutId="active-connector"
                         className="hidden lg:block absolute right-0 top-1/2 w-8 h-0.5 bg-brand-blue translate-x-8 z-10"
                       />
@@ -214,13 +211,13 @@ export function CareerRoadmap() {
                       onClick={() => setActivePath(path.id)}
                       className={cn(
                         "w-full text-left p-4 rounded-xl border transition-all duration-300 flex items-center gap-4 group relative overflow-hidden",
-                        isActive 
-                          ? "border-transparent bg-white shadow-xl scale-[1.02] z-10" 
+                        isActive
+                          ? "border-transparent bg-white shadow-xl scale-[1.02] z-10"
                           : "border-slate-200 bg-white hover:border-brand-blue/30 hover:shadow-md opacity-80 hover:opacity-100"
                       )}
                     >
                       {isActive && (
-                        <motion.div 
+                        <motion.div
                           layoutId="active-bg"
                           className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50/50 border border-brand-blue/30 rounded-xl"
                         />
@@ -282,7 +279,7 @@ export function CareerRoadmap() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div>
                       <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                         <CheckCircle2 className="size-4 text-brand-blue" />
@@ -304,11 +301,16 @@ export function CareerRoadmap() {
                       <p className="text-sm text-slate-500 mb-1">Recommended Course</p>
                       <p className="font-semibold text-slate-900">AWS Cloud Practitioner</p>
                     </div>
-                    <Button asChild className="bg-brand-blue hover:bg-brand-blue/90 rounded-full px-8">
-                      <Link href="/courses">
-                        Explore Courses <ArrowRight className="ml-2 size-4" />
-                      </Link>
-                    </Button>
+                    <Button
+                      className="bg-brand-blue hover:bg-brand-blue/90 rounded-full px-8"
+                      render={
+                        <Link href="/courses">
+                          <span className="flex items-center justify-center gap-2 whitespace-nowrap">
+                            Explore Courses <ArrowRight className="size-4" />
+                          </span>
+                        </Link>
+                      }
+                    />
                   </div>
                 </motion.div>
               ) : (
@@ -326,7 +328,7 @@ export function CareerRoadmap() {
                         <span className="inline-block px-3 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase tracking-widest">
                           {selectedPath.title}
                         </span>
-                        <button 
+                        <button
                           onClick={() => setActivePath(null)}
                           className="text-xs text-slate-400 hover:text-slate-600 font-medium transition-colors"
                         >
@@ -356,7 +358,7 @@ export function CareerRoadmap() {
                                 ) : (
                                   <div className={cn(
                                     "shrink-0 w-12 h-12 rounded-full border-4 border-white flex items-center justify-center font-bold text-sm z-10 shadow-sm",
-                                    i === selectedPath.certifications.length - 1 
+                                    i === selectedPath.certifications.length - 1
                                       ? selectedPath.color
                                       : "bg-slate-100 text-slate-500"
                                   )}>
@@ -364,13 +366,13 @@ export function CareerRoadmap() {
                                   </div>
                                 )}
                                 <div className="pt-2.5">
-                                  {cert.split(' – ').length > 1 ? (
+                                  {cert.split(' - ').length > 1 ? (
                                     <>
-                                      <p className="font-semibold text-slate-900">{cert.split(' – ')[0]}</p>
-                                      <p className={cn("text-sm font-medium", 
+                                      <p className="font-semibold text-slate-900">{cert.split(' - ')[0]}</p>
+                                      <p className={cn("text-sm font-medium",
                                         i === selectedPath.certifications.length - 1 ? "text-brand-blue" : "text-slate-500"
                                       )}>
-                                        {cert.split(' – ')[1]}
+                                        {cert.split(' - ')[1]}
                                       </p>
                                     </>
                                   ) : (
@@ -417,11 +419,16 @@ export function CareerRoadmap() {
                       </div>
 
                       <div className="pt-8">
-                        <Button asChild className="w-full sm:w-auto bg-brand-blue hover:bg-brand-blue/90 rounded-full px-8 h-12 text-base">
-                          <Link href="/courses">
-                            Explore {selectedPath.title} Path <ArrowRight className="ml-2 size-4" />
-                          </Link>
-                        </Button>
+                        <Button
+                          className="w-full sm:w-auto bg-brand-blue hover:bg-brand-blue/90 rounded-full px-8 h-12 text-base"
+                          render={
+                            <Link href="/courses">
+                              <span className="flex items-center justify-center gap-2 whitespace-nowrap">
+                                Explore {selectedPath.title} Path <ArrowRight className="size-4" />
+                              </span>
+                            </Link>
+                          }
+                        />
                       </div>
                     </div>
                   </motion.div>

@@ -44,12 +44,6 @@ export default function ContactPage() {
         <div className="animate-blob pointer-events-none absolute -left-32 -top-32 z-0 size-80 rounded-full bg-brand-blue/20 blur-3xl" />
         
         <HeroStage className="relative z-10 mx-auto w-full max-w-6xl px-4 text-center sm:px-6">
-          <Reveal>
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              Contact Us
-            </span>
-          </Reveal>
-          
           <HeroHeadline
             className="mx-auto mt-6 max-w-3xl font-heading text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl"
             segments={[
@@ -147,7 +141,7 @@ export default function ContactPage() {
                   <div>
                     <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Support Hours</p>
                     <p className="font-medium text-foreground">
-                      Mon – Sat: 9:00 AM – 7:00 PM NPT
+                      Mon - Sat: 9:00 AM - 7:00 PM NPT
                     </p>
                   </div>
                 </div>

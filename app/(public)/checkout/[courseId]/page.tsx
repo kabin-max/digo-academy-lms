@@ -135,7 +135,7 @@ export default function CheckoutPage() {
                       id="co-email"
                       type="email"
                       required
-                      placeholder="jane@example.com"
+                      placeholder="kaka@example.com"
                       value={details.email}
                       onChange={(e) => setDetails({ ...details, email: e.target.value })}
                     />

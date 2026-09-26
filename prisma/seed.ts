@@ -119,7 +119,7 @@ const COURSES: {
   },
   {
     id: 'seed-course-aws-dev',
-    title: 'AWS Developer – Associate',
+    title: 'AWS Developer - Associate',
     subtitle: 'Develop robust, scalable cloud applications on AWS.',
     description: '<p>Comprehensive training for the DVA-C02 exam.</p>',
     categorySlug: 'aws-developer',
@@ -134,7 +134,7 @@ const COURSES: {
   },
   {
     id: 'seed-course-aws-saa',
-    title: 'AWS Solutions Architect – Associate',
+    title: 'AWS Solutions Architect - Associate',
     subtitle: 'Design high-performing, secure AWS architectures.',
     description: '<p>Pass the SAA-C03 exam with hands-on architecture labs.</p>',
     categorySlug: 'aws-solutions-architect',
@@ -164,7 +164,7 @@ const COURSES: {
   },
   {
     id: 'seed-course-aws-devops',
-    title: 'AWS DevOps Engineer – Professional',
+    title: 'AWS DevOps Engineer - Professional',
     subtitle: 'Master CI/CD, automation, and DevOps on AWS.',
     description: '<p>Advanced training for the DOP-C02 exam.</p>',
     categorySlug: 'aws-devops-engineer',

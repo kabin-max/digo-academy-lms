@@ -23,6 +23,15 @@ import {
   Users,
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
+
+import certAI from '@/shared/components/public/Cert/AI_practitioner.png';
+import certSecurity from '@/shared/components/public/Cert/Aws_security_specialist.webp';
+import certCloudPractitioner from '@/shared/components/public/Cert/cloudPractitioner.png';
+import certDeveloper from '@/shared/components/public/Cert/developerAssociate.png';
+import certDevOps from '@/shared/components/public/Cert/devopsEngineerProfessional.png';
+import certSAA from '@/shared/components/public/Cert/solutionArchitectAssociate.png';
+import certSAP from '@/shared/components/public/Cert/solutionArchitectProfessional.png';
 
 import { CourseCard } from '@/features/marketplace/components/CourseCard';
 import {
@@ -39,6 +48,16 @@ import { ComparisonSection } from '@/shared/components/public/ComparisonSection'
 import { ReviewsAndFaqSection } from '@/shared/components/public/ReviewsAndFaqSection';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/utils/cn';
+
+const AWS_CERTS = [
+  { name: 'AWS Certified Cloud Practitioner', image: certCloudPractitioner },
+  { name: 'AWS Certified AI Practitioner', image: certAI },
+  { name: 'AWS Certified Solutions Architect - Associate', image: certSAA },
+  { name: 'AWS Certified Developer - Associate', image: certDeveloper },
+  { name: 'AWS Certified DevOps Engineer - Professional', image: certDevOps },
+  { name: 'AWS Certified Solutions Architect - Professional', image: certSAP },
+  { name: 'AWS Certified Security - Specialty', image: certSecurity },
+];
 
 const DEFAULT_FILTERS: CourseFilters = {
   q: '',
@@ -203,21 +222,52 @@ className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:
       </section>
 
       {/* ------------------------------------------------------------------ */}
+      {/* Learn from Cloud Professionals                                     */}
+      {/* ------------------------------------------------------------------ */}
+      <section className="mx-auto w-full max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
+        <Reveal className="mb-12 text-center max-w-3xl mx-auto">
+          <h2 className="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Learn from Certified, Become Certified
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground">
+            Our training is supported by professionals with hands-on experience in AWS and modern cloud technologies. Our team includes AWS-certified professionals who bring practical knowledge from real cloud infrastructure and DevOps environments into our training programs.
+          </p>
+        </Reveal>
+
+        <StaggerGroup className="flex flex-wrap justify-center items-center gap-6 sm:gap-10">
+          {AWS_CERTS.map((cert) => (
+            <StaggerItem key={cert.name}>
+              <div className="flex flex-col items-center justify-center gap-3 p-2 transition-transform hover:-translate-y-1">
+                <Image 
+                  src={cert.image} 
+                  alt={cert.name} 
+                  width={137} 
+                  height={137} 
+                  className="object-contain w-[110px] h-[110px] sm:w-[137px] sm:h-[137px] drop-shadow-sm" 
+                />
+                <span className="font-medium text-xs text-foreground text-center max-w-[150px] hidden sm:block">{cert.name}</span>
+              </div>
+            </StaggerItem>
+          ))}
+        </StaggerGroup>
+      </section>
+
+      {/* ------------------------------------------------------------------ */}
       {/* Power of dual-learning                                             */}
       {/* ------------------------------------------------------------------ */}
       <section className="relative overflow-hidden bg-background">
         <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 size-96 rounded-full bg-brand-blue/5 blur-3xl" />
         <div className="pointer-events-none absolute right-0 bottom-0 size-80 rounded-full bg-violet-500/5 blur-3xl" />
         
-        <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 lg:px-8 lg:py-20">
+        <div className="relative mx-auto grid w-full max-w-6xl items-center gap-y-8 gap-x-12 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-y-8 lg:gap-x-16 lg:px-8 lg:py-20">
           {/* Section Title - Centered Container, Left-Aligned Text */}
-          <div className="lg:col-span-2 mb-8 flex justify-center">
-            <div className="text-left">
+          <div className="lg:col-span-2 flex justify-center">
+            <div className="text-center">
               <Reveal>
                 <h2 className="font-heading text-4xl font-bold tracking-tight sm:text-5xl text-foreground">
                   The power of dual-learning
                 </h2>
-                <p className="mt-2 text-base text-muted-foreground leading-relaxed max-w-2xl">
+                <p className="mt-2 text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto">
                   Digo Academy combines the best of both worlds—structured guidance with the flexibility you need.
                 </p>
               </Reveal>
@@ -245,18 +295,6 @@ className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:
                     Real-time interaction with industry experts, weekly milestones, and peer
                     accountability to keep you on track with personalized mentorship.
                   </p>
-                  
-                  {/* Progress indicator */}
-                  <div className="mt-4 flex items-center gap-2">
-                    <div className="flex gap-1">
-                      {[1,2,3,4,5].map(i => (
-                        <div key={i} className="h-1 w-3 rounded-full bg-brand-blue/20 group-hover:bg-brand-blue transition-all duration-300" style={{transitionDelay: `${i * 50}ms`}} />
-                      ))}
-                    </div>
-                    <span className="text-xs font-medium text-brand-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200">
-                      Interactive Learning
-                    </span>
-                  </div>
                 </div>
               </div>
               
@@ -278,18 +316,6 @@ className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:
                     Binge-worthy video content, interactive labs, and lifetime access to
                     resources so you can learn at your own pace with complete flexibility.
                   </p>
-                  
-                  {/* Progress indicator */}
-                  <div className="mt-4 flex items-center gap-2">
-                    <div className="flex gap-1">
-                      {[1,2,3,4,5].map(i => (
-                        <div key={i} className="h-1 w-3 rounded-full bg-violet-500/20 group-hover:bg-violet-500 transition-all duration-300" style={{transitionDelay: `${i * 50}ms`}} />
-                      ))}
-                    </div>
-                    <span className="text-xs font-medium text-violet-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200">
-                      Flexible Learning
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -443,60 +469,6 @@ className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:
         </section>
       )}
 
-      {/* ------------------------------------------------------------------ */}
-      {/* Course Finder                                                      */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <Reveal className="mb-8 text-center">
-          <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl text-foreground">
-            Not Sure Which AWS Course Is Right for You?
-          </h2>
-          <p className="mt-2 text-muted-foreground">
-            Take our quick assessment to get personalized course recommendations
-          </p>
-        </Reveal>
-        <Reveal delay={150}>
-          <CourseFinder />
-        </Reveal>
-      </section>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* Why choose us                                                      */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="bg-muted/30">
-        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-          <Reveal className="mb-10 max-w-2xl mx-auto text-center">
-            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl text-foreground">
-              Learn From People Who Build With Cloud
-            </h2>
-            <p className="mt-2 text-muted-foreground">
-              What makes Digo Academy different: practical real-world scenarios, hands-on AWS labs, direct industry mentorship, and career-ready certification skills.
-            </p>
-          </Reveal>
-          <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {FEATURES.map((feature) => (
-              <StaggerItem key={feature.title}>
-                <div className="group h-full rounded-2xl bg-card p-6 shadow-sm ring-1 ring-border/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  <span
-                    className={cn(
-                      'flex size-12 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 [&_svg]:size-6',
-                      feature.className
-                    )}
-                  >
-                    <feature.icon />
-                  </span>
-                  <h3 className="mt-4 font-heading text-base font-semibold text-foreground">{feature.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{feature.body}</p>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* Comparison: Us vs Others                                           */}
-      {/* ------------------------------------------------------------------ */}
       <ComparisonSection />
 
       {/* ------------------------------------------------------------------ */}
@@ -507,7 +479,7 @@ className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:
           <Reveal className="mb-8 text-center">
             <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl text-foreground">
               Our Instructors
-            </h2>
+            </h2> 
           </Reveal>
           <StaggerGroup className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
             {instructors.map((instructor) => (

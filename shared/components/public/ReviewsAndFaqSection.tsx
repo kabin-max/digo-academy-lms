@@ -151,11 +151,6 @@ export function ReviewsAndFaqSection({ showFaq = true }: ReviewsAndFaqSectionPro
               </div>
 
               <div className="mt-7 flex items-center gap-3 pt-5 border-t border-border/50">
-                <img
-                  src={rev.img}
-                  alt={rev.name}
-                  className="size-11 rounded-full object-cover border border-border/60 shadow-sm"
-                />
                 <div className="min-w-0">
                   <p className="font-heading font-bold text-sm text-foreground truncate">{rev.name}</p>
                   <p className="text-xs text-muted-foreground truncate">{rev.role}</p>

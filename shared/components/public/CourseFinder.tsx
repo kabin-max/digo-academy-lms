@@ -37,12 +37,12 @@ const QUESTIONS: Question[] = [
       },
       {
         label: 'I want to build applications on AWS',
-        description: 'Develop cloud applications and prepare for Developer – Associate.',
+        description: 'Develop cloud applications and prepare for Developer - Associate.',
         value: 'developer',
       },
       {
         label: 'I want to design AWS infrastructure',
-        description: 'Learn architecture and prepare for Solutions Architect – Associate.',
+        description: 'Learn architecture and prepare for Solutions Architect - Associate.',
         value: 'architect',
       },
       { 
@@ -79,7 +79,7 @@ const RECOMMENDATIONS: Record<string, {
     reason: 'Perfect for learning AI and Generative AI concepts on AWS.',
   },
   developer: {
-    title: 'AWS Developer – Associate',
+    title: 'AWS Developer - Associate',
     category: 'AWS',
     duration: 'Self-Paced or Live',
     mode: 'Associate',
@@ -87,7 +87,7 @@ const RECOMMENDATIONS: Record<string, {
     reason: 'Aligned with your goal of developing cloud applications.',
   },
   architect: {
-    title: 'AWS Solutions Architect – Associate',
+    title: 'AWS Solutions Architect - Associate',
     category: 'AWS',
     duration: 'Self-Paced or Live',
     mode: 'Associate',
@@ -95,7 +95,7 @@ const RECOMMENDATIONS: Record<string, {
     reason: 'Designed to teach you how to architect robust AWS infrastructure.',
   },
   devops: {
-    title: 'AWS DevOps Engineer – Professional',
+    title: 'AWS DevOps Engineer - Professional',
     category: 'AWS',
     duration: 'Self-Paced or Live',
     mode: 'Professional',
@@ -131,9 +131,6 @@ export function CourseFinder() {
       <div className="pointer-events-none absolute -left-20 -bottom-20 size-64 rounded-full bg-violet-500/10 blur-3xl" />
       
       <div className="relative z-10 mb-6 flex flex-col items-center text-center border-b border-border/60 pb-5">
-        <h2 className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-          Find Your AWS Learning Path
-        </h2>
 
         {!isComplete ? (
           <div className="mt-2.5 flex items-center justify-center gap-2 text-xs font-semibold text-muted-foreground">

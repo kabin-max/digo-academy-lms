@@ -11,22 +11,24 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
       <main className="flex-1">{children}</main>
       <PublicFooter />
 
-      {/* Sticky WhatsApp Button */}
-      <div className="fixed bottom-[10%] right-6 z-50">
+      {/* Sticky WhatsApp Tab */}
+      <div className="fixed right-0 top-1/2 z-50 -translate-y-1/2">
         <a
           href="https://wa.me/9779801820900?text=Hi%20%2C%20We%20are%20digo%20academy%20do%20you%20want%20to%20disucss%20anything%20like%20type%20message%20over%20there"
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative flex items-center justify-center transition-transform hover:scale-110 focus:outline-none"
+          className="relative flex items-center bg-[#25D366] text-white py-4 px-2 rounded-l-md shadow-[-4px_0_15px_rgba(0,0,0,0.1)] transition-transform hover:-translate-x-1 focus:outline-none"
           aria-label="Connect on Whatsapp"
         >
-          <Image src="/whatsapp.png" alt="WhatsApp" width={64} height={64} className="object-contain drop-shadow-lg" />
+          {/* Left-pointing triangle indicator */}
+          <div className="absolute top-1/2 right-full -translate-y-1/2 w-0 h-0 border-y-[8px] border-y-transparent border-r-[8px] border-r-[#25D366]" />
           
-          {/* Tooltip */}
-          <span className="pointer-events-none absolute right-full top-1/2 mr-4 w-max -translate-y-1/2 scale-95 rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-all group-hover:scale-100 group-hover:opacity-100 dark:bg-gray-800">
-            Connect On Whatsapp
-            <span className="absolute right-[-4px] top-1/2 -translate-y-1/2 border-[5px] border-transparent border-l-gray-900 dark:border-l-gray-800" />
-          </span>
+          <div className="flex flex-col items-center gap-3">
+            <Image src="/whatsapp.png" alt="WhatsApp" width={28} height={28} className="object-contain" />
+            <span className="[writing-mode:vertical-rl] font-medium tracking-wide text-sm">
+              WhatsApp
+            </span>
+          </div>
         </a>
       </div>
     </div>
