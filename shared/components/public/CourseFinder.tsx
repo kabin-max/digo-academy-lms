@@ -130,7 +130,32 @@ export function CourseFinder() {
       <div className="pointer-events-none absolute -right-20 -top-20 size-64 rounded-full bg-brand-blue/10 blur-3xl" />
       <div className="pointer-events-none absolute -left-20 -bottom-20 size-64 rounded-full bg-violet-500/10 blur-3xl" />
       
-    
+      <div className="relative z-10 mb-6 flex flex-col items-center text-center border-b border-border/60 pb-5">
+        <h2 className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+          Find Your AWS Learning Path
+        </h2>
+
+        {!isComplete ? (
+          <div className="mt-2.5 flex items-center justify-center gap-2 text-xs font-semibold text-muted-foreground">
+            <span>Step {step + 1} of {QUESTIONS.length}</span>
+            <div className="flex gap-1">
+              {QUESTIONS.map((_, idx) => (
+                <div
+                  key={idx}
+                  className={`h-1.5 w-6 rounded-full transition-colors ${
+                    idx <= step ? 'bg-brand-blue' : 'bg-muted'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <Button variant="ghost" size="sm" onClick={handleReset} className="mt-2.5 gap-1.5 text-xs text-muted-foreground hover:text-brand-blue">
+            <RotateCcw className="size-3.5" />
+            Start over
+          </Button>
+        )}
+      </div>
 
       <AnimatePresence mode="wait">
         {!isComplete ? (
@@ -142,7 +167,7 @@ export function CourseFinder() {
             transition={{ duration: 0.25, ease: 'easeOut' }}
             className="space-y-6"
           >
-            <div>
+            <div className="text-center">
               <h3 className="text-xl font-bold text-foreground sm:text-2xl">{currentQ.title}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{currentQ.subtitle}</p>
             </div>

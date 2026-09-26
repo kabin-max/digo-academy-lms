@@ -1,4 +1,4 @@
-import { ArrowRight, Target, Eye, Heart, Cloud, Server, Database, Code, Cpu, Link as LinkIcon, BadgeCheck } from 'lucide-react';
+import { ArrowRight, Cloud, Server, Database, Code, Cpu, Link as LinkIcon, BadgeCheck, BookOpen, Target, Rocket, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -22,19 +22,19 @@ export const metadata = {
 
 const VALUES = [
   {
-    icon: Target,
+    iconSrc: '/mission.png',
     title: 'Our Mission',
     body: 'Our team believes in “The expert in anything was once a beginner”. We aim to provide an access to the international level study approach to Nepali students and walk along the way from beginner to expert. Moreover, exposing them to the certification exams of big companies like Google, Microsoft, and Oracle.',
     color: 'text-brand-blue bg-brand-blue/10',
   },
   {
-    icon: Eye,
+    iconSrc: '/vision.png',
     title: 'Our Vision',
     body: 'As per the strategies developed, we aim to provide education to more than 1000 students by this year and introduce more globally recognized courses with higher career scope. Not only that, we aim to provide 90% placement to our students.',
     color: 'text-violet-600 bg-violet-500/10 dark:text-violet-400',
   },
   {
-    icon: Heart,
+    iconSrc: '/values.png',
     title: 'Our Values',
     body: 'We value hands-on, practical application over purely theoretical knowledge. Our top priority is to give the best to all of our students, providing technical and career support because education without application is just entertainment.',
     color: 'text-emerald-600 bg-emerald-500/10 dark:text-emerald-400',
@@ -76,7 +76,7 @@ export default function AboutPage() {
           
           <Reveal delay={200}>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-              Digo Academy is the cloud learning initiative of Digo Solution, created to help students, developers, and IT professionals build practical skills in AWS, cloud infrastructure, DevOps, and cloud-native technologies.
+              Digo Academy, the learning initiative of Digo Solution, helps students and IT professionals build practical skills in AWS, cloud, and DevOps.
             </p>
           </Reveal>
         </HeroStage>
@@ -84,21 +84,31 @@ export default function AboutPage() {
 
       {/* 2. Who We Are */}
       <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <Reveal className="mb-12 text-center max-w-3xl mx-auto">
-          <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Who We Are
-          </h2>
-          <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-            Digo Academy is backed by the experience of Digo Solution, a technology company focused on cloud consulting, cloud infrastructure, migration, managed services, and cloud-native solutions. Our academy brings that real-world experience into the classroom, helping learners move beyond theory and understand how cloud technologies are actually designed, deployed, secured, monitored, and managed.
-          </p>
-        </Reveal>
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center mb-16">
+          <Reveal className="max-w-2xl text-left">
+            <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              Who We Are
+            </h2>
+            <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
+              Digo Academy is backed by the experience of Digo Solution, a technology company focused on cloud consulting, cloud infrastructure, migration, managed services, and cloud-native solutions. Our academy brings that real-world experience into the classroom, helping learners move beyond theory and understand how cloud technologies are actually designed, deployed, secured, monitored, and managed.
+            </p>
+          </Reveal>
+          <Reveal delay={150} className="relative w-full h-[300px] sm:h-[400px] rounded-2xl overflow-hidden shadow-sm ring-1 ring-border/60">
+            <Image 
+              src="/Aboutus.png" 
+              alt="About Us" 
+              fill
+              className="object-cover"
+            />
+          </Reveal>
+        </div>
 
         <StaggerGroup className="grid gap-6 sm:grid-cols-3">
           {VALUES.map((val) => (
             <StaggerItem key={val.title}>
               <div className="h-full rounded-2xl bg-card p-6 shadow-sm ring-1 ring-border/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                <span className={`flex size-12 items-center justify-center rounded-2xl ${val.color} [&_svg]:size-6`}>
-                  <val.icon />
+                <span className={`flex size-14 items-center justify-center rounded-2xl ${val.color}`}>
+                  <Image src={val.iconSrc} alt={val.title} width={32} height={32} className="object-contain" />
                 </span>
                 <h3 className="mt-5 font-heading text-xl font-bold text-foreground">
                   {val.title}
@@ -125,42 +135,54 @@ export default function AboutPage() {
           </Reveal>
 
           <Reveal delay={150}>
-            <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 md:flex-row">
+            <div className="mx-auto grid max-w-5xl grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-stretch gap-8">
               {/* Digo Solution Card */}
-              <div className="flex-1 w-full rounded-2xl border border-border/60 bg-card p-8 shadow-sm">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="flex size-10 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue">
-                    <Cloud className="size-5" />
-                  </div>
-                  <h3 className="font-heading text-xl font-bold text-foreground">Digo Solution</h3>
+              <div className="rounded-2xl border border-border/60 bg-white p-8 shadow-md flex flex-col">
+                <div className="flex flex-col mb-8">
+                  <Image src="/DigoSolution.png" alt="Digo Solution" width={180} height={50} className="object-contain h-10 w-auto self-start" />
+                  <span className="text-[10px] font-bold text-muted-foreground tracking-widest mt-2 uppercase">Cloud / Consulting / Training</span>
                 </div>
-                <ul className="space-y-3 text-sm text-muted-foreground">
-                  <li className="flex items-center gap-2"><Server className="size-4 text-brand-blue" /> Cloud Consulting</li>
-                  <li className="flex items-center gap-2"><Database className="size-4 text-brand-blue" /> Cloud Migration</li>
-                  <li className="flex items-center gap-2"><Cpu className="size-4 text-brand-blue" /> DevOps</li>
-                  <li className="flex items-center gap-2"><Code className="size-4 text-brand-blue" /> Cloud-Native Apps</li>
-                </ul>
+                <div className="flex flex-col sm:flex-row items-center gap-6 mt-auto">
+                  <div className="flex-1 w-full flex justify-center items-center h-40">
+                    <Image src="/Cloud.png" alt="Cloud Infrastructure" width={160} height={160} className="object-contain max-h-40 w-auto" />
+                  </div>
+                  <div className="flex-1 w-full flex sm:justify-start">
+                    <ul className="space-y-4 text-sm font-medium text-slate-700">
+                      <li className="flex items-center gap-3"><Server className="size-5 text-blue-500 shrink-0" /> Cloud Consulting</li>
+                      <li className="flex items-center gap-3"><Database className="size-5 text-blue-500 shrink-0" /> Cloud Migration</li>
+                      <li className="flex items-center gap-3"><Cpu className="size-5 text-blue-500 shrink-0" /> DevOps</li>
+                      <li className="flex items-center gap-3"><Code className="size-5 text-blue-500 shrink-0" /> Cloud-Native Apps</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
 
-              {/* Connecting Arrow */}
-              <div className="flex items-center justify-center rotate-90 md:rotate-0">
-                <LinkIcon className="size-8 text-brand-blue/50" />
+              {/* Connecting Link */}
+              <div className="flex items-center justify-center shrink-0 z-10 rotate-90 md:rotate-0 md:-mx-12">
+                <div className="flex size-12 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg ring-4 ring-background">
+                  <LinkIcon className="size-5" />
+                </div>
               </div>
 
               {/* Digo Academy Card */}
-              <div className="flex-1 w-full rounded-2xl border border-brand-blue/30 bg-brand-blue/5 p-8 shadow-sm relative overflow-hidden">
-                <div className="absolute -right-10 -top-10 size-40 rounded-full bg-brand-blue/10 blur-2xl pointer-events-none" />
-                <div className="flex items-center gap-3 mb-6 relative z-10">
-                  <div className="flex size-10 items-center justify-center rounded-xl bg-brand-blue text-white">
-                    <Target className="size-5" />
-                  </div>
-                  <h3 className="font-heading text-xl font-bold text-foreground">Digo Academy</h3>
+              <div className="rounded-2xl border border-border/60 bg-white p-8 shadow-md flex flex-col">
+                <div className="flex flex-col mb-8">
+                  <Image src="/brand-logo.png" alt="Digo Academy" width={180} height={50} className="object-contain h-10 w-auto self-start" />
+                  <span className="text-[10px] font-bold text-muted-foreground tracking-widest mt-2 uppercase">Cloud / DevOps / AI</span>
                 </div>
-                <ul className="space-y-3 text-sm font-medium text-brand-blue relative z-10">
-                  <li className="flex items-center gap-2"><ArrowRight className="size-4" /> Learn</li>
-                  <li className="flex items-center gap-2"><ArrowRight className="size-4" /> Practice</li>
-                  <li className="flex items-center gap-2"><ArrowRight className="size-4" /> Build</li>
-                </ul>
+                <div className="flex flex-col sm:flex-row items-center gap-6 mt-auto">
+                  <div className="flex-1 w-full flex justify-center items-center h-40">
+                    <Image src="/Learning.png" alt="Learning" width={160} height={160} className="object-contain max-h-40 w-auto" />
+                  </div>
+                  <div className="flex-1 w-full flex sm:justify-start">
+                    <ul className="space-y-4 text-sm font-medium text-slate-700">
+                      <li className="flex items-center gap-3"><BookOpen className="size-5 text-blue-500 shrink-0" /> Learn</li>
+                      <li className="flex items-center gap-3"><Target className="size-5 text-blue-500 shrink-0" /> Practice</li>
+                      <li className="flex items-center gap-3"><Rocket className="size-5 text-blue-500 shrink-0" /> Build</li>
+                      <li className="flex items-center gap-3"><TrendingUp className="size-5 text-blue-500 shrink-0" /> Grow</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
             
@@ -184,9 +206,6 @@ export default function AboutPage() {
       {/* 4. Learn from Cloud Professionals */}
       <section className="mx-auto w-full max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
         <Reveal className="mb-12 text-center max-w-3xl mx-auto">
-          <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-            Our Team
-          </span>
           <h2 className="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Learn from Certified Cloud Professionals
           </h2>
@@ -202,11 +221,11 @@ export default function AboutPage() {
                 <Image 
                   src={cert.image} 
                   alt={cert.name} 
-                  width={124} 
-                  height={124} 
-                  className="object-contain w-[99px] h-[99px] sm:w-[124px] sm:h-[124px] drop-shadow-sm" 
+                  width={137} 
+                  height={137} 
+                  className="object-contain w-[110px] h-[110px] sm:w-[137px] sm:h-[137px] drop-shadow-sm" 
                 />
-                <span className="font-medium text-xs text-foreground text-center max-w-[140px] hidden sm:block">{cert.name}</span>
+                <span className="font-medium text-xs text-foreground text-center max-w-[150px] hidden sm:block">{cert.name}</span>
               </div>
             </StaggerItem>
           ))}

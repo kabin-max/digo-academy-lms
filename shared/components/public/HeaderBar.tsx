@@ -14,6 +14,8 @@ const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About Us' },
   { href: '/courses', label: 'Courses' },
+  { href: '/instructors', label: 'Instructors' },
+  { href: '/career-roadmap', label: 'Career Roadmap' },
   { href: '/blogs', label: 'Blogs' },
   { href: '/contact', label: 'Contact' },
 ] as const;
@@ -77,7 +79,7 @@ export function HeaderBar({ home }: { home: string | null }) {
       </div>
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-6 px-4 sm:px-6 lg:px-8">
         <Link href="/" aria-label="Digo Academy home" className="shrink-0">
-          <BrandLogo className="h-[34px]" />
+          <BrandLogo className="h-[36px]" />
         </Link>
         <nav className="hidden items-center gap-1 sm:flex">
           {NAV_LINKS.map((link) => (

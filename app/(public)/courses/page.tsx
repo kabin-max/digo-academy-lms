@@ -1,10 +1,8 @@
 import {
   Award,
-  BadgeCheck,
-  MonitorPlay,
-  Radio,
-  ShieldCheck,
-  Star,
+  Briefcase,
+  Terminal,
+  Users,
 } from 'lucide-react';
 
 import { CourseCard } from '@/features/marketplace/components/CourseCard';
@@ -17,6 +15,7 @@ import { HeroHeadline, HeroStage } from '@/shared/components/public/HeroMotion';
 import { Reveal } from '@/shared/components/public/Reveal';
 import { StaggerGroup, StaggerItem } from '@/shared/components/public/Stagger';
 import { CourseFinder } from '@/shared/components/public/CourseFinder';
+import { AwsLearningJourney } from '@/shared/components/public/AwsLearningJourney';
 import { cn } from '@/shared/utils/cn';
 
 const DEFAULT_FILTERS: CourseFilters = {
@@ -30,28 +29,28 @@ const DEFAULT_FILTERS: CourseFilters = {
 
 const FEATURES = [
   {
-    icon: Radio,
-    title: 'Live cohorts',
-    body: 'Real-time classes over Google Meet — learn alongside a group with a mentor guiding every session.',
+    icon: Briefcase,
+    title: 'Real-World Projects',
+    body: 'Build cloud environments and applications based on practical scenarios.',
     className: 'bg-brand-blue/10 text-brand-blue',
   },
   {
-    icon: MonitorPlay,
-    title: 'Self-paced tracks',
-    body: 'Recorded lessons, notes, and resources you can revisit anytime, on any device.',
+    icon: Terminal,
+    title: 'Hands-On Cloud Labs',
+    body: 'Work directly with AWS services instead of learning only through theory.',
+    className: 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400',
+  },
+  {
+    icon: Users,
+    title: 'Industry Mentors',
+    body: 'Learn from practitioners working with cloud, DevOps, and modern infrastructure.',
     className: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
   },
   {
-    icon: BadgeCheck,
-    title: 'Expert instructors',
-    body: 'Learn from vetted practitioners who apply these skills in the field every day.',
+    icon: Award,
+    title: 'Certification + Skills',
+    body: 'Prepare for certification while developing skills you can actually use.',
     className: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Certificates',
-    body: 'Earn a shareable certificate of completion to showcase your new skills.',
-    className: 'bg-amber-500/10 text-amber-600 dark:text-amber-500',
   },
 ];
 
@@ -86,7 +85,7 @@ export default async function CoursesPage() {
         <HeroStage className="relative z-10 mx-auto w-full max-w-6xl px-4 text-center sm:px-6">
           <Reveal>
             <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              Build Your AWS Career
+              Courses
             </span>
           </Reveal>
           <HeroHeadline
@@ -116,10 +115,10 @@ export default async function CoursesPage() {
           <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-                Trending courses
+                Explore Our Courses
               </h2>
               <p className="mt-2 text-muted-foreground">
-                Industry-relevant skills taught by mentors from top companies.
+                Build practical skills through certification-focused and career-oriented learning paths.
               </p>
             </div>
             <div className="flex items-center gap-1 rounded-full border border-border/70 bg-card p-1 shadow-sm">
@@ -158,16 +157,12 @@ export default async function CoursesPage() {
       {/* ------------------------------------------------------------------ */}
       <section className="bg-muted/30">
         <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-          <Reveal className="mb-10 max-w-2xl">
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              Why Digo
-            </span>
+          <Reveal className="mb-10 max-w-2xl mx-auto text-center">
             <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              Everything you need to learn with confidence
+              Learn From People Who Build With Cloud
             </h2>
             <p className="mt-2 text-muted-foreground">
-              A learning experience built for outcomes — flexible formats, real mentorship, and
-              recognized results.
+              What makes Digo Academy different: practical real-world scenarios, hands-on AWS labs, direct industry mentorship, and career-ready certification skills.
             </p>
           </Reveal>
           <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -192,49 +187,9 @@ export default async function CoursesPage() {
       </section>
 
       {/* ------------------------------------------------------------------ */}
-      {/* AWS Learning Journey                                                 */}
+      {/* AWS Learning Journey (Interactive Roadmap)                         */}
       {/* ------------------------------------------------------------------ */}
-      <section className="bg-muted/30">
-        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-          <Reveal className="mb-10 text-center max-w-2xl mx-auto">
-            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-              Your AWS Learning Journey
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Start with the fundamentals, explore AI, specialize in development or architecture, and progress toward advanced DevOps skills.
-            </p>
-          </Reveal>
-          <Reveal delay={200}>
-            <div className="relative mt-12 flex flex-col items-center gap-8 md:flex-row md:items-stretch md:justify-center">
-              <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-border/50 -translate-y-1/2 z-0" />
-              
-              <div className="relative z-10 flex-1 flex flex-col items-center text-center p-6 bg-card rounded-2xl border border-border/60 shadow-sm transition-transform hover:-translate-y-2">
-                <div className="flex size-14 items-center justify-center rounded-full bg-brand-blue/10 text-brand-blue mb-4 ring-8 ring-background">
-                  <BadgeCheck className="size-6" />
-                </div>
-                <h3 className="font-heading font-semibold text-lg">Fundamentals</h3>
-                <p className="text-sm text-muted-foreground mt-2">Cloud Practitioner & AI Practitioner</p>
-              </div>
-
-              <div className="relative z-10 flex-1 flex flex-col items-center text-center p-6 bg-card rounded-2xl border border-border/60 shadow-sm transition-transform hover:-translate-y-2">
-                <div className="flex size-14 items-center justify-center rounded-full bg-violet-500/10 text-violet-600 mb-4 ring-8 ring-background">
-                  <MonitorPlay className="size-6" />
-                </div>
-                <h3 className="font-heading font-semibold text-lg">Specialization</h3>
-                <p className="text-sm text-muted-foreground mt-2">Developer or Solutions Architect</p>
-              </div>
-
-              <div className="relative z-10 flex-1 flex flex-col items-center text-center p-6 bg-card rounded-2xl border border-border/60 shadow-sm transition-transform hover:-translate-y-2">
-                <div className="flex size-14 items-center justify-center rounded-full bg-orange-500/10 text-orange-600 mb-4 ring-8 ring-background">
-                  <ShieldCheck className="size-6" />
-                </div>
-                <h3 className="font-heading font-semibold text-lg">Advanced Mastery</h3>
-                <p className="text-sm text-muted-foreground mt-2">DevOps Engineer Professional</p>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <AwsLearningJourney />
 
     </div>
   );
