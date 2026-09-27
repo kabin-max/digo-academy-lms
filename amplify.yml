@@ -3,7 +3,7 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - npm ci --legacy-peer-deps
         - mkdir -p .next
         - mv .next-cache .next/cache || true
     build:

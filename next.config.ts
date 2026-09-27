@@ -8,7 +8,7 @@ dns.setDefaultResultOrder('ipv4first');
 
 const nextConfig: NextConfig = {
   turbopack: {
-    root: path.resolve(__dirname),
+    root: path.resolve(process.cwd()),
   },
   allowedDevOrigins: ['192.168.1.80', '192.168.1.107', 'localhost', '*.loca.lt'],
 };
