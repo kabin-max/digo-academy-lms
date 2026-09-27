@@ -4,18 +4,22 @@ frontend:
     preBuild:
       commands:
         - npm ci
+        - mkdir -p .next
+        - mv .next-cache .next/cache || true
     build:
       commands:
         # Run Prisma migrations to update the database schema
         - npx prisma migrate deploy
         # Build the Next.js application
         - npm run build
+    postBuild:
+      commands:
+        - mv .next/cache .next-cache || true
   artifacts:
     baseDirectory: .next
     files:
       - '**/*'
-      - '!cache/**/*'
   cache:
     paths:
       - node_modules/**/*
-      - .next/cache/**/*
+      - .next-cache/**/*
