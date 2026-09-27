@@ -11,11 +11,11 @@ fi
 sudo chown -R ubuntu:ubuntu /home/ubuntu/digo-academy-lms
 
 # Build and start the containers
-docker-compose -f docker-compose.prod.yml build
-docker-compose -f docker-compose.prod.yml up -d
+sudo /usr/local/bin/docker-compose -f docker-compose.prod.yml build
+sudo /usr/local/bin/docker-compose -f docker-compose.prod.yml up -d
 
 # Wait a few seconds for DB to be healthy
 sleep 10
 
 # Run Prisma migrations inside the app container
-docker exec digo-academy-app npx prisma migrate deploy
+sudo docker exec digo-academy-app npx prisma migrate deploy
