@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'motion/react';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react';
 import { Calendar, Compass, Cpu, MapPin, Search, Trophy } from 'lucide-react';
 
 import { Reveal } from '@/shared/components/public/Reveal';
@@ -30,344 +30,270 @@ const FEATURES = [
   },
 ];
 
-const ALUMNI_HUBS = [
-  {
-    id: 'sv',
-    name: 'Silicon Valley, USA',
-    role: 'AI & YC Startups',
-    region: 'sv',
-    top: '34%',
-    left: '15%',
-    img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80',
-    featured: false,
-  },
-  {
-    id: 'sa',
-    name: 'São Paulo, Brazil',
-    role: 'FinTech Remote Hub',
-    region: 'remote',
-    top: '75%',
-    left: '35%',
-    img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
-    featured: false,
-  },
-  {
-    id: 'eu',
-    name: 'London & Berlin',
-    role: 'Autonomous Systems',
-    region: 'global',
-    top: '24%',
-    left: '49%',
-    img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80',
-    featured: false,
-  },
-  {
-    id: 'af',
-    name: 'Nairobi, Kenya',
-    role: 'Emerging Tech Squad',
-    region: 'remote',
-    top: '61%',
-    left: '58%',
-    img: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&auto=format&fit=crop&q=80',
-    featured: false,
-  },
+type Region = 'all' | 'remote' | 'sv' | 'global';
+
+interface Hub {
+  id: string;
+  name: string;
+  role: string;
+  region: Exclude<Region, 'all'>;
+  top: string;
+  left: string;
+  featured?: boolean;
+}
+
+/**
+ * Positions are equirectangular projections of real coordinates onto the map's
+ * 1000x500 viewBox, so they stay accurate as long as the container keeps the
+ * artwork's 2:1 ratio: left = (lon + 180) / 360, top = (90 - lat) / 180.
+ */
+const ALUMNI_HUBS: Hub[] = [
+  { id: 'sv', name: 'Silicon Valley, USA', role: 'AI & YC Startups', region: 'sv', top: '29.2%', left: '16.1%' },
+  { id: 'sa', name: 'São Paulo, Brazil', role: 'FinTech Remote Hub', region: 'remote', top: '63.1%', left: '37.1%' },
+  { id: 'eu', name: 'London & Berlin', role: 'Autonomous Systems', region: 'global', top: '21.4%', left: '50%' },
+  { id: 'af', name: 'Nairobi, Kenya', role: 'Emerging Tech Squad', region: 'remote', top: '50.7%', left: '60.2%' },
   {
     id: 'ktm',
-    name: 'Kathmandu / Global Hub',
-    role: 'Digo Academy HQ & Builders Campus',
+    name: 'Kathmandu',
+    role: 'Digo Academy HQ',
     region: 'global',
-    top: '44%',
-    left: '72%',
-    img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80',
-    featured: true, // Prominent pin
+    top: '34.6%',
+    left: '73.7%',
+    featured: true,
   },
-  {
-    id: 'asia',
-    name: 'Tokyo & Singapore',
-    role: 'Cloud Infrastructure',
-    region: 'global',
-    top: '33%',
-    left: '87%',
-    img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80',
-    featured: false,
-  },
-  {
-    id: 'syd',
-    name: 'Sydney, Australia',
-    role: 'Product Engineering Squad',
-    region: 'global',
-    top: '82%',
-    left: '90%',
-    img: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&auto=format&fit=crop&q=80',
-    featured: false,
-  },
+  { id: 'asia', name: 'Tokyo & Singapore', role: 'Cloud Infrastructure', region: 'global', top: '30.2%', left: '88.8%' },
+  { id: 'syd', name: 'Sydney, Australia', role: 'Product Engineering', region: 'global', top: '68.8%', left: '92%' },
 ];
 
-const REGION_FILTERS = [
-  { key: 'all', label: 'All Hubs' },
+const REGION_FILTERS: { key: Region; label: string }[] = [
+  { key: 'all', label: 'All hubs' },
   { key: 'remote', label: 'Remote' },
   { key: 'sv', label: 'Silicon Valley' },
   { key: 'global', label: 'Global' },
-] as const;
+];
+
+const STATS = [
+  { value: '1,000+', label: 'Students worldwide' },
+  { value: '24', label: 'Countries' },
+  { value: '7', label: 'Regional hubs' },
+];
 
 export interface WorldMapSectionProps {
   showFeatures?: boolean;
 }
 
 export function WorldMapSection({ showFeatures = false }: WorldMapSectionProps = {}) {
-  const [activeRegion, setActiveRegion] = useState<'all' | 'remote' | 'sv' | 'global'>('all');
-  const [selectedHub, setSelectedHub] = useState<typeof ALUMNI_HUBS[0] | null>(null);
+  const [activeRegion, setActiveRegion] = useState<Region>('all');
+  const [selectedHub, setSelectedHub] = useState<Hub | null>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
 
-  // Dynamic horizontal translation offset: the text controls push the map left/right
-  const getMapOffset = () => {
-    switch (activeRegion) {
-      case 'sv':
-        return 40; // pushes map rightward to center Americas
-      case 'remote':
-        return -20;
-      case 'global':
-        return -80; // pushes map leftward to center Eurasia / Asia
-      default:
-        return 0;
-    }
-  };
+  const reduceMotion = useReducedMotion();
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  // Only run the pinned center-to-left choreography on wide viewports.
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1024px)');
+    const sync = () => setIsDesktop(query.matches);
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, []);
+
+  const animateComposition = isDesktop && !reduceMotion;
+
+  const { scrollYProgress } = useScroll({
+    target: trackRef,
+    offset: ['start start', 'end end'],
+  });
+
+  // Smooth the raw scroll value so the movement reads as one deliberate gesture.
+  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 26, mass: 0.4 });
+
+  // Map travels from centered to the left column, then holds its final position.
+  const mapShift = useTransform(progress, [0, 0.55], ['0%', '-31%']);
+  const mapScale = useTransform(progress, [0, 0.55], [1, 0.94]);
+
+  // Copy enters from the right, synchronized with the map's travel.
+  const copyShift = useTransform(progress, [0.1, 0.55], [56, 0]);
+  const copyOpacity = useTransform(progress, [0.14, 0.5], [0, 1]);
+
+  const mapStyle = animateComposition ? { x: mapShift, scale: mapScale } : undefined;
+  const copyStyle = animateComposition ? { x: copyShift, opacity: copyOpacity } : undefined;
 
   return (
-    <section className="relative overflow-hidden bg-background py-20 sm:py-28">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-        {/* Optional Features Section */}
-        {showFeatures && (
-          <div className="grid gap-10 lg:grid-cols-[1fr_2fr] items-start pb-20 border-b border-border/50">
+    <section className="bg-background">
+      {showFeatures && (
+        <div className="mx-auto w-full max-w-7xl px-6 pt-24 lg:px-10">
+          <div className="grid items-start gap-12 border-b border-border pb-20 lg:grid-cols-[1fr_2fr]">
             <Reveal>
-              <div className="relative">
-                {/* Doodle star accent */}
-                <div className="absolute -top-6 -left-4 text-brand-blue/50 select-none pointer-events-none">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14 10L24 12L14 14L12 24L10 14L0 12L10 10Z" />
-                  </svg>
-                </div>
-                <h2 className="font-heading text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-                  That&apos;s The Way<br />To Build!
-                </h2>
-                <p className="mt-4 text-muted-foreground text-sm leading-relaxed max-w-xs">
-                  Try a proven pedagogy designed around software agency, code ownership, and real-time guidance.
-                </p>
-              </div>
+              <h2 className="font-heading text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                That&apos;s The Way
+                <br />
+                To Build!
+              </h2>
+              <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted-foreground">
+                Try a proven pedagogy designed around software agency, code ownership, and real-time
+                guidance.
+              </p>
             </Reveal>
 
             <Reveal delay={150}>
-              <div className="grid gap-5 sm:grid-cols-3">
-                {FEATURES.map((feat, i) => (
+              <div className="grid gap-6 sm:grid-cols-3">
+                {FEATURES.map((feat) => (
                   <div
-                    key={i}
-                    className={`group rounded-2xl border border-border/60 bg-card p-6 shadow-xs transition-all duration-200 hover:-translate-y-1.5 hover:shadow-lg ${feat.border}`}
+                    key={feat.title}
+                    className={`rounded-2xl border border-border bg-card p-6 transition-colors duration-200 ${feat.border}`}
                   >
-                    <div className={`flex size-12 items-center justify-center rounded-xl ${feat.color}`}>
+                    <div className={`flex size-11 items-center justify-center rounded-xl ${feat.color}`}>
                       <feat.icon className="size-5" />
                     </div>
-                    <h3 className="mt-5 font-heading font-bold text-foreground text-sm leading-snug">{feat.title}</h3>
-                    <p className="mt-2 text-xs text-muted-foreground leading-relaxed">{feat.desc}</p>
+                    <h3 className="mt-5 font-heading text-sm font-bold leading-snug text-foreground">
+                      {feat.title}
+                    </h3>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{feat.desc}</p>
                   </div>
                 ))}
               </div>
             </Reveal>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Global World Map pushed by the "Remote, Silicon Valley, Global" text */}
-        <div className={showFeatures ? "pt-24" : ""}>
-          <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
-            {/* Left Column: Authentic Dotted World Map with Animated Right-To-Left Push Motion */}
-            <div className="relative overflow-visible">
-              {/* Soft ambient background glow */}
-              <div className="pointer-events-none absolute inset-0 -m-8 rounded-3xl bg-linear-to-tr from-brand-blue/5 via-orange-500/5 to-transparent blur-2xl" />
+      {/* Scroll track: tall on desktop so the pinned stage has room to choreograph. */}
+      <div ref={trackRef} className="relative lg:h-[240vh]">
+        <div className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-center">
+          <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-0">
+            {/* Heading — aligned to the page grid, consistent rhythm below. */}
+            <header className="mx-auto max-w-3xl text-center">
+              <h2 className="font-heading text-4xl font-extrabold leading-[1.1] tracking-tight text-foreground sm:text-5xl">
+                Remote, Silicon Valley, Global.
+                <span className="mt-2 block text-muted-foreground">Where will you build?</span>
+              </h2>
+            </header>
 
-              {/* Pushable / Draggable World Map Canvas */}
-              <motion.div
-                initial={{ x: 120, opacity: 0.85 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                animate={{ x: getMapOffset() }}
-                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                drag="x"
-                dragConstraints={{ left: -120, right: 60 }}
-                dragElastic={0.1}
-                className="relative aspect-[16/10] w-full rounded-3xl border border-border/50 bg-white p-4 sm:p-6 shadow-md cursor-grab active:cursor-grabbing select-none"
-              >
-                {/* Authentic Geographic Dotted World Map */}
-                <div className="relative size-full flex items-center justify-center">
-                  <img
-                    src="/world-map-dots.svg"
-                    alt="World Map"
-                    className="size-full object-contain pointer-events-none select-none"
-                    draggable={false}
-                  />
-                </div>
-
-                {/* Teardrop Alumni Pins with Orange Radar Flower Target */}
-                {ALUMNI_HUBS.map((hub) => {
-                  const isFeatured = hub.featured;
-                  const isFiltered = activeRegion !== 'all' && hub.region !== activeRegion;
-
-                  return (
-                    <div
-                      key={hub.id}
-                      style={{ top: hub.top, left: hub.left }}
-                      className={`absolute -translate-x-1/2 -translate-y-full group cursor-pointer z-20 transition-all duration-300 ${
-                        isFiltered ? 'opacity-25 scale-90' : 'opacity-100'
-                      }`}
-                      onMouseEnter={() => setSelectedHub(hub)}
-                      onMouseLeave={() => setSelectedHub(null)}
-                    >
-                      {/* Teardrop Pin Container */}
-                      <div className="relative flex flex-col items-center transition-transform duration-300 group-hover:scale-110">
-                        {/* Circular Avatar Pin Head */}
-                        <div
-                          className={`relative overflow-hidden rounded-full border-[3px] border-white shadow-xl bg-white ${
-                            isFeatured
-                              ? 'size-16 sm:size-20 ring-4 ring-orange-400/30'
-                              : 'size-10 sm:size-11'
-                          }`}
-                        >
-                          <img
-                            src={hub.img}
-                            alt={hub.name}
-                            className="size-full object-cover"
-                          />
-                        </div>
-
-                        {/* Downward triangle pointer tip */}
-                        <div
-                          className={`-mt-1 size-0 border-x-transparent border-t-white drop-shadow-sm ${
-                            isFeatured
-                              ? 'border-x-[7px] border-t-[9px]'
-                              : 'border-x-[5px] border-t-[7px]'
-                          }`}
-                        />
-
-                        {/* Orange Radar Target Flower underneath tip */}
-                        <div className="mt-1 relative flex items-center justify-center">
-                          {/* Central orange dot */}
-                          <span
-                            className={`rounded-full bg-orange-500 shadow-xs ${isFeatured ? 'size-2.5' : 'size-1.5'}`}
-                          />
-
-                          {/* Radiating 6-dot flower cluster */}
-                          <div className="absolute flex items-center justify-center pointer-events-none">
-                            {[0, 60, 120, 180, 240, 300].map((deg) => (
-                              <span
-                                key={deg}
-                                className="absolute rounded-full bg-orange-400/90"
-                                style={{
-                                  width: isFeatured ? '4px' : '3px',
-                                  height: isFeatured ? '4px' : '3px',
-                                  transform: `rotate(${deg}deg) translate(${isFeatured ? '12px' : '8px'})`,
-                                }}
-                              />
-                            ))}
-                          </div>
-
-                          {/* Gentle radar pulse ring */}
-                          <span
-                            className={`absolute rounded-full bg-orange-400/25 animate-ping pointer-events-none ${
-                              isFeatured ? 'size-8' : 'size-5'
-                            }`}
-                          />
-                        </div>
-                      </div>
-
-                      {/* Tooltip Popover on Hover */}
-                      <div className="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 whitespace-nowrap rounded-xl border border-border/70 bg-card px-3.5 py-2 text-center shadow-2xl opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:-translate-y-1 z-40">
-                        <p className="text-xs font-bold text-foreground">{hub.name}</p>
-                        <p className="text-[10px] text-orange-600 font-semibold">{hub.role}</p>
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-card" />
-                      </div>
-                    </div>
-                  );
-                })}
-
-                {/* Subtle Drag / Pan Hint */}
-                <div className="absolute bottom-3 right-3 hidden sm:flex items-center gap-1.5 rounded-full bg-slate-900/55 px-3 py-1 text-[10px] font-medium text-white backdrop-blur-sm">
-                  <span>← Push / Drag Map →</span>
-                </div>
+            {/* Stage: map starts centered, shifts left while copy enters right. */}
+            <div className="relative mt-16 lg:mt-20">
+              <motion.div style={mapStyle} className="mx-auto w-full max-w-[44rem] will-change-transform">
+                <WorldMap
+                  hubs={ALUMNI_HUBS}
+                  activeRegion={activeRegion}
+                  selectedHub={selectedHub}
+                  onSelectHub={setSelectedHub}
+                  draggable={!reduceMotion}
+                />
               </motion.div>
-            </div>
 
-            {/* Right Column: Headline, Region Push Controls, and Search Pill */}
-            <div className="relative lg:pl-8">
-              {/* Playful curved hand-drawn doodle arrow pointing to the headline */}
-              <div className="absolute -top-10 right-0 hidden sm:block text-slate-300 pointer-events-none select-none">
-                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M10 50 C 30 40, 50 30, 45 15" strokeLinecap="round" strokeDasharray="3 3" />
-                  <path d="M40 10 L 48 14 L 43 22" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-
-              <Reveal>
-                {/* Primary Headline */}
-                <h2 className="mt-4 font-heading text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl leading-[1.12]">
-                  Remote, Silicon Valley, Global.<br />
-                  <span className="text-brand-blue">Where Will You Build?</span>
-                </h2>
-
-                <p className="mt-5 text-sm sm:text-base text-muted-foreground leading-relaxed">
-                  Explore over 1,000+ alumni placements across top startups, engineering studios, and remote squads. Select a hub or drag the map to explore where our graduates deploy.
+              <motion.div
+                style={copyStyle}
+                className="mt-14 lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:flex lg:w-[33%] lg:flex-col lg:justify-center"
+              >
+                <p className="max-w-md text-base leading-[1.7] text-muted-foreground">
+                  We have <span className="font-semibold text-foreground">students across the globe</span>{' '}
+                  learning from Silicon Valley and London to Nairobi and Kathmandu, across top
+                  startups, engineering studios, and remote squads. 
                 </p>
 
-                {/* Region Filter Pills */}
-                <div className="mt-7 flex flex-wrap gap-2">
-                  {REGION_FILTERS.map(({ key, label }) => (
-                    <button
-                      key={key}
-                      onClick={() => setActiveRegion(key)}
-                      className={`rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200 ${
-                        activeRegion === key
-                          ? 'bg-slate-900 text-white shadow-md'
-                          : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground border border-border/60'
-                      }`}
-                    >
-                      {label}
-                    </button>
+                <dl className="mt-10 grid grid-cols-3 gap-6 border-t border-border pt-8">
+                  {STATS.map((stat) => (
+                    <div key={stat.label}>
+                      <dt className="sr-only">{stat.label}</dt>
+                      <dd>
+                        <span className="block font-heading text-2xl font-bold tracking-tight text-foreground">
+                          {stat.value}
+                        </span>
+                        <span className="mt-1 block text-xs leading-snug text-muted-foreground">
+                          {stat.label}
+                        </span>
+                      </dd>
+                    </div>
                   ))}
-                </div>
+                </dl>
 
-                {/* Floating Quick Search Bar */}
-                <div className="mt-6 flex flex-wrap sm:flex-nowrap items-center gap-2 rounded-2xl sm:rounded-full border border-border/70 bg-card p-2 shadow-lg">
-                  <div className="flex flex-1 items-center gap-2.5 px-3 py-1 sm:py-0">
-                    <MapPin className="size-4 text-brand-blue shrink-0" />
-                    <div className="text-left min-w-0">
-                      <p className="text-[10px] uppercase font-bold text-muted-foreground leading-none">Choose Track</p>
-                      <input
-                        type="text"
-                        placeholder="Full-Stack, AI, Systems"
-                        className="w-full bg-transparent text-xs font-semibold text-foreground placeholder:text-muted-foreground/60 focus:outline-none truncate"
-                      />
-                    </div>
-                  </div>
+            
 
-                  <div className="hidden sm:block h-6 w-px bg-border/60" />
-
-                  <div className="flex flex-1 items-center gap-2.5 px-3 py-1 sm:py-0">
-                    <Calendar className="size-4 text-brand-blue shrink-0" />
-                    <div className="text-left min-w-0">
-                      <p className="text-[10px] uppercase font-bold text-muted-foreground leading-none">Cohort Date</p>
-                      <p className="text-xs font-semibold text-foreground truncate">Upcoming Batch</p>
-                    </div>
-                  </div>
-
-                  <button
-                    type="button"
-                    className="flex size-10 shrink-0 items-center justify-center rounded-full bg-slate-900 text-white shadow-md transition-all hover:scale-105 hover:bg-slate-800 active:scale-95 ml-auto"
-                    aria-label="Search"
-                  >
-                    <Search className="size-4" />
-                  </button>
-                </div>
-              </Reveal>
+               
+              </motion.div>
             </div>
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function WorldMap({
+  hubs,
+  activeRegion,
+  selectedHub,
+  onSelectHub,
+  draggable,
+}: {
+  hubs: Hub[];
+  activeRegion: Region;
+  selectedHub: Hub | null;
+  onSelectHub: (hub: Hub | null) => void;
+  draggable: boolean;
+}) {
+  return (
+    <figure className="relative">
+      <motion.div
+        drag={draggable ? 'x' : false}
+        dragConstraints={{ left: -64, right: 64 }}
+        dragElastic={0.08}
+        className={`relative aspect-2/1 w-full ${
+          draggable ? 'cursor-grab active:cursor-grabbing' : ''
+        }`}
+      >
+        <img
+          src="/world-map-dots.svg"
+          alt="World map showing Digo Academy alumni hubs"
+          className="pointer-events-none size-full select-none object-contain opacity-70 [mask-image:radial-gradient(ellipse_at_center,black_72%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_at_center,black_72%,transparent_100%)] dark:opacity-50"
+          draggable={false}
+        />
+
+        {hubs.map((hub) => {
+          const isMuted = activeRegion !== 'all' && hub.region !== activeRegion;
+          const isSelected = selectedHub?.id === hub.id;
+
+          return (
+            <button
+              key={hub.id}
+              type="button"
+              style={{ top: hub.top, left: hub.left }}
+              onClick={() => onSelectHub(isSelected ? null : hub)}
+              onMouseEnter={() => onSelectHub(hub)}
+              onMouseLeave={() => onSelectHub(null)}
+              aria-label={`${hub.name} — ${hub.role}`}
+              className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 ${
+                isMuted ? 'opacity-25' : 'opacity-100'
+              }`}
+            >
+              <span className="relative flex items-center justify-center">
+                <span
+                  className={`rounded-full border-2 border-background bg-brand-blue transition-transform duration-200 ${
+                    hub.featured ? 'size-4' : 'size-3'
+                  } ${isSelected ? 'scale-125' : ''}`}
+                />
+                {hub.featured && (
+                  <span className="absolute size-7 rounded-full border border-brand-blue/35" aria-hidden="true" />
+                )}
+              </span>
+
+              <span
+                className={`pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 whitespace-nowrap rounded-lg border border-border bg-card px-3 py-2 text-left shadow-sm transition-opacity duration-200 ${
+                  isSelected ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                <span className="block text-xs font-bold text-foreground">{hub.name}</span>
+                <span className="mt-0.5 block text-[11px] text-muted-foreground">{hub.role}</span>
+              </span>
+            </button>
+          );
+        })}
+      </motion.div>
+
+      
+    </figure>
   );
 }
 

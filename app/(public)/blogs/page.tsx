@@ -15,14 +15,8 @@ export default function BlogsPage() {
     <div className="flex flex-col">
       <section className="relative overflow-hidden bg-linear-to-b from-brand-blue/5 via-background to-background pt-12 pb-12">
         <div className="animate-blob pointer-events-none absolute -left-32 -top-32 z-0 size-80 rounded-full bg-brand-blue/20 blur-3xl" />
-        
+
         <HeroStage className="relative z-10 mx-auto w-full max-w-6xl px-4 text-center sm:px-6">
-          <Reveal>
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              Blogs
-            </span>
-          </Reveal>
-          
           <HeroHeadline
             className="mx-auto mt-6 max-w-3xl font-heading text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl"
             segments={[
@@ -32,7 +26,7 @@ export default function BlogsPage() {
               { text: 'Ahead.' },
             ]}
           />
-          
+
           <Reveal delay={200}>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
               Practical insights, AWS guides, cloud tutorials, certification tips, and technology stories from the Digo Academy community.
@@ -43,14 +37,11 @@ export default function BlogsPage() {
 
       {/* Blogs Grid */}
       <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Latest Articles</h2>
-          <p className="mt-4 text-lg text-muted-foreground">Insights and news from our community.</p>
-        </div>
-        
+
+
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {[...Array(6)].map((_, i) => (
-            <article key={i} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm transition-all hover:shadow-md">
+            <article key={i} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-brand-blue/30">
               <div className="aspect-video overflow-hidden bg-muted">
                 <img
                   src={`https://images.unsplash.com/photo-${1550000000000 + i}?w=600&h=400&fit=crop`}

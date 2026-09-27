@@ -83,11 +83,6 @@ export default async function CoursesPage() {
       <section className="relative overflow-hidden bg-linear-to-b from-brand-blue/5 via-background to-background pt-12 pb-12">
         <div className="animate-blob pointer-events-none absolute -left-32 -top-32 z-0 size-80 rounded-full bg-brand-blue/20 blur-3xl" />
         <HeroStage className="relative z-10 mx-auto w-full max-w-6xl px-4 text-center sm:px-6">
-          <Reveal>
-            <span className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
-              Courses
-            </span>
-          </Reveal>
           <HeroHeadline
             className="mx-auto mt-6 max-w-3xl font-heading text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl"
             segments={[

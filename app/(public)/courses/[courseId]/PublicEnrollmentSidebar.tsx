@@ -82,12 +82,12 @@ export function PublicEnrollmentSidebar({
 
         <div className="space-y-1">
           <label className="text-xs font-semibold text-foreground" htmlFor="name">Full name</label>
-          <Input id="name" required placeholder="John Doe" className="h-9 text-xs" />
+          <Input id="name" required placeholder="Kaka" className="h-9 text-xs" />
         </div>
 
         <div className="space-y-1">
           <label className="text-xs font-semibold text-foreground" htmlFor="email">Email</label>
-          <Input id="email" type="email" required placeholder="john@example.com" className="h-9 text-xs" />
+          <Input id="email" type="email" required placeholder="kaka@example.com" className="h-9 text-xs" />
         </div>
 
         <div className="space-y-1">

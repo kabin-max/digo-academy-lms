@@ -43,25 +43,26 @@ export function RegisterForm() {
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <FieldGroup>
         <Field>
-          <FieldLabel htmlFor="name">Full name</FieldLabel>
-          <Input id="name" autoComplete="name" {...register('name')} />
+          <FieldLabel htmlFor="name">Full name <span className="text-destructive">*</span></FieldLabel>
+          <Input id="name" autoComplete="name" placeholder="Kaka" {...register('name')} />
           <FieldError errors={[errors.name]} />
         </Field>
         <Field>
-          <FieldLabel htmlFor="email">Email</FieldLabel>
-          <Input id="email" type="email" autoComplete="email" {...register('email')} />
+          <FieldLabel htmlFor="email">Email <span className="text-destructive">*</span></FieldLabel>
+          <Input id="email" type="email" autoComplete="email" placeholder="kaka@example.com" {...register('email')} />
           <FieldError errors={[errors.email]} />
         </Field>
         <Field>
-          <FieldLabel htmlFor="password">Password</FieldLabel>
-          <PasswordInput id="password" autoComplete="new-password" {...register('password')} />
+          <FieldLabel htmlFor="password">Password <span className="text-destructive">*</span></FieldLabel>
+          <PasswordInput id="password" autoComplete="new-password" placeholder="Create a password" {...register('password')} />
           <FieldError errors={[errors.password]} />
         </Field>
         <Field>
-          <FieldLabel htmlFor="confirmPassword">Confirm password</FieldLabel>
+          <FieldLabel htmlFor="confirmPassword">Confirm password <span className="text-destructive">*</span></FieldLabel>
           <PasswordInput
             id="confirmPassword"
             autoComplete="new-password"
+            placeholder="Confirm your password"
             {...register('confirmPassword')}
           />
           <FieldError errors={[errors.confirmPassword]} />

@@ -1,0 +1,36 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: digo-academy-app:latest
+    container_name: digo-academy-app
+    restart: always
+    ports:
+      - '80:3000'
+    env_file:
+      - .env.production
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17
+    container_name: digo-academy-db-prod
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-digo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-securepassword}
+      POSTGRES_DB: ${POSTGRES_DB:-digo_academy}
+    ports:
+      - '5432:5432'
+    volumes:
+      - digo-pgdata-prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER:-digo} -d $${POSTGRES_DB:-digo_academy}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  digo-pgdata-prod:

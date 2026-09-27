@@ -37,12 +37,12 @@ const QUESTIONS: Question[] = [
       },
       {
         label: 'I want to build applications on AWS',
-        description: 'Develop cloud applications and prepare for Developer – Associate.',
+        description: 'Develop cloud applications and prepare for Developer - Associate.',
         value: 'developer',
       },
       {
         label: 'I want to design AWS infrastructure',
-        description: 'Learn architecture and prepare for Solutions Architect – Associate.',
+        description: 'Learn architecture and prepare for Solutions Architect - Associate.',
         value: 'architect',
       },
       { 
@@ -79,7 +79,7 @@ const RECOMMENDATIONS: Record<string, {
     reason: 'Perfect for learning AI and Generative AI concepts on AWS.',
   },
   developer: {
-    title: 'AWS Developer – Associate',
+    title: 'AWS Developer - Associate',
     category: 'AWS',
     duration: 'Self-Paced or Live',
     mode: 'Associate',
@@ -87,7 +87,7 @@ const RECOMMENDATIONS: Record<string, {
     reason: 'Aligned with your goal of developing cloud applications.',
   },
   architect: {
-    title: 'AWS Solutions Architect – Associate',
+    title: 'AWS Solutions Architect - Associate',
     category: 'AWS',
     duration: 'Self-Paced or Live',
     mode: 'Associate',
@@ -95,7 +95,7 @@ const RECOMMENDATIONS: Record<string, {
     reason: 'Designed to teach you how to architect robust AWS infrastructure.',
   },
   devops: {
-    title: 'AWS DevOps Engineer – Professional',
+    title: 'AWS DevOps Engineer - Professional',
     category: 'AWS',
     duration: 'Self-Paced or Live',
     mode: 'Professional',
@@ -125,11 +125,12 @@ export function CourseFinder() {
   const recommendation = RECOMMENDATIONS[answers.goal] ?? RECOMMENDATIONS.beginner;
 
   return (
-    <div className="mx-auto w-full max-w-4xl overflow-hidden rounded-3xl border border-primary/15 bg-gradient-to-b from-primary/5 via-surface to-background p-6 shadow-xl sm:p-10">
-      <div className="mb-6 flex flex-col items-center text-center border-b border-border/60 pb-5">
-        <h2 className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-          Find Your AWS Learning Path
-        </h2>
+    <div className="relative mx-auto w-full max-w-4xl overflow-hidden rounded-3xl border border-brand-blue/20 bg-gradient-to-br from-brand-blue/5 via-background to-violet-500/5 p-8 shadow-2xl sm:p-12">
+      {/* Background decoration */}
+      <div className="pointer-events-none absolute -right-20 -top-20 size-64 rounded-full bg-brand-blue/10 blur-3xl" />
+      <div className="pointer-events-none absolute -left-20 -bottom-20 size-64 rounded-full bg-violet-500/10 blur-3xl" />
+      
+      <div className="relative z-10 mb-6 flex flex-col items-center text-center border-b border-border/60 pb-5">
 
         {!isComplete ? (
           <div className="mt-2.5 flex items-center justify-center gap-2 text-xs font-semibold text-muted-foreground">
@@ -139,14 +140,14 @@ export function CourseFinder() {
                 <div
                   key={idx}
                   className={`h-1.5 w-6 rounded-full transition-colors ${
-                    idx <= step ? 'bg-primary' : 'bg-muted'
+                    idx <= step ? 'bg-brand-blue' : 'bg-muted'
                   }`}
                 />
               ))}
             </div>
           </div>
         ) : (
-          <Button variant="ghost" size="sm" onClick={handleReset} className="mt-2.5 gap-1.5 text-xs text-muted-foreground">
+          <Button variant="ghost" size="sm" onClick={handleReset} className="mt-2.5 gap-1.5 text-xs text-muted-foreground hover:text-brand-blue">
             <RotateCcw className="size-3.5" />
             Start over
           </Button>
@@ -160,35 +161,46 @@ export function CourseFinder() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
             className="space-y-6"
           >
             <div className="text-center">
-              <h3 className="text-lg font-semibold text-foreground sm:text-xl">{currentQ.title}</h3>
+              <h3 className="text-xl font-bold text-foreground sm:text-2xl">{currentQ.title}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{currentQ.subtitle}</p>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2">
-              {currentQ.options.map((opt) => (
-                <button
+            <div className="grid gap-4 sm:grid-cols-2">
+              {currentQ.options.map((opt, idx) => (
+                <motion.button
                   key={opt.value}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.05 }}
                   type="button"
                   onClick={() => handleSelect(opt.value)}
-                  className="group flex flex-col items-start rounded-2xl border border-border/80 bg-background/80 p-4 text-left transition-all hover:border-primary/50 hover:bg-primary/5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  className="group relative flex flex-col items-start rounded-2xl border border-border/80 bg-card/80 p-5 text-left transition-all hover:border-brand-blue/50 hover:bg-brand-blue/5 hover:shadow-lg hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue"
                 >
-                  <span className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                  <div className="absolute right-4 top-4 opacity-0 transition-opacity group-hover:opacity-100">
+                    <ArrowRight className="size-4 text-brand-blue" />
+                  </div>
+                  <span className="font-bold text-foreground group-hover:text-brand-blue transition-colors pr-8">
                     {opt.label}
                   </span>
-                  <span className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                  <span className="mt-2 text-xs text-muted-foreground leading-relaxed">
                     {opt.description}
                   </span>
-                </button>
+                </motion.button>
               ))}
             </div>
 
             {step > 0 && (
-              <div className="pt-2">
-                <Button variant="ghost" size="sm" onClick={() => setStep((s) => s - 1)} className="text-xs">
+              <div className="pt-3">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setStep((s) => s - 1)} 
+                  className="text-xs font-medium hover:text-brand-blue transition-colors"
+                >
                   ← Back to previous question
                 </Button>
               </div>
@@ -199,49 +211,54 @@ export function CourseFinder() {
             key="result"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
             className="space-y-6"
           >
-            <div className="rounded-2xl border border-primary/20 bg-background p-6 shadow-sm sm:p-8">
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                <CheckCircle2 className="size-3.5" />
+            <div className="rounded-3xl border border-brand-blue/20 bg-gradient-to-br from-card to-card/50 p-8 shadow-lg sm:p-10">
+              <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-4 py-1.5 text-xs font-bold text-emerald-600 ring-1 ring-emerald-500/20 dark:text-emerald-400">
+                <CheckCircle2 className="size-4" />
                 Recommended for you
               </div>
 
-              <h3 className="mt-3 font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              <h3 className="mt-4 font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                 {recommendation.title}
               </h3>
 
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+              <p className="mt-3 text-base text-muted-foreground leading-relaxed">
                 {recommendation.reason}
               </p>
 
-              <div className="mt-4 flex flex-wrap items-center gap-4 text-xs font-medium text-muted-foreground">
-                <span className="inline-flex items-center gap-1">
-                  <GraduationCap className="size-4 text-primary" />
+              <div className="mt-6 flex flex-wrap items-center gap-5 text-sm font-medium text-muted-foreground">
+                <span className="inline-flex items-center gap-2 rounded-lg bg-brand-blue/5 px-3 py-2 ring-1 ring-brand-blue/15">
+                  <GraduationCap className="size-5 text-brand-blue" />
                   {recommendation.category}
                 </span>
-                <span className="inline-flex items-center gap-1">
-                  <Clock className="size-4 text-primary" />
+                <span className="inline-flex items-center gap-2 rounded-lg bg-violet-500/5 px-3 py-2 ring-1 ring-violet-500/15">
+                  <Clock className="size-5 text-violet-600" />
                   {recommendation.duration}
                 </span>
-                <span className="inline-flex items-center gap-1">
-                  <Target className="size-4 text-primary" />
+                <span className="inline-flex items-center gap-2 rounded-lg bg-emerald-500/5 px-3 py-2 ring-1 ring-emerald-500/15">
+                  <Target className="size-5 text-emerald-600" />
                   {recommendation.mode}
                 </span>
               </div>
 
-              <div className="mt-6 flex flex-wrap items-center gap-3">
+              <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Button
                   size="lg"
-                  className="rounded-full bg-linear-to-r from-brand-blue to-violet-600 text-white shadow-sm transition-transform hover:scale-105"
+                  className="group rounded-full bg-linear-to-r from-brand-blue to-violet-600 px-8 py-3 text-sm font-bold text-white shadow-lg shadow-brand-blue/25 transition-all hover:shadow-xl hover:shadow-brand-blue/30 hover:scale-105"
                   nativeButton={false}
-                  render={<Link href={recommendation.href}>Explore This Course <ArrowRight className="ml-1.5 size-4" /></Link>}
+                  render={
+                    <Link href={recommendation.href}>
+                      Explore This Course 
+                      <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  }
                 />
                 <Button
                   variant="outline"
                   size="lg"
-                  className="rounded-full"
+                  className="rounded-full border-brand-blue/30 px-6 py-3 text-sm font-semibold hover:bg-brand-blue/5 hover:border-brand-blue/50"
                   nativeButton={false}
                   render={<Link href="/contact">Talk to a Counsellor</Link>}
                 />
