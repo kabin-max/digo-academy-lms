@@ -4,7 +4,7 @@ cd /home/ubuntu/digo-academy-lms
 # Generate a .env.production file if it doesn't exist
 if [ ! -f .env.production ]; then
     echo "Creating .env.production from example. Please update with real values via AWS Systems Manager Parameter Store or SSH."
-    cp .env.example .env.production
+    sudo cp .env.example .env.production
 fi
 
 # Make sure permissions are correct for ubuntu user
