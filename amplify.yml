@@ -12,8 +12,6 @@ frontend:
         - npx prisma migrate deploy
         # Build the Next.js application
         - npm run build
-    postBuild:
-      commands:
         - mv .next/cache .next-cache || true
   artifacts:
     baseDirectory: .next
