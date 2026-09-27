@@ -182,8 +182,8 @@ export async function createMeetEvent(input: MeetEventInput): Promise<MeetEventR
     requestBody: {
       summary: input.title,
       description: input.description ?? undefined,
-      start: { dateTime: input.startTime.toISOString() },
-      end: { dateTime: endTime.toISOString() },
+      start: { dateTime: input.startTime.toISOString(), timeZone: 'UTC' },
+      end: { dateTime: endTime.toISOString(), timeZone: 'UTC' },
       conferenceData: {
         createRequest: {
           requestId: randomUUID(),
@@ -230,8 +230,8 @@ export async function createRecurringMeetEvent(
     requestBody: {
       summary: input.title,
       description: input.description ?? undefined,
-      start: { dateTime: input.startTime.toISOString() },
-      end: { dateTime: endTime.toISOString() },
+      start: { dateTime: input.startTime.toISOString(), timeZone: 'UTC' },
+      end: { dateTime: endTime.toISOString(), timeZone: 'UTC' },
       recurrence: [recurrence],
       conferenceData: {
         createRequest: {
@@ -265,8 +265,8 @@ export async function updateRecurringMeetEvent(
     requestBody: {
       summary: input.title,
       description: input.description ?? undefined,
-      start: { dateTime: input.startTime.toISOString() },
-      end: { dateTime: endTime.toISOString() },
+      start: { dateTime: input.startTime.toISOString(), timeZone: 'UTC' },
+      end: { dateTime: endTime.toISOString(), timeZone: 'UTC' },
       recurrence: [recurrence],
     },
   });
@@ -287,8 +287,8 @@ export async function updateMeetEvent(
     requestBody: {
       summary: input.title,
       description: input.description ?? undefined,
-      start: { dateTime: input.startTime.toISOString() },
-      end: { dateTime: endTime.toISOString() },
+      start: { dateTime: input.startTime.toISOString(), timeZone: 'UTC' },
+      end: { dateTime: endTime.toISOString(), timeZone: 'UTC' },
     },
   });
 }

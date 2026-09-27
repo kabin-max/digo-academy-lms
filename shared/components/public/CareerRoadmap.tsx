@@ -25,6 +25,9 @@ import devopsEngineerProfessionalImg from './Cert/devopsEngineerProfessional.png
 import solutionArchitectAssociateImg from './Cert/solutionArchitectAssociate.png';
 import solutionArchitectProfessionalImg from './Cert/solutionArchitectProfessional.png';
 import aiPractitionerImg from './Cert/AI_practitioner.png';
+import cloudOpsEngineerImg from './Cert/cloudops_logo-removebg-preview.png';
+import dataEngineerImg from './Cert/data engineer logo.png';
+import machineLearningEngineerImg from './Cert/machinelearning associate.png';
 
 const certImages: Record<string, any> = {
   'AWS Certified Cloud Practitioner': cloudPractitionerImg,
@@ -34,6 +37,9 @@ const certImages: Record<string, any> = {
   'AWS Certified DevOps Engineer - Professional': devopsEngineerProfessionalImg,
   'AWS Certified AI Practitioner': aiPractitionerImg,
   'AWS Certified Developer - Associate or CloudOps Engineer - Associate': developerAssociateImg,
+  'AWS Certified CloudOps Engineer - Associate': cloudOpsEngineerImg,
+  'AWS Certified Data Engineer - Associate': dataEngineerImg,
+  'AWS Certified Machine Learning Engineer - Associate': machineLearningEngineerImg,
 };
 
 import { cn } from '@/shared/utils/cn';

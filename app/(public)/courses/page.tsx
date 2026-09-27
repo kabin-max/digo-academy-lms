@@ -15,7 +15,7 @@ import { HeroHeadline, HeroStage } from '@/shared/components/public/HeroMotion';
 import { Reveal } from '@/shared/components/public/Reveal';
 import { StaggerGroup, StaggerItem } from '@/shared/components/public/Stagger';
 import { CourseFinder } from '@/shared/components/public/CourseFinder';
-import { AwsLearningJourney } from '@/shared/components/public/AwsLearningJourney';
+
 import { cn } from '@/shared/utils/cn';
 
 const DEFAULT_FILTERS: CourseFilters = {
@@ -180,11 +180,6 @@ export default async function CoursesPage() {
           </StaggerGroup>
         </div>
       </section>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* AWS Learning Journey (Interactive Roadmap)                         */}
-      {/* ------------------------------------------------------------------ */}
-      <AwsLearningJourney />
 
     </div>
   );

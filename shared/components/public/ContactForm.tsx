@@ -39,7 +39,7 @@ export function ContactForm() {
       name: '',
       email: '',
       phone: '',
-      course: 'fullstack',
+      course: 'aws-cloud-practitioner',
       message: '',
       _gotcha: '',
     },
@@ -121,11 +121,12 @@ export function ContactForm() {
               {...register('course')}
               className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 py-1 text-sm outline-none transition-colors focus:border-ring focus:ring-3 focus:ring-ring/50"
             >
-              <option value="fullstack">Full-Stack Web &amp; Next.js</option>
-              <option value="ai">Generative AI &amp; Agents</option>
-              <option value="dsa">DSA &amp; Interview Prep</option>
-              <option value="design">UI/UX &amp; Product Engineering</option>
-              <option value="other">General Guidance / Counseling</option>
+              <option value="aws-cloud-practitioner">AWS Cloud Practitioner</option>
+              <option value="aws-ai-practitioner">AWS AI Practitioner</option>
+              <option value="aws-developer">AWS Developer - Associate</option>
+              <option value="aws-solutions-architect">AWS Solutions Architect - Associate</option>
+              <option value="aws-cloudops-architect">AWS CloudOps Architect - Associate</option>
+              <option value="aws-devops-engineer">AWS DevOps Engineer - Professional</option>
             </select>
             <FieldError errors={[errors.course]} />
           </Field>

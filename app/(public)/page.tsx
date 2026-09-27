@@ -176,13 +176,13 @@ export default async function HomePage() {
       {/* ------------------------------------------------------------------ */}
       {/* Hero                                                               */}
       {/* ------------------------------------------------------------------ */}
-       <section className="relative overflow-hidden bg-linear-to-b from-brand-blue/5 via-background to-background">
+      <section className="relative overflow-hidden bg-linear-to-b from-brand-blue/5 via-background to-background">
         <div className="animate-blob pointer-events-none absolute -left-32 -top-32 z-0 size-80 rounded-full bg-brand-blue/20 blur-3xl" />
         <div className="animate-blob anim-delay-2 pointer-events-none absolute -right-24 top-10 z-0 size-72 rounded-full bg-violet-500/20 blur-3xl" />
         <HeroStage className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pt-4 pb-6 lg:pt-8 lg:pb-12 flex flex-col-reverse lg:flex-row items-center justify-between gap-8 lg:gap-10">
           <div className="text-left lg:max-w-lg -translate-y-5">
             <HeroHeadline
-className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:text-4xl lg:text-5xl text-foreground"              segments={[
+              className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:text-4xl lg:text-5xl text-foreground" segments={[
                 { text: 'Learn' },
                 { text: 'Globally' },
                 { text: 'Graze' },
@@ -212,9 +212,9 @@ className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:
             </HeroItem>
           </div>
           <div className="flex-1 w-full max-w-xl lg:max-w-none flex justify-end">
-            <img 
-              src="/hero-learning.png" 
-              alt="Learning Illustration" 
+            <img
+              src="/hero-learning.png"
+              alt="Learning Illustration"
               className="w-full max-w-[480px] h-auto [mask-image:radial-gradient(circle,black_60%,transparent_100%)]"
             />
           </div>
@@ -238,12 +238,12 @@ className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:
           {AWS_CERTS.map((cert) => (
             <StaggerItem key={cert.name}>
               <div className="flex flex-col items-center justify-center gap-3 p-2 transition-transform hover:-translate-y-1">
-                <Image 
-                  src={cert.image} 
-                  alt={cert.name} 
-                  width={137} 
-                  height={137} 
-                  className="object-contain w-[110px] h-[110px] sm:w-[137px] sm:h-[137px] drop-shadow-sm" 
+                <Image
+                  src={cert.image}
+                  alt={cert.name}
+                  width={137}
+                  height={137}
+                  className="object-contain w-[110px] h-[110px] sm:w-[137px] sm:h-[137px] drop-shadow-sm"
                 />
                 <span className="font-medium text-xs text-foreground text-center max-w-[150px] hidden sm:block">{cert.name}</span>
               </div>
@@ -258,7 +258,7 @@ className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:
       <section className="relative overflow-hidden bg-background">
         <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 size-96 rounded-full bg-brand-blue/5 blur-3xl" />
         <div className="pointer-events-none absolute right-0 bottom-0 size-80 rounded-full bg-violet-500/5 blur-3xl" />
-        
+
         <div className="relative mx-auto grid w-full max-w-6xl items-center gap-y-8 gap-x-12 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-y-8 lg:gap-x-16 lg:px-8 lg:py-20">
           {/* Section Title - Centered Container, Left-Aligned Text */}
           <div className="lg:col-span-2 flex justify-center">
@@ -275,58 +275,58 @@ className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:
           </div>
           {/* Left Column - Features */}
           <div>
-          <Reveal>
-            <div className="space-y-6">
-              <div className="group relative flex gap-6 rounded-3xl bg-gradient-to-br from-brand-blue/8 via-brand-blue/4 to-transparent p-8 ring-1 ring-brand-blue/20 shadow-lg transition-all duration-500 hover:shadow-2xl hover:shadow-brand-blue/10 hover:ring-brand-blue/30 hover:-translate-y-2">
-                {/* Background glow effect */}
-                <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-r from-brand-blue/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                
-                <span className="relative flex size-16 shrink-0 items-center justify-center rounded-3xl bg-gradient-to-br from-brand-blue/20 to-brand-blue/10 text-brand-blue ring-2 ring-brand-blue/25 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-xl [&_svg]:size-7">
-                  <Radio />
-                  {/* Icon glow */}
-                  <div className="absolute inset-0 rounded-3xl bg-brand-blue/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-60" />
-                </span>
-                
-                <div className="relative flex-1">
-                  <h3 className="font-heading text-xl font-bold text-foreground group-hover:text-brand-blue transition-colors duration-300">
-                    Live Cohorts
-                  </h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
-                    Real-time interaction with industry experts, weekly milestones, and peer
-                    accountability to keep you on track with personalized mentorship.
-                  </p>
+            <Reveal>
+              <div className="space-y-6">
+                <div className="group relative flex gap-6 rounded-3xl bg-gradient-to-br from-brand-blue/8 via-brand-blue/4 to-transparent p-8 ring-1 ring-brand-blue/20 shadow-lg transition-all duration-500 hover:shadow-2xl hover:shadow-brand-blue/10 hover:ring-brand-blue/30 hover:-translate-y-2">
+                  {/* Background glow effect */}
+                  <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-r from-brand-blue/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+                  <span className="relative flex size-16 shrink-0 items-center justify-center rounded-3xl bg-gradient-to-br from-brand-blue/20 to-brand-blue/10 text-brand-blue ring-2 ring-brand-blue/25 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-xl [&_svg]:size-7">
+                    <Radio />
+                    {/* Icon glow */}
+                    <div className="absolute inset-0 rounded-3xl bg-brand-blue/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-60" />
+                  </span>
+
+                  <div className="relative flex-1">
+                    <h3 className="font-heading text-xl font-bold text-foreground group-hover:text-brand-blue transition-colors duration-300">
+                      Live Cohorts
+                    </h3>
+                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
+                      Real-time interaction with industry experts, weekly milestones, and peer
+                      accountability to keep you on track with personalized mentorship.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="group relative flex gap-6 rounded-3xl bg-gradient-to-br from-violet-500/8 via-violet-500/4 to-transparent p-8 ring-1 ring-violet-500/20 shadow-lg transition-all duration-500 hover:shadow-2xl hover:shadow-violet-500/10 hover:ring-violet-500/30 hover:-translate-y-2">
+                  {/* Background glow effect */}
+                  <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-r from-violet-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+                  <span className="relative flex size-16 shrink-0 items-center justify-center rounded-3xl bg-gradient-to-br from-violet-500/20 to-violet-500/10 text-violet-600 ring-2 ring-violet-500/25 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:-rotate-3 group-hover:shadow-xl [&_svg]:size-7">
+                    <MonitorPlay />
+                    {/* Icon glow */}
+                    <div className="absolute inset-0 rounded-3xl bg-violet-500/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-60" />
+                  </span>
+
+                  <div className="relative flex-1">
+                    <h3 className="font-heading text-xl font-bold text-foreground group-hover:text-violet-600 transition-colors duration-300">
+                      Self-Paced Mastery
+                    </h3>
+                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
+                      Binge-worthy video content, interactive labs, and lifetime access to
+                      resources so you can learn at your own pace with complete flexibility.
+                    </p>
+                  </div>
                 </div>
               </div>
-              
-              <div className="group relative flex gap-6 rounded-3xl bg-gradient-to-br from-violet-500/8 via-violet-500/4 to-transparent p-8 ring-1 ring-violet-500/20 shadow-lg transition-all duration-500 hover:shadow-2xl hover:shadow-violet-500/10 hover:ring-violet-500/30 hover:-translate-y-2">
-                {/* Background glow effect */}
-                <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-r from-violet-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                
-                <span className="relative flex size-16 shrink-0 items-center justify-center rounded-3xl bg-gradient-to-br from-violet-500/20 to-violet-500/10 text-violet-600 ring-2 ring-violet-500/25 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:-rotate-3 group-hover:shadow-xl [&_svg]:size-7">
-                  <MonitorPlay />
-                  {/* Icon glow */}
-                  <div className="absolute inset-0 rounded-3xl bg-violet-500/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-60" />
-                </span>
-                
-                <div className="relative flex-1">
-                  <h3 className="font-heading text-xl font-bold text-foreground group-hover:text-violet-600 transition-colors duration-300">
-                    Self-Paced Mastery
-                  </h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
-                    Binge-worthy video content, interactive labs, and lifetime access to
-                    resources so you can learn at your own pace with complete flexibility.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Reveal>
+            </Reveal>
           </div>
 
           {/* Right Column - World Map */}
           <Reveal delay={150} className="relative">
             <div className="relative">
               <div className="relative">
-               
+
                 <div className="relative mt-6 aspect-2/1 w-full">
                   <img
                     src="/world-map-dots.svg"
@@ -355,7 +355,7 @@ className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:
                         <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-blue/60" />
                         <span className="relative inline-flex size-2.5 rounded-full bg-brand-blue ring-2 ring-background" />
                       </span>
-                      
+
                       {/* Hover Tooltip */}
                       <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                         <div className="relative bg-gray-900 text-white text-xs font-medium px-3 py-2 rounded-lg shadow-lg whitespace-nowrap">
@@ -400,19 +400,19 @@ className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:
         <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
           <Reveal className="mb-12 text-center">
             <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight text-4xl text-foreground">
-              How to enroll
+              How to Enroll at Digo Academy
             </h2>
             <p className="mt-2 text-muted-foreground">
-              From browsing to your first lesson in three easy steps.
+              Watch how to find your course, complete your enrollment, and start learning in just a few simple steps.
             </p>
           </Reveal>
           <Reveal delay={150}>
             <div className="mx-auto max-w-4xl overflow-hidden rounded-2xl border border-border/60 bg-card shadow-lg flex items-center justify-center relative aspect-video">
-              <iframe 
-                src="https://www.youtube.com/embed/KzHkWkmWiXk?si=Eopi8ab0J3mewCZG" 
-                title="How students enroll in our platform" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerPolicy="strict-origin-when-cross-origin" 
+              <iframe
+                src="https://www.youtube.com/embed/KzHkWkmWiXk?si=Eopi8ab0J3mewCZG"
+                title="How students enroll in our platform"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
                 className="absolute top-0 left-0 w-full h-full border-0"
               />
@@ -435,7 +435,7 @@ className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:
                 Build practical skills through certification-focused and career-oriented learning paths.
               </p>
             </div>
-           
+
           </Reveal>
           <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {featured.slice(0, 7).map((course) => (
@@ -471,40 +471,6 @@ className="font-heading text-3xl font-semibold leading-[1.15] tracking-tight sm:
 
       <ComparisonSection />
 
-      {/* ------------------------------------------------------------------ */}
-      {/* Best instructors                                                   */}
-      {/* ------------------------------------------------------------------ */}
-      {instructors.length > 0 && (
-        <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-          <Reveal className="mb-8 text-center">
-            <h2 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl text-foreground">
-              Our Instructors
-            </h2> 
-          </Reveal>
-          <StaggerGroup className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-            {instructors.map((instructor) => (
-              <StaggerItem key={instructor.id}>
-                <div className="group relative flex flex-col items-center overflow-hidden rounded-2xl bg-card p-6 text-center shadow-sm ring-1 ring-border/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-linear-to-b from-brand-blue/10 to-transparent" />
-                  <span className="relative flex size-16 items-center justify-center rounded-full bg-linear-to-br from-brand-blue to-violet-500 text-lg font-semibold text-white shadow-md ring-4 ring-card">
-                    {initials(instructor.name)}
-                  </span>
-                  <p className="mt-4 font-medium">{instructor.name}</p>
-                  <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
-                    {instructor.instructorProfile?.headline ?? 'Instructor'}
-                  </p>
-                  {instructor.instructorProfile && instructor.instructorProfile.ratingAvg > 0 ? (
-                    <span className="mt-2 flex items-center gap-1 rounded-full bg-amber-400/10 px-2.5 py-0.5 text-xs font-medium text-amber-600 dark:text-amber-400">
-                      <Star className="size-3.5 fill-amber-400 text-amber-400" />
-                      {instructor.instructorProfile.ratingAvg.toFixed(1)}
-                    </span>
-                  ) : null}
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-        </section>
-      )}
 
       {/* ------------------------------------------------------------------ */}
       {/* Real Stories & Got A Question For Digo Academy?                    */}

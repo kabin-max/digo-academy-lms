@@ -23,7 +23,7 @@ const INSTRUCTORS = [
     id: 'deepak-poudel',
     name: 'Deepak Poudel',
     role: 'Cloud Architect & Mentor',
-    experience: '8+ Years Exp.',
+    experience: '14+ Years Exp.',
     badge: 'Instructor',
     description: 'Specializing in enterprise cloud architecture and distributed systems. Helping students master complex cloud patterns and AWS best practices.',
     image: '/instructors/Dipak Poudel Sir.jpeg',
@@ -105,10 +105,10 @@ export default function InstructorsPage() {
           {INSTRUCTORS.map((instructor) => (
             <StaggerItem key={instructor.id}>
               <div className="flex flex-col h-full rounded-2xl bg-white border border-[#E2E8F0] shadow-sm overflow-hidden">
-                
+
                 {/* Top Section */}
                 <div className="p-5 xl:p-6 flex flex-col sm:flex-row gap-5 border-b border-[#E2E8F0] items-center sm:items-start">
-                  
+
                   {/* Avatar */}
                   <div className="shrink-0">
                     {instructor.image ? (
@@ -122,7 +122,7 @@ export default function InstructorsPage() {
                       </div>
                     )}
                   </div>
-                  
+
                   {/* Info */}
                   <div className="flex flex-col items-center sm:items-start text-center sm:text-left flex-1 min-w-0">
                     {/* Badges */}
@@ -136,11 +136,11 @@ export default function InstructorsPage() {
                         {instructor.experience}
                       </div>
                     </div>
-                    
+
                     {/* Name & Role */}
                     <h2 className="text-xl xl:text-2xl font-bold text-[#0F172A] mb-1 truncate w-full">{instructor.name}</h2>
                     <h3 className="text-sm xl:text-base font-semibold text-[#475569] mb-4 truncate w-full">{instructor.role}</h3>
-                    
+
                     {/* Links */}
                     <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 xl:gap-3 text-[#1A4199] font-semibold text-xs xl:text-sm">
                       <a href={instructor.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:underline shrink-0">

@@ -148,7 +148,27 @@ export default function ContactPage() {
               </div>
 
               {/* Google Maps Embed */}
-              <div className="overflow-hidden rounded-2xl border border-border/70 bg-card shadow-sm">
+              <div className="relative overflow-hidden rounded-2xl border border-border/70 bg-card shadow-sm">
+                <div className="absolute left-3 top-3 z-10 flex items-center gap-2">
+                  <a
+                    href="https://maps.google.com/maps?q=Digo%20Solutions%20Pvt.Ltd,%20Kathmandu"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded bg-white px-3 py-2 text-sm font-semibold text-blue-600 shadow-md transition-colors hover:bg-slate-50"
+                  >
+                    Open in Maps
+                    <svg className="size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  </a>
+                  <a 
+                    href="https://wa.me/?text=Check%20out%20Digo%20Academy%27s%20location:%20https://maps.google.com/maps?q=Digo%20Solutions%20Pvt.Ltd,%20Kathmandu" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded bg-white px-3 py-2 text-sm font-semibold text-emerald-600 shadow-md transition-colors hover:bg-slate-50"
+                  >
+                    <MessageCircle className="size-3.5" />
+                    Share
+                  </a>
+                </div>
                 <iframe
                   title="Digo Solutions Location"
                   width="100%"

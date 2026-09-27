@@ -11,12 +11,9 @@ import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/utils/cn';
 
 const NAV_LINKS = [
-  { href: '/', label: 'Home' },
   { href: '/about', label: 'About Us' },
   { href: '/courses', label: 'Courses' },
   { href: '/instructors', label: 'Instructors' },
-  { href: '/career-roadmap', label: 'Career Roadmap' },
-  { href: '/blogs', label: 'Blogs' },
   { href: '/contact', label: 'Contact' },
 ] as const;
 
