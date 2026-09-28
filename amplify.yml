@@ -4,33 +4,43 @@ frontend:
     preBuild:
       commands:
         # Show build environment info
-        - echo "🔧 Build Environment Setup"
+        - echo "Build Environment Setup"
         - node --version
         - npm --version
+        # Set dummy environment variables for build if not provided
+        - export DATABASE_URL="${DATABASE_URL:-postgresql://dummy:dummy@localhost:5432/dummy}"
+        - export DIRECT_URL="${DIRECT_URL:-postgresql://dummy:dummy@localhost:5432/dummy}"
+        - export BETTER_AUTH_SECRET="${BETTER_AUTH_SECRET:-dummy_secret_for_build_only}"
+        - export BETTER_AUTH_URL="${BETTER_AUTH_URL:-https://localhost:3000}"
+        - export NODE_ENV="production"
         # Install dependencies with legacy peer deps for compatibility
         - npm ci --legacy-peer-deps
         # Setup cache directories
         - mkdir -p .next
         - mv .next-cache .next/cache || echo "No cache to restore"
-        # Make build script executable
-        - chmod +x scripts/build-amplify.sh
     build:
       commands:
-        # Use our optimized build script
-        - echo "🚀 Starting application build..."
-        - bash scripts/build-amplify.sh
+        # Generate Prisma client with our configured environment
+        - echo "Generating Prisma client..."
+        - npx prisma generate
+        # Build Next.js application
+        - echo "Building Next.js application..."
+        - npx next build
+        # Run pruning script to optimize bundle size
+        - echo "Optimizing bundle size..."
+        - node prune-amplify.js || echo "Pruning script not found, skipping"
         # Run database migrations if real database is available
         - |
           if [ -n "$DATABASE_URL" ] && [[ "$DATABASE_URL" != *"dummy"* ]]; then
-            echo "🗄️  Running database migrations..."
+            echo "Running database migrations..."
             npx prisma migrate deploy
-            echo "✅ Database migrations completed"
+            echo "Database migrations completed"
           else
-            echo "⚠️  Skipping database migrations (no production database configured)"
+            echo "Skipping database migrations (no production database configured)"
           fi
         # Optimize cache for next build
         - mv .next/cache .next-cache || echo "No cache to save"
-        - echo "🎉 Build process completed successfully!"
+        - echo "Build process completed successfully!"
   artifacts:
     baseDirectory: .next
     files:
