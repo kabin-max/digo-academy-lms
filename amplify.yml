@@ -13,8 +13,10 @@ frontend:
         - export BETTER_AUTH_SECRET="${BETTER_AUTH_SECRET:-dummy_secret_for_build_only}"
         - export BETTER_AUTH_URL="${BETTER_AUTH_URL:-https://localhost:3000}"
         - export NODE_ENV="production"
-        # Install dependencies with legacy peer deps for compatibility
-        - npm ci --legacy-peer-deps
+        # Install dependencies including devDependencies. --include=dev is REQUIRED
+        # because NODE_ENV=production would otherwise make npm skip devDependencies,
+        # and the prisma CLI (needed for `prisma generate`/`migrate`) is a devDependency.
+        - npm ci --legacy-peer-deps --include=dev
         # Setup cache directories
         - mkdir -p .next
         - mv .next-cache .next/cache || echo "No cache to restore"
