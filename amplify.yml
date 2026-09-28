@@ -3,16 +3,34 @@ frontend:
   phases:
     preBuild:
       commands:
+        # Show build environment info
+        - echo "🔧 Build Environment Setup"
+        - node --version
+        - npm --version
+        # Install dependencies with legacy peer deps for compatibility
         - npm ci --legacy-peer-deps
+        # Setup cache directories
         - mkdir -p .next
-        - mv .next-cache .next/cache || true
+        - mv .next-cache .next/cache || echo "No cache to restore"
+        # Make build script executable
+        - chmod +x scripts/build-amplify.sh
     build:
       commands:
-        # Run Prisma migrations to update the database schema
-        - npx prisma migrate deploy
-        # Build the Next.js application
-        - npm run build
-        - mv .next/cache .next-cache || true
+        # Use our optimized build script
+        - echo "🚀 Starting application build..."
+        - bash scripts/build-amplify.sh
+        # Run database migrations if real database is available
+        - |
+          if [ -n "$DATABASE_URL" ] && [[ "$DATABASE_URL" != *"dummy"* ]]; then
+            echo "🗄️  Running database migrations..."
+            npx prisma migrate deploy
+            echo "✅ Database migrations completed"
+          else
+            echo "⚠️  Skipping database migrations (no production database configured)"
+          fi
+        # Optimize cache for next build
+        - mv .next/cache .next-cache || echo "No cache to save"
+        - echo "🎉 Build process completed successfully!"
   artifacts:
     baseDirectory: .next
     files:

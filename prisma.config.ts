@@ -10,15 +10,31 @@ import { defineConfig } from 'prisma/config';
  * direct Postgres port (5432) instead of the transaction pooler (6543).
  * Falls back to DATABASE_URL for local Docker (single URL is fine).
  *
+ * For build-time only (when no real database is available), uses a dummy URL
+ * just for schema validation and client generation.
+ *
  * Runtime PrismaClient still uses DATABASE_URL via the pg adapter in lib/db.ts.
  */
+
+// Use dummy database URL for build environments without database access
+const getDatabaseUrl = () => {
+  const directUrl = process.env['DIRECT_URL'];
+  const databaseUrl = process.env['DATABASE_URL'];
+  
+  // If we have a real database URL, use it
+  if (directUrl && directUrl !== '') return directUrl;
+  if (databaseUrl && databaseUrl !== '' && !databaseUrl.includes('dummy')) return databaseUrl;
+  
+  // Fallback for build environments - dummy URL for schema validation only
+  return 'postgresql://dummy:dummy@localhost:5432/dummy';
+};
+
 export default defineConfig({
   schema: 'prisma/schema.prisma',
   migrations: {
     path: 'prisma/migrations',
   },
   datasource: {
-    // Use `||` (not `??`) so an empty DIRECT_URL ("") falls back to DATABASE_URL.
-    url: process.env['DIRECT_URL'] || process.env['DATABASE_URL'],
+    url: getDatabaseUrl(),
   },
 });

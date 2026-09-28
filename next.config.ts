@@ -7,6 +7,35 @@ import path from 'node:path';
 dns.setDefaultResultOrder('ipv4first');
 
 const nextConfig: NextConfig = {
+  // Amplify optimizations
+  output: 'standalone',
+  
+  // Performance optimizations
+  compress: true,
+  poweredByHeader: false,
+  
+  // Build optimization for Amplify
+  experimental: {
+    // Optimize build time
+    turbo: {
+      useSwcLoader: true,
+    },
+  },
+  
+  // Webpack configuration for better build performance
+  webpack: (config, { isServer }) => {
+    // Optimize bundle size
+    if (!isServer) {
+      config.resolve.fallback = {
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+    
+    return config;
+  },
+  
   turbopack: {
     root: path.resolve(process.cwd()),
   },

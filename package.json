@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build && node prune-amplify.js",
+    "build": "bash scripts/build-amplify.sh",
+    "build:local": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
