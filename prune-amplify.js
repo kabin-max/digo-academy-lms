@@ -2,11 +2,18 @@ const fs = require('fs');
 const path = require('path');
 
 const dirsToRemove = [
-  '.next/cache',
-  '.next/standalone',
+  // NOTE: .next/cache is NOT listed here — amplify.yml moves it out to .next-cache
+  // BEFORE this script runs (excludes it from the artifact, keeps it for caching).
+  // .next/standalone is not produced (next.config has no `output: 'standalone'`).
+
+  // Prisma CLI + native engines: safe to drop at RUNTIME for this app because it
+  // uses the pg driver adapter (lib/db.ts) with the postgresql WASM query compiler,
+  // not the native query engine. The CLI is only needed at build time (generate/migrate).
   'node_modules/prisma',
   'node_modules/@prisma/engines',
   'node_modules/@prisma/client/node_modules',
+
+  // Pure dev/build tooling — never needed at runtime.
   'node_modules/typescript',
   'node_modules/@types',
   'node_modules/prettier',

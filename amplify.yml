@@ -44,11 +44,25 @@ frontend:
         # Build Next.js application by invoking node directly on the next binary
         - echo "Building Next.js application..."
         - node ./node_modules/next/dist/bin/next build
-        # Run pruning script to optimize bundle size (removes prisma CLI, engines, etc.)
+        # --- Size diagnostics (measured BEFORE pruning, so they show true sizes) ---
+        - echo "=== .next size ==="
+        - du -sh .next || true
+        - echo "=== .next breakdown ==="
+        - du -h -d 2 .next 2>/dev/null | sort -h | tail -30 || true
+        - echo "=== node_modules size ==="
+        - du -sh node_modules || true
+        - echo "=== Largest node_modules packages ==="
+        - du -h -d 1 node_modules 2>/dev/null | sort -h | tail -30 || true
+        - echo "=== public size ==="
+        - du -sh public 2>/dev/null || true
+        - du -h -d 2 public 2>/dev/null | sort -h | tail -30 || true
+        # Move the Next.js cache OUT of .next BEFORE pruning: this both excludes it
+        # from the deployment artifact (baseDirectory: .next) and preserves it for
+        # the next build via the .next-cache cache path.
+        - mv .next/cache .next-cache || echo "No cache to save"
+        # Prune build-only/dev dependencies to shrink the artifact.
         - echo "Optimizing bundle size..."
         - node prune-amplify.js || echo "Pruning script not found, skipping"
-        # Optimize cache for next build
-        - mv .next/cache .next-cache || echo "No cache to save"
         - echo "Build process completed successfully!"
   artifacts:
     baseDirectory: .next
