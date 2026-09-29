@@ -55,10 +55,12 @@ export function SidebarLayout({
       <aside
         className={cn(
           'group/aside fixed inset-y-0 left-0 z-50 flex w-64 flex-col overflow-hidden bg-sidebar text-sidebar-foreground shadow-xl transition-[width,transform] duration-200',
-          // Desktop: a collapsed icon rail that grows on hover. `lg:static` takes
-          // it out of the fixed-overlay flow so the flex layout below reflows
-          // the content column to make room — nothing sits under the rail.
-          'lg:static lg:w-20 lg:translate-x-0 lg:shadow-none lg:hover:w-64',
+          // Desktop: a collapsed icon rail that grows on hover. `lg:sticky` pins
+          // the rail to the top of the viewport so it stays in view while the
+          // content column scrolls. `lg:self-start` + `lg:h-svh` stop the flex
+          // row from stretching it to full content height (which would prevent
+          // sticking); the content column still reflows to make room on hover.
+          'lg:sticky lg:top-0 lg:h-svh lg:self-start lg:w-20 lg:translate-x-0 lg:shadow-none lg:hover:w-64',
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
@@ -93,6 +95,8 @@ export function SidebarLayout({
 
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar
+          area={area}
+          navGroups={navGroups}
           userName={userName}
           roleLabel={roleLabel}
           onMenuClick={() => setMobileOpen((open) => !open)}

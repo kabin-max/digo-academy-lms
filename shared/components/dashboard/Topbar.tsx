@@ -1,6 +1,29 @@
 'use client';
 
-import { Bell, Menu } from 'lucide-react';
+import { Bell, LayoutDashboard, type LucideIcon, Menu } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+
+import type { NavGroup } from '@/shared/components/dashboard/DashboardShell';
+import { NAV_ICONS } from '@/shared/components/dashboard/nav-icons';
+
+/**
+ * Resolve the current page's title + icon from the nav. Uses the longest-prefix
+ * match (so /admin/courses/new still resolves to "Courses"). The area's root
+ * route (e.g. /admin) reads as "{Area} Dashboard"; anything unmatched falls back
+ * to the same, so the bar always shows a sensible heading.
+ */
+function useActivePage(area: string, navGroups: NavGroup[]): { title: string; Icon: LucideIcon } {
+  const pathname = usePathname();
+  const rootHref = `/${area.toLowerCase()}`;
+  const items = navGroups.flatMap((group) => group.items);
+  const active = items
+    .filter((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))
+    .sort((a, b) => b.href.length - a.href.length)[0];
+
+  const Icon = (active?.icon && NAV_ICONS[active.icon]) || LayoutDashboard;
+  const title = !active || active.href === rootHref ? `${area} Dashboard` : active.label;
+  return { title, Icon };
+}
 
 function initials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -24,6 +47,10 @@ function NotificationsButton() {
 }
 
 export interface TopbarProps {
+  /** Area label, e.g. "Admin", "Instructor", "Student" — used for the page title. */
+  area: string;
+  /** Nav groups for the current area — used to resolve the active page title. */
+  navGroups: NavGroup[];
   userName: string;
   roleLabel?: string;
   onMenuClick?: () => void;
@@ -39,7 +66,9 @@ export interface TopbarProps {
  * has no backing feature yet, so it's rendered disabled rather than as a
  * dead-looking clickable icon.
  */
-export function Topbar({ userName, roleLabel, onMenuClick }: TopbarProps) {
+export function Topbar({ area, navGroups, userName, roleLabel, onMenuClick }: TopbarProps) {
+  const { title, Icon } = useActivePage(area, navGroups);
+
   return (
     <header className="sticky top-0 z-30 border-b bg-background/80 backdrop-blur">
       <div className="flex h-16 w-full items-center gap-3 px-4 sm:px-6 lg:px-8">
@@ -51,6 +80,13 @@ export function Topbar({ userName, roleLabel, onMenuClick }: TopbarProps) {
         >
           <Menu className="size-5" />
         </button>
+
+        <div className="flex min-w-0 items-center gap-2.5">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue [&_svg]:size-5">
+            <Icon />
+          </span>
+          <h1 className="truncate text-base font-semibold sm:text-lg">{title}</h1>
+        </div>
 
         <div className="ml-auto flex items-center gap-1 sm:gap-2">
           <NotificationsButton />

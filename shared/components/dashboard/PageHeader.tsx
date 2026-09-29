@@ -20,29 +20,23 @@ export interface PageHeaderProps {
 }
 
 /**
- * Consistent header block for a page's content — an optional breadcrumb
- * trail, an optional icon tile, title, optional description, and an
- * optional right-aligned action. Replaces ad-hoc <h1> blocks so every page's
- * masthead lines up.
+ * Header block for a page's content. The page title + icon now live in the top
+ * bar (see Topbar), so this masthead only carries the breadcrumb trail and an
+ * optional right-aligned action. `title` is still used as the breadcrumb's
+ * current (non-link) segment. Renders nothing when there's neither a breadcrumb
+ * trail nor an action, so pages don't show an empty header block.
+ *
+ * `description` and `icon` are accepted for backwards compatibility but no
+ * longer rendered.
  */
-export function PageHeader({ title, description, action, icon, breadcrumbs = [] }: PageHeaderProps) {
+export function PageHeader({ title, action, breadcrumbs = [] }: PageHeaderProps) {
+  const hasBreadcrumbs = breadcrumbs.length > 0;
+  if (!hasBreadcrumbs && !action) return null;
+
   return (
-    <div className="space-y-3 border-b pb-5">
-      <Breadcrumbs items={breadcrumbs} current={breadcrumbs.length > 0 ? title : undefined} />
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-start gap-3.5">
-          {icon && (
-            <span className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue [&_svg]:size-5">
-              {icon}
-            </span>
-          )}
-          <div className="space-y-1">
-            <h1 className="font-heading text-2xl font-semibold tracking-tight">{title}</h1>
-            {description && <div className="text-sm text-muted-foreground">{description}</div>}
-          </div>
-        </div>
-        {action && <div className="flex items-center gap-2">{action}</div>}
-      </div>
+    <div className="flex flex-wrap items-center justify-between gap-3 border-b pb-5">
+      <Breadcrumbs items={breadcrumbs} current={hasBreadcrumbs ? title : undefined} />
+      {action && <div className="ml-auto flex items-center gap-2">{action}</div>}
     </div>
   );
 }

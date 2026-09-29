@@ -1,50 +1,11 @@
 'use client';
 
-import {
-  BookOpen,
-  CircleUser,
-  CreditCard,
-  FolderTree,
-  GraduationCap,
-  Heart,
-  Inbox,
-  LayoutDashboard,
-  type LucideIcon,
-  Map,
-  Megaphone,
-  Radio,
-  ScrollText,
-  Settings,
-  Star,
-  UserCog,
-  Users,
-} from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import type { NavGroup } from '@/shared/components/dashboard/DashboardShell';
+import { NAV_ICONS } from '@/shared/components/dashboard/nav-icons';
 import { cn } from '@/shared/utils/cn';
-
-/** Serializable icon keys → lucide icons (keeps the RSC prop boundary clean). */
-const ICONS: Record<string, LucideIcon> = {
-  dashboard: LayoutDashboard,
-  courses: BookOpen,
-  live: Radio,
-  wishlist: Heart,
-  categories: FolderTree,
-  reviews: Star,
-  inquiries: Inbox,
-  enrollments: GraduationCap,
-  paths: Megaphone,
-  payments: CreditCard,
-  batches: Users,
-  plans: Map,
-  instructors: UserCog,
-  students: Users,
-  profile: CircleUser,
-  settings: Settings,
-  audit: ScrollText,
-};
 
 /** Fades content in only when the rail is expanded (hover on desktop, always on mobile). */
 const REVEAL = 'transition-opacity duration-150 lg:opacity-0 lg:group-hover/aside:opacity-100';
@@ -89,7 +50,7 @@ export function SidebarNav({
             </div>
           )}
           {group.items.map((item) => {
-            const Icon = item.icon ? ICONS[item.icon] : undefined;
+            const Icon = item.icon ? NAV_ICONS[item.icon] : undefined;
             const active = item.href === activeHref;
             return (
               <Link
