@@ -1,0 +1,27 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "=== Setting up build environment ==="
+        - nvm use 20 || nvm use 22 || echo "Using default node version"
+        - node --version
+        - npm --version
+        - npm ci --legacy-peer-deps
+        - npx prisma generate
+    build:
+      commands:
+        - echo "=== Building Next.js application ==="
+        - npm run build
+        # Prune Next.js build cache so it is not packaged into deployment artifact (Amplify 220MB limit)
+        - rm -rf .next/cache
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+    exclude:
+      - 'cache/**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*

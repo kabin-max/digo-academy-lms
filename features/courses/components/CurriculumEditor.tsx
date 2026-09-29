@@ -51,7 +51,9 @@ function contentSummary(lesson: EditorLesson): string {
   if (lesson.type === 'VIDEO') {
     if (!lesson.videoKey) return 'No video yet';
     const mins = lesson.videoDurationSec ? Math.round(lesson.videoDurationSec / 60) : 0;
-    return mins > 0 ? `Video · ${mins} min` : 'Video added';
+    const isUrl = lesson.videoKey.startsWith('http');
+    const label = isUrl ? 'YouTube' : 'Video';
+    return mins > 0 ? `${label} · ${mins} min` : `${label} added`;
   }
   if (lesson.type === 'NOTE') {
     return lesson.noteContent?.trim() || lesson.notePdfKey ? 'Notes added' : 'No notes yet';

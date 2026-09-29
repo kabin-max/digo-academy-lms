@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 
 import { recordAudit } from '@/lib/audit';
 import { authorize } from '@/lib/auth/session';
-import { disconnectMeet, getMeetConnection } from '@/lib/meet';
+import { disconnectMeet, getMeetConnection, syncAllBatchesMeetAttendees } from '@/lib/meet';
 import { ROLES } from '@/shared/constants/roles';
 
 export interface ActionResult {
@@ -26,5 +26,14 @@ export async function disconnectGoogleMeet(): Promise<ActionResult> {
   });
 
   revalidatePath('/admin/settings');
+  return { ok: true };
+}
+
+export async function resyncAllGoogleMeetEvents(): Promise<ActionResult> {
+  const session = await authorize(ROLES.ADMIN);
+  if (!session) return { ok: false, error: 'Not authorized.' };
+
+  await syncAllBatchesMeetAttendees();
+  revalidatePath('/admin/batches');
   return { ok: true };
 }

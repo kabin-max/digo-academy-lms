@@ -49,17 +49,17 @@ export default async function StudentLivePage() {
               <div className="mt-6 flex flex-wrap gap-3">
                 {featured.meetLink ? (
                   <Button
-                    className="rounded-full bg-white text-brand-blue hover:bg-white/90"
+                    className="rounded-full bg-white bg-none text-indigo-950 font-bold hover:bg-white/90 shadow-sm"
                     nativeButton={false}
                     render={
                       <a href={featured.meetLink} target="_blank" rel="noopener noreferrer">
-                        <Video className="size-4" />
+                        <Video className="size-4 text-indigo-600" />
                         Join live (Google Meet)
                       </a>
                     }
                   />
                 ) : (
-                  <Button className="rounded-full bg-white/90 text-brand-blue" disabled>
+                  <Button className="rounded-full bg-white/90 bg-none text-indigo-950/60 font-semibold" disabled>
                     <Video className="size-4" />
                     Link coming soon
                   </Button>
@@ -141,49 +141,42 @@ export default async function StudentLivePage() {
               Recordings from past classes will show up here once they&apos;re available.
             </div>
           ) : (
-            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            <ul className="divide-y rounded-2xl border border-border/70 bg-card shadow-sm">
               {recorded.map((video) => (
-                <div
-                  key={video.id}
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
-                >
-                  <div className="relative aspect-video bg-muted">
-                    <CourseThumbnail title={video.courseTitle} url={video.thumbnailUrl} />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity group-hover:opacity-100">
-                      <span className="flex size-12 items-center justify-center rounded-full bg-white/90 text-brand-blue">
-                        <PlayCircle className="size-6" />
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex flex-1 flex-col gap-2 p-4">
+                <li key={video.id} className="flex items-center justify-between gap-4 p-4">
+                  <div className="flex flex-col gap-1 min-w-0">
+                    <h3 className="truncate font-medium text-sm leading-snug">{video.title}</h3>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       {video.categoryName ? (
-                        <span className="rounded-full bg-muted px-2 py-0.5 font-medium">
-                          {video.categoryName}
-                        </span>
+                        <span className="font-medium">{video.categoryName}</span>
                       ) : null}
-                      <span className="ml-auto">{formatDate(video.createdAt)}</span>
-                    </div>
-                    <h3 className="line-clamp-2 font-medium leading-snug">{video.title}</h3>
-                    <div className="mt-auto flex items-center justify-between pt-2">
-                      <span className="truncate text-xs text-muted-foreground">{video.batchName}</span>
-                      {video.videoUrl ? (
-                        <a
-                          href={video.videoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm font-semibold text-brand-blue hover:underline"
-                        >
-                          Watch now
-                        </a>
-                      ) : (
-                        <span className="text-xs text-muted-foreground">Unavailable</span>
-                      )}
+                      {video.categoryName && <span>·</span>}
+                      <span>{video.batchName}</span>
+                      <span>·</span>
+                      <span>{formatDate(video.createdAt)}</span>
                     </div>
                   </div>
-                </div>
+                  
+                  <div className="flex shrink-0 items-center">
+                    {video.videoUrl ? (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="rounded-full"
+                        nativeButton={false}
+                        render={
+                          <a href={video.videoUrl} target="_blank" rel="noopener noreferrer">
+                            <PlayCircle className="mr-2 size-4" /> Watch
+                          </a>
+                        }
+                      />
+                    ) : (
+                      <span className="text-xs text-muted-foreground">Unavailable</span>
+                    )}
+                  </div>
+                </li>
               ))}
-            </div>
+            </ul>
           )}
         </section>
       </div>

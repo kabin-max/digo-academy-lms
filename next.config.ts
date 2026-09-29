@@ -7,7 +7,7 @@ import path from 'node:path';
 dns.setDefaultResultOrder('ipv4first');
 
 const nextConfig: NextConfig = {
-  output: 'standalone',
+  output: process.env.BUILD_STANDALONE === 'true' || process.env.DOCKER_BUILD === 'true' ? 'standalone' : undefined,
   turbopack: {
     root: path.resolve(__dirname),
   },

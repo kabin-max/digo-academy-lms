@@ -17,7 +17,7 @@ import {
 import { recordAudit } from '@/lib/audit';
 import { authorize } from '@/lib/auth/session';
 import { db } from '@/lib/db';
-import { createRecurringMeetEvent, deleteMeetEvent, isMeetConfigured, updateRecurringMeetEvent } from '@/lib/meet';
+import { createRecurringMeetEvent, deleteMeetEvent, isMeetConfigured, syncBatchMeetAttendees, updateRecurringMeetEvent } from '@/lib/meet';
 import { ROLES } from '@/shared/constants/roles';
 
 export interface ActionResult {
@@ -39,7 +39,7 @@ async function assertCourse(courseId: string) {
 async function assertInstructor(instructorId: string) {
   return db.user.findFirst({
     where: { id: instructorId, role: ROLES.INSTRUCTOR },
-    select: { id: true },
+    select: { id: true, email: true },
   });
 }
 
@@ -52,7 +52,8 @@ async function assertInstructor(instructorId: string) {
 async function createBatchMeetLink(
   name: string,
   startDate: Date | null,
-  endDate: Date | null
+  endDate: Date | null,
+  instructorEmail?: string
 ): Promise<{ meetLink: string; googleEventId: string } | null> {
   if (!isMeetConfigured || !startDate) return null;
   try {
@@ -61,6 +62,7 @@ async function createBatchMeetLink(
       startTime: startDate,
       durationMin: 60,
       untilDate: endDate,
+      instructorEmail,
     });
   } catch (error) {
     console.error('batch: create Meet link failed', error);
@@ -79,11 +81,14 @@ export async function createBatch(input: CreateBatchInput): Promise<ActionResult
   const { name, courseId, instructorId, startDate, endDate, capacity } = parsed.data;
 
   if (!(await assertCourse(courseId))) return { ok: false, error: 'Course not found.' };
-  if (instructorId && !(await assertInstructor(instructorId))) {
-    return { ok: false, error: 'Instructor not found.' };
+  let instructorEmail: string | undefined;
+  if (instructorId) {
+    const inst = await assertInstructor(instructorId);
+    if (!inst) return { ok: false, error: 'Instructor not found.' };
+    instructorEmail = inst.email;
   }
 
-  const meet = await createBatchMeetLink(name, startDate, endDate);
+  const meet = await createBatchMeetLink(name, startDate, endDate, instructorEmail);
 
   const batch = await db.batch.create({
     data: {
@@ -97,6 +102,9 @@ export async function createBatch(input: CreateBatchInput): Promise<ActionResult
       googleEventId: meet?.googleEventId,
     },
   });
+
+  void syncBatchMeetAttendees(batch.id);
+
   await recordAudit({
     actorId: session.user.id,
     action: 'batch.created',
@@ -119,7 +127,8 @@ async function syncBatchMeetLink(
   name: string,
   startDate: Date | null,
   endDate: Date | null,
-  existing: { meetLink: string | null; googleEventId: string | null }
+  existing: { meetLink: string | null; googleEventId: string | null },
+  instructorEmail?: string
 ): Promise<{ meetLink: string | null; googleEventId: string | null }> {
   let meetLink = existing.meetLink;
   let googleEventId = existing.googleEventId;
@@ -130,13 +139,14 @@ async function syncBatchMeetLink(
         startTime: startDate,
         durationMin: 60,
         untilDate: endDate,
+        instructorEmail,
       });
     } else if (existing.googleEventId && !startDate) {
       await deleteMeetEvent(existing.googleEventId);
       meetLink = null;
       googleEventId = null;
     } else if (!existing.googleEventId) {
-      const meet = await createBatchMeetLink(name, startDate, endDate);
+      const meet = await createBatchMeetLink(name, startDate, endDate, instructorEmail);
       if (meet) {
         meetLink = meet.meetLink;
         googleEventId = meet.googleEventId;
@@ -164,16 +174,23 @@ export async function updateBatch(input: UpdateBatchInput): Promise<ActionResult
   });
   if (!existing) return { ok: false, error: 'Batch not found.' };
   if (!(await assertCourse(courseId))) return { ok: false, error: 'Course not found.' };
-  if (instructorId && !(await assertInstructor(instructorId))) {
-    return { ok: false, error: 'Instructor not found.' };
+
+  let instructorEmail: string | undefined;
+  if (instructorId) {
+    const inst = await assertInstructor(instructorId);
+    if (!inst) return { ok: false, error: 'Instructor not found.' };
+    instructorEmail = inst.email;
   }
 
-  const { meetLink, googleEventId } = await syncBatchMeetLink(name, startDate, endDate, existing);
+  const { meetLink, googleEventId } = await syncBatchMeetLink(name, startDate, endDate, existing, instructorEmail);
 
   await db.batch.update({
     where: { id },
     data: { name, courseId, instructorId, startDate, endDate, capacity, meetLink, googleEventId },
   });
+
+  void syncBatchMeetAttendees(id);
+
   await recordAudit({
     actorId: session.user.id,
     action: 'batch.updated',
@@ -203,13 +220,16 @@ export async function updateBatchSchedule(input: UpdateBatchScheduleInput): Prom
 
   const existing = await db.batch.findFirst({
     where: isAdminSession(session) ? { id } : { id, instructorId: session.user.id },
-    select: { name: true, meetLink: true, googleEventId: true },
+    select: { name: true, meetLink: true, googleEventId: true, instructor: { select: { email: true } } },
   });
   if (!existing) return { ok: false, error: 'Batch not found.' };
 
-  const { meetLink, googleEventId } = await syncBatchMeetLink(existing.name, startDate, endDate, existing);
+  const { meetLink, googleEventId } = await syncBatchMeetLink(existing.name, startDate, endDate, existing, existing.instructor?.email);
 
   await db.batch.update({ where: { id }, data: { startDate, endDate, meetLink, googleEventId } });
+
+  void syncBatchMeetAttendees(id);
+
   await recordAudit({
     actorId: session.user.id,
     action: 'batch.scheduleUpdated',

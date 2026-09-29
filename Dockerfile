@@ -9,6 +9,7 @@ COPY prisma ./prisma
 RUN npm ci
 
 COPY . .
+ENV BUILD_STANDALONE=true
 # We need to build prisma client before next build
 RUN npx prisma generate
 RUN npm run build

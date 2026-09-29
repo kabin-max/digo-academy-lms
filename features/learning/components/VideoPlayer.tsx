@@ -11,8 +11,9 @@ const COMPLETE_THRESHOLD = 0.92;
 const RESUME_MIN_SEC = 5;
 const RESUME_MAX_FRACTION = 0.95;
 
-/** Recorded-video lesson player: resumes from the last watched position and
- * auto-marks the lesson complete once playback crosses `COMPLETE_THRESHOLD`. */
+import { getYouTubeEmbedUrl } from '@/shared/utils/youtube';
+
+/** Recorded-video lesson player: handles S3 videos (resuming playback) and YouTube embeds. */
 export function VideoPlayer({
   lesson,
   completed,
@@ -26,6 +27,22 @@ export function VideoPlayer({
   const lastSavedPosRef = useRef(-1);
   const resumedRef = useRef(false);
   const autoCompletedRef = useRef(completed);
+
+  const youtubeEmbed = getYouTubeEmbedUrl(lesson.videoUrl);
+
+  if (youtubeEmbed) {
+    return (
+      <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black shadow-sm ring-1 ring-border/60">
+        <iframe
+          src={youtubeEmbed}
+          title={lesson.title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          className="size-full border-0"
+        />
+      </div>
+    );
+  }
 
   function flushPosition(position: number) {
     const rounded = Math.round(position);

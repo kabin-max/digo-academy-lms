@@ -49,7 +49,7 @@ export function PublicEnrollmentSidebar({
         Interested? Request enrollment and our team will reach out to help you get started — no upfront payment.
       </p>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4 flex-1">
+      <div className="mt-6 space-y-4 flex-1">
         <div className="space-y-1.5">
           <label className="text-xs font-semibold text-foreground">How would you like to learn?</label>
           <div className="grid grid-cols-2 gap-2">
@@ -80,37 +80,10 @@ export function PublicEnrollmentSidebar({
           </div>
         </div>
 
-        <div className="space-y-1">
-          <label className="text-xs font-semibold text-foreground" htmlFor="name">Full name</label>
-          <Input id="name" required placeholder="Kaka" className="h-9 text-xs" />
-        </div>
-
-        <div className="space-y-1">
-          <label className="text-xs font-semibold text-foreground" htmlFor="email">Email</label>
-          <Input id="email" type="email" required placeholder="kaka@example.com" className="h-9 text-xs" />
-        </div>
-
-        <div className="space-y-1">
-          <label className="text-xs font-semibold text-foreground" htmlFor="phone">Phone</label>
-          <Input id="phone" required placeholder="+977 9800000000" className="h-9 text-xs" />
-        </div>
-
-        <div className="space-y-1">
-          <label className="text-xs font-semibold text-foreground" htmlFor="message">Message (optional)</label>
-          <Textarea 
-            id="message" 
-            placeholder="Questions about schedule, prerequisites, pricing..." 
-            className="min-h-[60px] text-xs resize-none" 
-          />
-        </div>
-
-        <Button type="submit" className="w-full h-10 text-xs font-bold uppercase tracking-wider" size="default">
-          Request enrollment
+        <Button asChild className="w-full h-10 text-xs font-bold uppercase tracking-wider mt-4">
+          <Link href={`/checkout/${courseId}?mode=${mode}`}>Enroll Now</Link>
         </Button>
-        <p className="text-[10px] text-center text-muted-foreground">
-          No payment now — we'll contact you to complete enrollment.
-        </p>
-      </form>
+      </div>
 
       <div className="mt-8 pt-6 border-t border-border/60">
         <h4 className="text-xs font-bold text-foreground mb-4">This course includes</h4>

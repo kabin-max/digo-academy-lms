@@ -163,6 +163,8 @@ export interface MeetEventInput {
   description?: string | null;
   startTime: Date;
   durationMin: number;
+  attendeeEmails?: string[];
+  instructorEmail?: string;
 }
 
 export interface MeetEventResult {
@@ -170,11 +172,19 @@ export interface MeetEventResult {
   googleEventId: string;
 }
 
+function buildAttendees(attendeeEmails?: string[], instructorEmail?: string) {
+  const all = [...(attendeeEmails ?? []), instructorEmail].filter((e): e is string => Boolean(e && e.trim()));
+  const unique = Array.from(new Set(all.map((e) => e.trim().toLowerCase())));
+  if (unique.length === 0) return undefined;
+  return unique.map((email) => ({ email, responseStatus: 'accepted' }));
+}
+
 /** Create a Calendar event with an auto-generated Meet link. */
 export async function createMeetEvent(input: MeetEventInput): Promise<MeetEventResult> {
   const auth = await getAuthorizedClient();
   const calendar = google.calendar({ version: 'v3', auth });
   const endTime = new Date(input.startTime.getTime() + input.durationMin * 60_000);
+  const attendees = buildAttendees(input.attendeeEmails, input.instructorEmail);
 
   const { data } = await calendar.events.insert({
     calendarId: 'primary',
@@ -184,6 +194,9 @@ export async function createMeetEvent(input: MeetEventInput): Promise<MeetEventR
       description: input.description ?? undefined,
       start: { dateTime: input.startTime.toISOString(), timeZone: 'UTC' },
       end: { dateTime: endTime.toISOString(), timeZone: 'UTC' },
+      attendees,
+      guestsCanInviteOthers: false,
+      guestsCanSeeOtherGuests: true,
       conferenceData: {
         createRequest: {
           requestId: randomUUID(),
@@ -223,6 +236,7 @@ export async function createRecurringMeetEvent(
   const calendar = google.calendar({ version: 'v3', auth });
   const endTime = new Date(input.startTime.getTime() + input.durationMin * 60_000);
   const recurrence = `RRULE:FREQ=WEEKLY${input.untilDate ? `;UNTIL=${toRRuleUntil(input.untilDate)}` : ''}`;
+  const attendees = buildAttendees(input.attendeeEmails, input.instructorEmail);
 
   const { data } = await calendar.events.insert({
     calendarId: 'primary',
@@ -233,6 +247,9 @@ export async function createRecurringMeetEvent(
       start: { dateTime: input.startTime.toISOString(), timeZone: 'UTC' },
       end: { dateTime: endTime.toISOString(), timeZone: 'UTC' },
       recurrence: [recurrence],
+      attendees,
+      guestsCanInviteOthers: false,
+      guestsCanSeeOtherGuests: true,
       conferenceData: {
         createRequest: {
           requestId: randomUUID(),
@@ -258,16 +275,19 @@ export async function updateRecurringMeetEvent(
   const calendar = google.calendar({ version: 'v3', auth });
   const endTime = new Date(input.startTime.getTime() + input.durationMin * 60_000);
   const recurrence = `RRULE:FREQ=WEEKLY${input.untilDate ? `;UNTIL=${toRRuleUntil(input.untilDate)}` : ''}`;
+  const attendees = buildAttendees(input.attendeeEmails, input.instructorEmail);
 
   await calendar.events.patch({
     calendarId: 'primary',
     eventId: googleEventId,
+    sendUpdates: 'none',
     requestBody: {
       summary: input.title,
       description: input.description ?? undefined,
       start: { dateTime: input.startTime.toISOString(), timeZone: 'UTC' },
       end: { dateTime: endTime.toISOString(), timeZone: 'UTC' },
       recurrence: [recurrence],
+      ...(attendees ? { attendees, guestsCanInviteOthers: false, guestsCanSeeOtherGuests: true } : {}),
     },
   });
 }
@@ -280,17 +300,85 @@ export async function updateMeetEvent(
   const auth = await getAuthorizedClient();
   const calendar = google.calendar({ version: 'v3', auth });
   const endTime = new Date(input.startTime.getTime() + input.durationMin * 60_000);
+  const attendees = buildAttendees(input.attendeeEmails, input.instructorEmail);
 
   await calendar.events.patch({
     calendarId: 'primary',
     eventId: googleEventId,
+    sendUpdates: 'none',
     requestBody: {
       summary: input.title,
       description: input.description ?? undefined,
       start: { dateTime: input.startTime.toISOString(), timeZone: 'UTC' },
       end: { dateTime: endTime.toISOString(), timeZone: 'UTC' },
+      ...(attendees ? { attendees, guestsCanInviteOthers: false, guestsCanSeeOtherGuests: true } : {}),
     },
   });
+}
+
+/** Update only the attendees list for an existing Calendar event without altering event dates/times. */
+export async function updateMeetEventAttendees(
+  googleEventId: string,
+  attendeeEmails: string[]
+): Promise<void> {
+  const auth = await getAuthorizedClient();
+  const calendar = google.calendar({ version: 'v3', auth });
+  const uniqueEmails = Array.from(new Set(attendeeEmails.filter((e) => Boolean(e && e.trim())).map((e) => e.trim().toLowerCase())));
+
+  await calendar.events.patch({
+    calendarId: 'primary',
+    eventId: googleEventId,
+    sendUpdates: 'none',
+    requestBody: {
+      attendees: uniqueEmails.map((email) => ({ email, responseStatus: 'accepted' })),
+      guestsCanInviteOthers: false,
+      guestsCanSeeOtherGuests: true,
+    },
+  });
+}
+
+/**
+ * Automatically syncs a batch's instructor and all enrolled students' emails into the
+ * batch's Google Meet calendar event attendees list. This allows the instructor to join
+ * without admin admission, and enrolled students to join automatically without knocking.
+ */
+export async function syncBatchMeetAttendees(batchId: string): Promise<void> {
+  if (!isMeetConfigured) return;
+  try {
+    const batch = await db.batch.findUnique({
+      where: { id: batchId },
+      select: {
+        googleEventId: true,
+        instructor: { select: { email: true } },
+        enrollments: { select: { student: { select: { email: true } } } },
+      },
+    });
+
+    if (!batch || !batch.googleEventId) return;
+
+    const emails: string[] = [];
+    if (batch.instructor?.email) emails.push(batch.instructor.email);
+    for (const e of batch.enrollments) {
+      if (e.student?.email) emails.push(e.student.email);
+    }
+
+    await updateMeetEventAttendees(batch.googleEventId, emails);
+  } catch (error) {
+    console.error('syncBatchMeetAttendees failed', error);
+  }
+}
+
+/** Resync attendees for all batches that have an active Google Meet event. */
+export async function syncAllBatchesMeetAttendees(): Promise<number> {
+  if (!isMeetConfigured) return 0;
+  const batches = await db.batch.findMany({
+    where: { googleEventId: { not: null } },
+    select: { id: true },
+  });
+  for (const b of batches) {
+    await syncBatchMeetAttendees(b.id);
+  }
+  return batches.length;
 }
 
 /** Delete the Calendar event. Treats "already gone" as success. */

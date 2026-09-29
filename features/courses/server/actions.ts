@@ -23,6 +23,7 @@ import {
 import { recordAudit } from '@/lib/audit';
 import { authorize, getSession } from '@/lib/auth/session';
 import { db } from '@/lib/db';
+import { isS3Configured, presignDownload } from '@/lib/storage';
 import { ROLES, type Role } from '@/shared/constants/roles';
 
 export interface ActionResult {
@@ -251,6 +252,18 @@ export async function updateLessonContent(
   revalidatePath(`/instructor/courses/${lesson.section.courseId}`);
   revalidatePath(`/admin/courses/${lesson.section.courseId}`);
   return { ok: true };
+}
+
+export async function getLessonVideoPreviewUrl(videoKey: string | null): Promise<string | null> {
+  if (!videoKey || !videoKey.trim()) return null;
+  const trimmed = videoKey.trim();
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) return trimmed;
+  if (!isS3Configured) return null;
+  try {
+    return await presignDownload(trimmed);
+  } catch {
+    return null;
+  }
 }
 
 /**

@@ -8,6 +8,8 @@ export const ADMIN_NAV_GROUPS: NavGroup[] = [
     items: [
       { label: 'Courses', href: '/admin/courses', icon: 'courses' },
       { label: 'Categories', href: '/admin/categories', icon: 'categories' },
+      { label: 'Quizzes', href: '/admin/quizzes', icon: 'quizzes' },
+      { label: 'Class Videos', href: '/admin/videos', icon: 'videos' },
       { label: 'Reviews', href: '/admin/reviews', icon: 'reviews' },
     ],
   },
@@ -50,6 +52,8 @@ export const INSTRUCTOR_NAV_GROUPS: NavGroup[] = [
     items: [
       { label: 'Courses', href: '/instructor/courses', icon: 'courses' },
       { label: 'My batches', href: '/instructor/batches', icon: 'batches' },
+      { label: 'Quizzes', href: '/instructor/quizzes', icon: 'quizzes' },
+      { label: 'Class Videos', href: '/instructor/videos', icon: 'videos' },
     ],
   },
   {
@@ -65,6 +69,8 @@ export const STUDENT_NAV_GROUPS: NavGroup[] = [
     items: [
       { label: 'Browse', href: '/student/courses', icon: 'courses' },
       { label: 'Live classes', href: '/student/live', icon: 'live' },
+      { label: 'Quizzes', href: '/student/quizzes', icon: 'quizzes' },
+      { label: 'Class Videos', href: '/student/videos', icon: 'videos' },
       { label: 'Wishlist', href: '/student/wishlist', icon: 'wishlist' },
       { label: 'Inquiries', href: '/student/inquiries', icon: 'inquiries' },
     ],

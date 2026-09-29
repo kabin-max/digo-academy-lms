@@ -7,6 +7,7 @@ import {
   FolderTree,
   GraduationCap,
   Heart,
+  HelpCircle,
   Inbox,
   LayoutDashboard,
   type LucideIcon,
@@ -18,6 +19,7 @@ import {
   Star,
   UserCog,
   Users,
+  Video,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -30,6 +32,8 @@ const ICONS: Record<string, LucideIcon> = {
   dashboard: LayoutDashboard,
   courses: BookOpen,
   live: Radio,
+  quizzes: HelpCircle,
+  videos: Video,
   wishlist: Heart,
   categories: FolderTree,
   reviews: Star,

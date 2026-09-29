@@ -28,6 +28,7 @@ import { recordAudit } from '@/lib/audit';
 import { auth } from '@/lib/auth';
 import { authorize } from '@/lib/auth/session';
 import { db } from '@/lib/db';
+import { syncBatchMeetAttendees } from '@/lib/meet';
 import { ROLES } from '@/shared/constants/roles';
 
 export interface ActionResult {
@@ -434,6 +435,8 @@ export async function convertInquiryToEnrollment(
     },
   });
 
+  if (cohort.batchId) void syncBatchMeetAttendees(cohort.batchId);
+
   revalidatePath('/admin/inquiries');
   revalidateEnrollment(enrollment.id);
   return { ok: true, enrollmentId: enrollment.id };
@@ -500,6 +503,8 @@ export async function createEnrollment(input: CreateEnrollmentInput): Promise<En
     entityId: enrollment.id,
     metadata: { from: 'direct', mode },
   });
+
+  if (cohort.batchId) void syncBatchMeetAttendees(cohort.batchId);
 
   if (student.email) {
     await sendEnrolledEmail({
